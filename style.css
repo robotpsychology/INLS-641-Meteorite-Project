@@ -1,1 +1,80 @@
-/*Initial commit*\
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  grid-template-rows: 0.5fr minmax(500px, 600px);
+  grid-template-areas:
+    "header header header"
+    "left-panel globe plots";
+
+  text-align: center;
+  border-style: discrete;
+}
+
+.panel {
+  border: 1px solid black;
+}
+
+.subpanel {
+  border: 1px solid red;
+  border-left: none;
+  border-right: none;
+}
+
+.header_panel {
+  grid-area: header;
+}
+
+.left_panel {
+  grid-area: left-panel;
+  display: flex;
+  flex-direction: column;
+  border-top: none;
+}
+
+.filter_panel {
+  grid-area: filters;
+}
+
+.info_panel {
+  grid-area: info;
+}
+
+.globe_panel {
+  grid-area: globe;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: none;
+  border-right: none;
+}
+
+#meteorite_globe_vis {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.right_panel {
+}
+
+.plots_panel {
+  grid-area: plots;
+}
+
+.header_panel,
+.left_panel,
+.globe_panel,
+.right_panel,
+.subpanel {
+  border-top: none;
+}

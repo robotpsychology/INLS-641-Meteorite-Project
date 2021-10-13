@@ -14,5 +14,42 @@
     <script src="./script.js"></script>
     <title>Meteorites!!!</title>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="panel header_panel">
+        <p>Meteorites!!!</p>
+      </div>
+
+      <div class="panel left_panel">
+        <div class="subpanel filter_panel">
+          <h3>Filters</h3>
+        </div>
+
+        <div class="subpanel info_panel">
+          <h3>Info</h3>
+        </div>
+      </div>
+
+      <div class="panel globe_panel">
+        <svg id="meteorite_globe_vis" viewBox="0 0 950 500"></svg>
+        <!-- <svg
+          id="meteorite_globe_vis"
+          viewBox="0 0 500 500"
+          preserveAspectRatio="xMinYMin meet"
+        ></svg> -->
+      </div>
+
+      <div class="panel right_panel">
+        <div class="subpanel plots_panel">
+          <h3>Plots</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Only works if loaded after the svg for some reason -->
+    <script src="./meteorite_globe_vis.js"></script>
+    <script>
+      globeRender();
+    </script>
+  </body>
 </html>

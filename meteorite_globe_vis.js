@@ -1,5 +1,11 @@
-const width = 960;
-const height = 500;
+// const width = 960;
+// const height = 500;
+
+let globePanel = document.querySelector('.globe_panel')
+let width = globePanel.offsetWidth;
+let height = globePanel.offsetHeight;
+console.log(width, height)
+
 const config = {
     speed: 0.005,
     verticalTilt: -30,
@@ -8,7 +14,7 @@ const config = {
 
 let locations = [];
 
-const svg = d3.select("svg").attr("width", width).attr("height", height);
+const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
 const markerGroup = svg.append("g");
 const projection = d3.geoOrthographic();
 const initialScale = projection.scale();
@@ -42,6 +48,7 @@ function drawGlobe() {
         console.log(response);
         worldData = response[0];
         locationData = response[1];
+        console.log(locationData)
         svg
             .selectAll(".segment")
             .data(
