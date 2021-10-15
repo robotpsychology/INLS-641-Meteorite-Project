@@ -21,7 +21,7 @@ function dot(v0, v1) {
 // Helper function:
 // This function converts a [lon, lat] coordinates into a [x,y,z] coordinate
 // the [x, y, z] is Cartesian, with origin at lon/lat (0,0) center of the earth
-function lonlat2xyz( coord ){
+function lonlat2xyz(coord) {
 
     var lon = coord[0] * to_radians;
     var lat = coord[1] * to_radians;
@@ -50,10 +50,10 @@ function quaternion(v0, v1) {
 
         var theta = .5 * Math.acos(Math.max(-1, Math.min(1, dot(v0, v1)))),
 
-            qi  = w[2] * Math.sin(theta) / w_len;
-        qj  = - w[1] * Math.sin(theta) / w_len;
-        qk  = w[0]* Math.sin(theta) / w_len;
-        qr  = Math.cos(theta);
+            qi = w[2] * Math.sin(theta) / w_len;
+        qj = - w[1] * Math.sin(theta) / w_len;
+        qk = w[0] * Math.sin(theta) / w_len;
+        qr = Math.cos(theta);
 
         return theta && [qr, qi, qj, qk];
     }
@@ -64,7 +64,7 @@ function quaternion(v0, v1) {
 // https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Euler_angles_.E2.86.94_Quaternion
 function euler2quat(e) {
 
-    if(!e) return;
+    if (!e) return;
 
     var roll = .5 * e[0] * to_radians,
         pitch = .5 * e[1] * to_radians,
@@ -77,10 +77,10 @@ function euler2quat(e) {
         sy = Math.sin(yaw),
         cy = Math.cos(yaw),
 
-        qi = sr*cp*cy - cr*sp*sy,
-        qj = cr*sp*cy + sr*cp*sy,
-        qk = cr*cp*sy - sr*sp*cy,
-        qr = cr*cp*cy + sr*sp*sy;
+        qi = sr * cp * cy - cr * sp * sy,
+        qj = cr * sp * cy + sr * cp * sy,
+        qk = cr * cp * sy - sr * sp * cy,
+        qr = cr * cp * cy + sr * sp * sy;
 
     return [qr, qi, qj, qk];
 }
@@ -89,7 +89,7 @@ function euler2quat(e) {
 // Geometrically, it means combining two quant rotations
 // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/index.htm
 function quatMultiply(q1, q2) {
-    if(!q1 || !q2) return;
+    if (!q1 || !q2) return;
 
     var a = q1[0],
         b = q1[1],
@@ -101,31 +101,31 @@ function quatMultiply(q1, q2) {
         h = q2[3];
 
     return [
-        a*e - b*f - c*g - d*h,
-        b*e + a*f + c*h - d*g,
-        a*g - b*h + c*e + d*f,
-        a*h + b*g - c*f + d*e];
+        a * e - b * f - c * g - d * h,
+        b * e + a * f + c * h - d * g,
+        a * g - b * h + c * e + d * f,
+        a * h + b * g - c * f + d * e];
 
 }
 
 // This function computes quaternion to euler angles
 // https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Euler_angles_.E2.86.94_Quaternion
-function quat2euler(t){
+function quat2euler(t) {
 
-    if(!t) return;
+    if (!t) return;
 
-    return [ Math.atan2(2 * (t[0] * t[1] + t[2] * t[3]), 1 - 2 * (t[1] * t[1] + t[2] * t[2])) * to_degrees,
-        Math.asin(Math.max(-1, Math.min(1, 2 * (t[0] * t[2] - t[3] * t[1])))) * to_degrees,
-        Math.atan2(2 * (t[0] * t[3] + t[1] * t[2]), 1 - 2 * (t[2] * t[2] + t[3] * t[3])) * to_degrees
+    return [Math.atan2(2 * (t[0] * t[1] + t[2] * t[3]), 1 - 2 * (t[1] * t[1] + t[2] * t[2])) * to_degrees,
+    Math.asin(Math.max(-1, Math.min(1, 2 * (t[0] * t[2] - t[3] * t[1])))) * to_degrees,
+    Math.atan2(2 * (t[0] * t[3] + t[1] * t[2]), 1 - 2 * (t[2] * t[2] + t[3] * t[3])) * to_degrees
     ]
 }
 
 /*  This function computes the euler angles when given two vectors, and a rotation
-	This is really the only math function called with d3 code.
+    This is really the only math function called with d3 code.
 
-	v0 - starting pos in lon/lat, commonly obtained by projection.invert
-	v1 - ending pos in lon/lat, commonly obtained by projection.invert
-	o0 - the projection rotation in euler angles at starting pos (v0), commonly obtained by projection.rotate
+    v0 - starting pos in lon/lat, commonly obtained by projection.invert
+    v1 - ending pos in lon/lat, commonly obtained by projection.invert
+    o0 - the projection rotation in euler angles at starting pos (v0), commonly obtained by projection.rotate
 */
 
 function eulerAngles(v0, v1, o0) {
@@ -137,6 +137,6 @@ function eulerAngles(v0, v1, o0) {
         - finally convert the resulted quat angle back to euler angles for d3 to rotate
     */
 
-    var t = quatMultiply( euler2quat(o0), quaternion(lonlat2xyz(v0), lonlat2xyz(v1) ) );
+    var t = quatMultiply(euler2quat(o0), quaternion(lonlat2xyz(v0), lonlat2xyz(v1)));
     return quat2euler(t);
 }
