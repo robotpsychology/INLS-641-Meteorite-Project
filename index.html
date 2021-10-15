@@ -11,7 +11,8 @@
     <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
 
-    <script src="./script.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/mathfunctions.js"></script>
     <title>Meteorites!!!</title>
   </head>
   <body>
@@ -47,9 +48,11 @@
     </div>
 
     <!-- Only works if loaded after the svg for some reason -->
-    <script src="./meteorite_globe_vis.js"></script>
+    <!-- <script src="./scripts/meteorite_globe_vis_rotation.js"></script> -->
+    <script src="./scripts/meteorite_globe_vis_drag.js"></script>
+
     <script>
-      globeRender();
+      // globeRender();
     </script>
   </body>
 </html>

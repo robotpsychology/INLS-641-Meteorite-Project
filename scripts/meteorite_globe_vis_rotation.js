@@ -22,9 +22,14 @@ const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
 let files = [
     "/../data/world-110m.json",
-    "/../data/nasa_location_example.json",
+    "/../data/nasa_meteorite_data_Sep_21_2021.json",
 ];
 let promises = [];
+
+
+
+globeRender();
+
 
 // run in div
 function globeRender() {
@@ -47,7 +52,8 @@ function drawGlobe() {
     Promise.all(promises).then((response) => {
         console.log(response);
         worldData = response[0];
-        locationData = response[1];
+        // Only using the first 50 NASA data points currently
+        locationData = response[1].slice(0, 50);
         console.log(locationData)
         svg
             .selectAll(".segment")
@@ -97,10 +103,10 @@ function drawMarkers() {
         .enter()
         .append("circle")
         .merge(markers)
-        .attr("cx", (d) => projection([d.longitude, d.latitude])[0])
-        .attr("cy", (d) => projection([d.longitude, d.latitude])[1])
+        .attr("cx", (d) => projection([d.reclong, d.reclat])[0])
+        .attr("cy", (d) => projection([d.reclong, d.reclat])[1])
         .attr("fill", (d) => {
-            const coordinate = [d.longitude, d.latitude];
+            const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
             return gdistance > 1.57 ? "none" : "steelblue";
         })
