@@ -72,7 +72,7 @@ function drawGlobe() {
         console.log(response);
         worldData = response[0];
         // Only using the first 50 NASA data points currently
-        locationData = response[1].slice(0, 500);
+        locationData = response[1].slice(0, 5);
         console.log(locationData)
         svg
             .selectAll(".segment")
@@ -122,8 +122,17 @@ function drawMarkers() {
         .enter()
         .append("circle")
         .merge(markers)
-        .attr("cx", function (d) => projection([d.reclong, d.reclat])[0])
-        .attr("cy", (d) => projection([d.reclong, d.reclat])[1])
+        .attr("cx", function (d) {
+            if (d.reclat && d.reclong) {
+                console.log(d.reclat, d.reclong)
+                return projection([d.reclong, d.reclat])[0]
+            }
+        })
+        .attr("cy", function (d) {
+            if (d.reclat && d.reclong) {
+                return projection([d.reclong, d.reclat])[1]
+            }
+        })
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
