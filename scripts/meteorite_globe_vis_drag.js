@@ -15,8 +15,8 @@ const config = {
 
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
 const markerGroup = svg.append("g");
-const projection = d3.geoOrthographic();
-const initialScale = projection.scale();
+let projection = d3.geoOrthographic().rotate([0, 50, 0]);
+let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
 
@@ -31,13 +31,22 @@ let promises = [];
 
 // Zoom variable to call on the SVG globe
 let zoom = d3.zoom()
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 10])
     .on('zoom', function (event) {
         svg.selectAll('path')
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
-    });
+        ;
+        // projection.rotate([0, 100, -90])
+        // console.log(projection.rotate([0, 100, -90]))
+
+
+    })
+    ;
+
+
+
 
 
 
@@ -62,6 +71,14 @@ function createPromises(files, promises) {
     files.forEach(function (url) {
         promises.push(d3.json(url));
     });
+}
+
+function resetGlobe() {
+    svg.selectAll('path')
+        .attr('transform', { k: 0, x: 0, y: 0 });
+    svg.selectAll("circle")
+        .attr('transform', { k: 0, x: 0, y: 0 });
+
 }
 
 function drawGlobe() {

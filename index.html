@@ -32,7 +32,12 @@
       </div>
 
       <div class="panel globe_panel">
-        <svg id="meteorite_globe_vis" viewBox="0 0 950 500"></svg>
+        <svg
+          id="meteorite_globe_vis"
+          viewBox="0 0 950 500"
+          ondrag="svg.call(rotate)"
+        ></svg>
+        <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
       </div>
 
       <div class="panel right_panel">
