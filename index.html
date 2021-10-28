@@ -32,12 +32,12 @@
       </div>
 
       <div class="panel globe_panel">
-        <svg id="meteorite_globe_vis" viewBox="0 0 950 500"></svg>
-        <!-- <svg
+        <svg
           id="meteorite_globe_vis"
-          viewBox="0 0 500 500"
-          preserveAspectRatio="xMinYMin meet"
-        ></svg> -->
+          viewBox="0 0 950 500"
+          ondrag="svg.call(rotate)"
+        ></svg>
+        <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
       </div>
 
       <div class="panel right_panel">
@@ -50,9 +50,5 @@
     <!-- Only works if loaded after the svg for some reason -->
     <!-- <script src="./scripts/meteorite_globe_vis_rotation.js"></script> -->
     <script src="./scripts/meteorite_globe_vis_drag.js"></script>
-
-    <script>
-      // globeRender();
-    </script>
   </body>
 </html>
