@@ -173,9 +173,17 @@ function drawMarkers() {
             document.getElementById("meteorite_name").innerHTML = "Meteorite Name: " + d.name;
             document.getElementById("found_or_fell").innerHTML = "Found/Fell: " + d.fall;
             document.getElementById("mass").innerHTML = "Mass: " + d.mass;
-            document.getElementById("date_found").innerHTML = "Year: " + d.year;
+            document.getElementById("date_found").innerHTML = "Year: " + d.year.slice(0,4);
             document.getElementById("lat").innerHTML = "Latitude: " + d.reclat;
             document.getElementById("long").innerHTML = "Longitude: " + d.reclong;
+        })
+        .on("mouseout", function(event, d) {
+            document.getElementById("meteorite_name").innerHTML = "Meteorite Name: ";
+            document.getElementById("found_or_fell").innerHTML = "Found/Fell: ";
+            document.getElementById("mass").innerHTML = "Mass: ";
+            document.getElementById("date_found").innerHTML = "Year: ";
+            document.getElementById("lat").innerHTML = "Latitude: ";
+            document.getElementById("long").innerHTML = "Longitude: ";
         });
 
     markerGroup.each(function () {
