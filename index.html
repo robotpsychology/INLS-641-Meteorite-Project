@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="jquery-ui-1.13.0.custom/jquery-ui.css"/>
+    <link rel="stylesheet" href="jquery-ui-1.13.0.custom/jquery-ui.css" />
 
     <!-- Outside scripts below: D3, topojson, Simple Statistics.-->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -16,6 +16,11 @@
 
     <script src="scripts/script.js"></script>
     <script src="scripts/mathfunctions.js"></script>
+    <script>
+      $(function () {
+        $("#includedContent").load("slider2.html");
+      });
+    </script>
     <title>Meteorites!!!</title>
   </head>
   <body>
@@ -27,6 +32,7 @@
       <div class="panel left_panel">
         <div class="subpanel filter_panel">
           <h3>Filters</h3>
+          <div id="includedContent"></div>
         </div>
 
         <div class="subpanel info_panel">
