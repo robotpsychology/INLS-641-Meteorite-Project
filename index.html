@@ -4,21 +4,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="jquery-ui-1.13.0.custom/jquery-ui.css" />
+    <link rel="stylesheet" href="styles/style.css" />
 
     <!-- Outside scripts below: D3, topojson, Simple Statistics.-->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
-    <script src="jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
-    <script src="jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+
+    <!-- For Filter Sliders -->
+    <link
+      rel="stylesheet"
+      href="scripts/jquery-ui-1.13.0.custom/jquery-ui.css"
+    />
+    <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
+    <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
     <script src="scripts/script.js"></script>
     <script src="scripts/mathfunctions.js"></script>
     <script>
       $(function () {
-        $("#includedContent").load("slider2.html");
+        $("#includedContent").load("html/filter_sliders.html");
       });
     </script>
     <title>Meteorites!!!</title>
