@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
 
     <!-- Outside scripts below: D3, topojson, Simple Statistics.-->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
 
+    <!-- For Filter Sliders -->
+    <link
+      rel="stylesheet"
+      href="scripts/jquery-ui-1.13.0.custom/jquery-ui.css"
+    />
+    <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
+    <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+
     <script src="scripts/script.js"></script>
     <script src="scripts/mathfunctions.js"></script>
+    <script>
+      $(function () {
+        $("#includedContent").load("html/filter_sliders.html");
+      });
+    </script>
     <title>Meteorites!!!</title>
   </head>
   <body>
@@ -24,6 +37,7 @@
       <div class="panel left_panel">
         <div class="subpanel filter_panel">
           <h3>Filters</h3>
+          <div id="includedContent"></div>
         </div>
 
         <div class="subpanel info_panel">
@@ -32,12 +46,12 @@
       </div>
 
       <div class="panel globe_panel">
-        <svg id="meteorite_globe_vis" viewBox="0 0 950 500"></svg>
-        <!-- <svg
+        <svg
           id="meteorite_globe_vis"
-          viewBox="0 0 500 500"
-          preserveAspectRatio="xMinYMin meet"
-        ></svg> -->
+          viewBox="0 0 950 500"
+          ondrag="svg.call(rotate)"
+        ></svg>
+        <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
       </div>
 
       <div class="panel right_panel">

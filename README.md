@@ -14,3 +14,5 @@ git push
 Link backup for data/world-110m.json:
 <br>
 "https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/world-110m.json"
+
+git documentation: https://git-scm.com/doc
