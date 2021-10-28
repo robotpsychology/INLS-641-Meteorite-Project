@@ -1,10 +1,11 @@
-// const width = 960;
-// const height = 500;
+//// VARIABLES
 
+// HTML/SVG/D3 selections and settings
 let globePanel = document.querySelector('.globe_panel')
 let width = globePanel.offsetWidth;
 let height = globePanel.offsetHeight;
-console.log(width, height)
+// const width = 960;
+// const height = 500;
 
 const config = {
     speed: 0.005,
@@ -12,68 +13,106 @@ const config = {
     horizontalTilt: 0,
 };
 
-let locations = [];
-
-
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
 const markerGroup = svg.append("g");
-var g = svg.append("g");
-const projection = d3.geoOrthographic();
-const initialScale = projection.scale();
+let projection = d3.geoOrthographic();
+// let projection = d3.geoOrthographic().rotate([0, 0, 0]);
+console.dir(projection)
+let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
+
+// List of files files and initialized lists for accessing them in the function createPromises
 let files = [
     "/../data/world-110m.json",
     "/../data/nasa_meteorite_data_Sep_21_2021.json",
 ];
+let locations = [];
 let promises = [];
 
 
-
-// NEW drag and zoom
-var zoom = d3.zoom()
-    .scaleExtent([1, 8])
+// Zoom variable to call on the SVG globe
+let zoom = d3.zoom()
+    .scaleExtent([1, 10])
     .on('zoom', function (event) {
-        g.selectAll('path')
+        svg.selectAll('path')
             .attr('transform', event.transform);
-    });
+        svg.selectAll("circle")
+            .attr('transform', event.transform);
+        ;
+        // projection.rotate([0, 100, -90])
+        // console.log(projection.rotate([0, 100, -90]))
+
+
+    })
+    ;
 
 
 
 
 
 
-
+//// FUNCTION CALLS
 globeRender();
 
 
 
+//// FUNCTIONS
+
 // run in div
+
+document.addEventListener('keydown', function (event) {
+    if (event.keyCode == 39) {
+        console.log('hey')
+        svg.call(rotate)
+
+    }
+})
+
+
+
 function globeRender() {
     createPromises(files, promises);
     drawGlobe();
     drawGraticule();
     // enableRotation();
-
     svg.call(zoom);
+
+
 }
+
 
 function createPromises(files, promises) {
     files.forEach(function (url) {
         promises.push(d3.json(url));
     });
-    Promise.all(promises).then(function (values) {
-        console.log(values);
-    });
+}
+
+function resetGlobe() {
+    svg.selectAll('path')
+        .attr('transform', { k: 0, x: 0, y: 0 });
+    svg.selectAll("circle")
+        .attr('transform', { k: 0, x: 0, y: 0 });
+
 }
 
 function drawGlobe() {
     Promise.all(promises).then((response) => {
         console.log(response);
         worldData = response[0];
+
+        // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
+        // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
         // Only using the first 50 NASA data points currently
-        locationData = response[1].slice(0, 500);
+        locationData = response[1].slice(0, 500).filter(function (datum) {
+            if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+                return datum
+            } else {
+                console.log(datum)
+            }
+        });
         console.log(locationData)
+
         svg
             .selectAll(".segment")
             .data(
@@ -122,28 +161,14 @@ function drawMarkers() {
         .enter()
         .append("circle")
         .merge(markers)
-        .attr("cx", function (d) {
-            if (d.reclat && d.reclong) {
-                return projection([d.reclong, d.reclat])[0]
-            }
-            else {
-                console.log(d)
-            }
-        })
-        .attr("cy", function (d) {
-            if (d.reclat && d.reclong) {
-                return projection([d.reclong, d.reclat])[1]
-            }
-            else {
-                console.log(d)
-            }
-        })
+        .attr("cx", (d) => projection([d.reclong, d.reclat])[0])
+        .attr("cy", (d) => projection([d.reclong, d.reclat])[1])
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
             return gdistance > 1.57 ? "none" : "steelblue";
         })
-        .attr("r", 5);
+        .attr("r", 4);
 
     markerGroup.each(function () {
         this.parentNode.appendChild(this);
