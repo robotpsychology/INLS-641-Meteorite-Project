@@ -726,7 +726,7 @@ button.ui-button::-moz-focus-inner {
 .ui-slider {
 	position: relative;
 	text-align: left;
-	width: 20%;
+	width: 80%;
 }
 .ui-slider .ui-slider-handle {
 	position: absolute;
