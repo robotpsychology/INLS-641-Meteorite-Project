@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+  .plot {
+	  fill: rgb(231, 223, 223);
+	  stroke: rgb(231, 223, 223);
+	  stroke-width: 4;
+
+  
+} 
+</style>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -41,8 +50,10 @@
       </div>
 
       <div class="panel right_panel">
-        <div class="subpanel plots_panel">
+        <div class="subpanel plots_panel" id="plots">
           <h3>Plots</h3>
+          <svg id="plots_svg" viewBox="0 0 100 1000"></svg>
+
         </div>
       </div>
     </div>
@@ -51,8 +62,10 @@
     <!-- <script src="./scripts/meteorite_globe_vis_rotation.js"></script> -->
     <script src="./scripts/meteorite_globe_vis_drag.js"></script>
 
-    <script>
-      // globeRender();
-    </script>
+    <script src="./scripts/plots.js"></script>
+    <!-- <script>
+      producePlots();
+      
+    </script> -->
   </body>
 </html>
