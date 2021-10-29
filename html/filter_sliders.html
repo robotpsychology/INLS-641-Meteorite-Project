@@ -48,48 +48,81 @@
                     " - " + $( "#slider-range_mass" ).slider( "values", 1 ) );
             });
 
-            jQuery(function($) {
-                var testing = {
-                    'Alpha': ['', 'these', 'are', 'options'],
-                    'Bravo': ['you', 'can', 'choose'],
-                    'Charlie': ['but', 'only', 'if'],
-                    'Delta': ['you', 'want', 'to']
+        $( function() {
+            $("#slider-latitude").slider({
+                range: true,
+                min: -180,
+                max: 180,
+                values: [-180, 180],
+
+                slide: function (event, ui) {
+                    $("#amount3").val(ui.values[0] + " - " + ui.values[1]);
                 }
+            })
+            $( "#amount3" ).val($( "#slider-latitude" ).slider( "values", 0 ) +
+                " - " + $( "#slider-latitude" ).slider( "values", 1 ) );
+        })
+            $( function() {
+                $("#slider-longitude").slider({
+                    range: true,
+                    min: -180,
+                    max: 180,
+                    values: [-180, 180],
 
-                var $testing = $('#testing');
-                $('#nonsense').change(function () {
-                    var nonsense =$(this).val(), temps = testing[nonsense] || [];
-
-                    var selected = $.map(temps, function(temp){
-                        return '<option value="' + temp + '" >' + temp + '</options>'
-                }).join('');
-                $testing.html(selected)
-
+                    slide: function (event, ui) {
+                        $("#amount4").val(ui.values[0] + " - " + ui.values[1]);
+                    }
                 });
-                var testing2 = {
-                    'these' : ['1'],
-                    'are' : ['2'],
-                    'options': ['3'],
-                    'you': ['4'],
-                    'can': ['5'],
-                    'chose': ['6'],
-                    'if': ['7'],
-                    'you': ['8'],
-                    'want': ['9'],
-                    'to': ['10']
-                }
+                $("#amount4").val($("#slider-longitude").slider("values", 0) +
+                    " - " + $("#slider-longitude").slider("values", 1));
+            })
+                jQuery(function ($) {
+                    var testing = {
+                        'Alpha': ['', 'these', 'are', 'options'],
+                        'Bravo': ['you', 'can', 'choose'],
+                        'Charlie': ['but', 'only', 'if'],
+                        'Delta': ['you', 'want', 'to']
+                    }
 
-                var $testing2 = $('#testing2');
-                $('#testing').change(function () {
-                    var testing =$(this).val(), temps = testing2[testing] || [];
+                    var $testing = $('#testing');
 
-                    var selected = $.map(temps, function(temp){
-                        return '<option value="' + temp + '" >' + temp + '</options>'
-                    }).join('');
-                    $testing2.html(selected)
+                    $('#nonsense').change(function () {
+                        var nonsense = $(this).val(), temps = testing[nonsense] || [];
 
+                        var selected = $.map(temps, function (temp) {
+                            return '<option value="' + temp + '" >' + temp + '</options>'
+                        }).join('');
+                        $testing.html(selected)
+
+                    });
+                    var testing2 = {
+                        'these': ['1'],
+                        'are': ['2'],
+                        'options': ['3'],
+                        'you': ['4'],
+                        'can': ['5'],
+                        'chose': ['6'],
+                        'if': ['7'],
+                        'you': ['8'],
+                        'want': ['9'],
+                        'to': ['10']
+                    }
                 });
-            });
+
+
+             //   var $testing2 = $('#testing2');
+
+             //   $('#testing').change(function () {
+             //       var testing =$(this).val(), temps = testing2[testing] || [];
+//
+               //     var selected = $.map(temps, function(temp){
+                //        return '<option value="' + temp + '" >' + temp + '</options>'
+               //     }).join('');
+                //    $testing2.html(selected)
+
+               // });
+
+
 
     </script>
 </head>
@@ -108,6 +141,22 @@
 </p>
 
 <div id="slider-range_mass"></div>
+
+<p>
+    <br>
+    <label for="amount"><strong> Latitude: </strong></label>
+    <input type="text" id="amount3" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+
+<div id="slider-latitude"></div>
+
+<p>
+    <br>
+    <label for="amount"><strong> Longitude: </strong></label>
+    <input type="text" id="amount4" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+
+<div id="slider-longitude"></div>
 
 <p><strong>Found vs Fell:</strong></p>
 <input type ="checkbox" id="found" name="found" value="true" checked>
