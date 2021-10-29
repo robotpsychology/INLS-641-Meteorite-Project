@@ -7,10 +7,26 @@ h3 {
   font-size: 1em;
 }
 
-.plot {
+.massyearplot {
   fill: rgb(231, 223, 223);
   stroke: rgb(231, 223, 223);
   stroke-width: 4;
+}
+
+.massdensplot {
+  fill: rgb(231, 223, 223);
+  stroke: rgb(231, 223, 223);
+  stroke-width: 4;
+}
+
+.yeardensplot {
+  fill: rgb(231, 223, 223);
+  stroke: rgb(231, 223, 223);
+  stroke-width: 4;
+}
+
+.scatterdot {
+  fill: black;
 }
 
 .container {
