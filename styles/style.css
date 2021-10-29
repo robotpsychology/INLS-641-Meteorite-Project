@@ -64,6 +64,15 @@ h3 {
 
 .filter_panel {
   grid-area: filters;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#includedContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .info_panel {
