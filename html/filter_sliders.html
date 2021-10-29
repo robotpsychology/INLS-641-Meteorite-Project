@@ -11,7 +11,7 @@
             $( "#slider-range" ).slider({
                 range: true,
                 min: -831,
-                max: 2010,
+                max: 2012,
                 values: [ 1500, 2000 ],
 
                 slide: function( event, ui ) {
@@ -37,8 +37,8 @@
                 $( "#slider-range_mass" ).slider({
                     range: true,
                     min: 0,
-                    max: 100000,
-                    values: [ 10000, 30000 ],
+                    max: 60000000,
+                    values: [ 200000, 30000000 ],
 
                     slide: function( event, ui ) {
                         $( "#amount2" ).val(ui.values[0] + " - " + ui.values[1]);
