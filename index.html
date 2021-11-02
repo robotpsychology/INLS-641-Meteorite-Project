@@ -23,7 +23,12 @@
     <script src="scripts/mathfunctions.js"></script>
     <script>
       $(function () {
-        $("#includedContent").load("html/filter_sliders.html");
+        $("#filter_sliders").load("html/filter_sliders.html");
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#checkbox").load("html/checkbox.html");
       });
     </script>
     <title>Visual Distribution of Meteor Collisions</title>
@@ -37,8 +42,8 @@
       <div class="panel left_panel">
         <div class="subpanel filter_panel">
           <h3>Filters</h3>
-          <p>________________________</p>
-          <div id="includedContent"></div>
+          <div id="filter_sliders"></div>
+          <div id="checkbox"></div>
         </div>
 
         <div class="subpanel info_panel">

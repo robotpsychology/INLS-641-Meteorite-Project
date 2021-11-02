@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 h3 {
@@ -38,17 +39,19 @@ h3 {
     "left-panel globe plots";
 
   text-align: center;
-  border-style: discrete;
+  /* border-style: discrete; */
+  height: 100%;
 }
 
 .panel {
   border: 1px solid black;
 }
 
-.subpanel {
+.subpanel h3{
   border: 1px solid red;
   border-left: none;
   border-right: none;
+
 }
 
 .header_panel {
@@ -60,6 +63,7 @@ h3 {
   display: flex;
   flex-direction: column;
   border-top: none;
+  justify-content: space-between;
 }
 
 .filter_panel {
@@ -67,6 +71,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 #includedContent {
