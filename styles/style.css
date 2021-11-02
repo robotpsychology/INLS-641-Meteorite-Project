@@ -60,25 +60,13 @@ h3 {
 
 .left_panel {
   grid-area: left-panel;
-  display: flex;
-  flex-direction: column;
   border-top: none;
-  justify-content: space-between;
 }
 
 .filter_panel {
   grid-area: filters;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
 }
 
-#includedContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .info_panel {
   grid-area: info;
