@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+    <link rel="stylesheet" href="../styles/checkbox.css"/>
+    <script>
+        $(document).ready(function () {
+            $("#test").CreateMultiCheckBox({ width: '200px', defaultText : 'Select Below', height:'250px' });
+        });
+    </script>
+    <script src="../scripts/checkbox.js"></script>
+</head>
+<body>
+    <select id="test">
+        <option value="1">American Black Bear</option>
+        <option value="2">Asiatic Black Bear</option>
+        <option value="3">Brown Bear</option>
+        <option value="4">Giant Panda</option>
+        <option value="5">Sloth Bear</option>
+        <option value="6">Sun Bear</option>
+        <option value="7">Polar Bear</option>
+        <option value="8">Spectacled Bear</option>
+    </select>
+</body>
+</html>
