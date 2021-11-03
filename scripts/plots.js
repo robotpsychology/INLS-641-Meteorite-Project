@@ -24,13 +24,22 @@ class Plot {
 			.range([height, 0]);
         
         // Add rectangles for each plot
+
+        //Mass vs. Year Scatter
         this.svg.append("rect")
             .attr("class", "massyearplot")
             .attr("x", 18)
             .attr("y", 0)
             .attr("width", plotwidth)
-            .attr("height", plotheight);
+            .attr("height", plotheight)
+            .append("text")
+                .attr("class", "label")
+                .attr("x", -5)
+                .attr("y", 70)
+                .attr("dominant-baseline", "hanging")
+                .text("Mass(g) vs. Year");
 
+        //Mass density plot
         this.svg.append("rect")
             .attr("class", "massdensplot")
             .attr("x", 18)
@@ -38,6 +47,7 @@ class Plot {
             .attr("width", plotwidth)
             .attr("height", plotheight);
 
+        // Year Density Plot
         this.svg.append("rect")
             .attr("class", "yeardensplot")
             .attr("x", 18)
@@ -47,14 +57,18 @@ class Plot {
 
         // MassYear Scatter Plot data join
         let massyearplot = this.svg.select('massyearplot').data(json, function(d) {return d});
+        
         massyearplot.enter().append('circle')
             .attr('class', 'scatterdot')
             .attr("cx", function(d) { return myx(d[0]['year']); })
             .attr("cy", function(d) { return myy(d[0]['mass']); })
             .attr("r", 1);
+
+        //Add mass vs. year plot label
         
     }
 }
+//dataFetch function to use json
 let json = [];
 async function dataFetch() {
     let response = await fetch(data);
@@ -62,14 +76,12 @@ async function dataFetch() {
     console.log('look at me', json[0]['year'])
     return json;
 }
+
+//Produce plots and call render function
 producePlots();
 function producePlots() {
-    const svg = d3.select('#plots_svg')
-        //.attr("width", plotwidth + 2*margin_x)
-        //.attr("height", plotheight + 2*margin_y)
-        
+    const svg = d3.select('#plots_svg')      
             
     let vis = new Plot(svg);
-    //d3.json(data).then(json => {vis.render(json);});
     vis.render();
 } 

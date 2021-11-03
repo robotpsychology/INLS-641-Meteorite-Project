@@ -104,6 +104,10 @@ h3 {
   grid-area: plots;
 }
 
+.label {
+  font-size: 8pt;
+}
+
 .header_panel,
 .left_panel,
 .globe_panel,
