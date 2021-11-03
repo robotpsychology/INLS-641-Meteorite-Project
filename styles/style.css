@@ -8,9 +8,10 @@
   }
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
+
 }
 
 h3 {
@@ -43,14 +44,12 @@ h3 {
 .container {
   display: grid;
   grid-template-columns: 15% 70% 15%;
-  grid-template-rows: 0.5fr minmax(500px, 600px);
+  grid-template-rows: 1fr minmax(0.5fr, 0.5fr);
   grid-template-areas:
     "header header header"
     "left-panel globe plots";
-
   text-align: center;
-  /* border-style: discrete; */
-  height: 100%;
+  overflow: auto;
 }
 
 .panel {
@@ -88,7 +87,10 @@ h3 {
 
 .info_panel {
   grid-area: info;
+  text-align: left;
 }
+
+
 
 .globe_panel {
   grid-area: globe;
@@ -101,6 +103,7 @@ h3 {
   /* overflow: hidden; */
   /* width: 100%; */
 
+
 }
 
 #meteorite_globe_vis {
@@ -108,6 +111,7 @@ h3 {
   height: 100%;
   padding: 10px;
 }
+
 
 .right_panel {
 }
