@@ -8,11 +8,7 @@
   }
 }
 
-<<<<<<< HEAD
 html, body {
-=======
-body {
->>>>>>> e1f34f7dcc8a70497edb98f934ffd21605d7703b
   margin: 0;
   padding: 0;
 
@@ -106,6 +102,7 @@ h3 {
   border-right: none;
   /* overflow: hidden; */
   /* width: 100%; */
+
 
 }
 
