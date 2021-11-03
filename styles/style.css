@@ -1,11 +1,21 @@
+@media screen and (min-width: 900px) {
+  .container {
+    /* color: red; */
+  };
+
+  .filter_sliders > input {
+    /* width: 90%; */
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 h3 {
   font-size: 1em;
+  text-decoration: underline;
 }
 
 .massyearplot {
@@ -47,12 +57,6 @@ h3 {
   border: 1px solid black;
 }
 
-.subpanel h3{
-  border: 1px solid red;
-  border-left: none;
-  border-right: none;
-
-}
 
 .header_panel {
   grid-area: header;
@@ -60,25 +64,27 @@ h3 {
 
 .left_panel {
   grid-area: left-panel;
-  display: flex;
-  flex-direction: column;
   border-top: none;
-  justify-content: space-between;
 }
 
 .filter_panel {
   grid-area: filters;
+}
+
+
+
+#filter_sliders > p, #filter_sliders > div, #filter_sliders > input{
+  width: 80%;
+}
+
+
+
+.filter_panel div {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
-#includedContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .info_panel {
   grid-area: info;
@@ -86,7 +92,6 @@ h3 {
 
 .globe_panel {
   grid-area: globe;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,6 +99,8 @@ h3 {
   border-left: none;
   border-right: none;
   /* overflow: hidden; */
+  /* width: 100%; */
+
 }
 
 #meteorite_globe_vis {
@@ -116,3 +123,5 @@ h3 {
 .subpanel {
   border-top: none;
 }
+
+

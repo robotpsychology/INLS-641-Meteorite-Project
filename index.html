@@ -43,21 +43,23 @@
         <div class="subpanel filter_panel">
           <h3>Filters</h3>
           <div id="filter_sliders"></div>
+          <p></p>
           <div id="checkbox"></div>
+          <div class="subpanel info_panel">
+            <h3>Info</h3>
+            <span id="meteorite_name">&nbsp;</span>
+            <ul>
+              <li id="classification">Classification: &nbsp;</li>
+              <li id="found_or_fell">Found/Fell: &nbsp;</li>
+              <li id="mass">Mass: &nbsp;</li>
+              <li id="date_found">Date: &nbsp;</li>
+              <li id="lat">Latitude: &nbsp;</li>
+              <li id="long">Longitude: &nbsp;</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="subpanel info_panel">
-          <h3>Info</h3>
-          <span id="meteorite_name">&nbsp;</span>
-          <ul>
-            <li id="classification">Classification: &nbsp;</li>
-            <li id="found_or_fell">Found/Fell: &nbsp;</li>
-            <li id="mass">Mass: &nbsp;</li>
-            <li id="date_found">Date: &nbsp;</li>
-            <li id="lat">Latitude: &nbsp;</li>
-            <li id="long">Longitude: &nbsp;</li>
-          </ul>
-        </div>
+
       </div>
 
       <div class="panel globe_panel">
@@ -71,9 +73,12 @@
 
       <div class="panel right_panel" id="plots">
         <h3>Plots</h3>
-        <svg id="plots_svg" viewBox="0 0 100 1000"></svg>
+        <svg id="plots_svg" viewBox="0 0 100 300"></svg>
+
         </div>
+        
       </div>
+      
     </div>
 
     <!-- Only works if loaded after the svg for some reason -->
