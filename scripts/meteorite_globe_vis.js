@@ -38,12 +38,13 @@ let zoom = d3.zoom()
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
+        console.log(event);
     })
     ;
 
 
 let drag = d3.drag()
-    .on('drag', function(event) {
+    .on('drag', function (event) {
         console.log(event)
         projection.rotate([
             event.x,
@@ -94,9 +95,9 @@ function createPromises(files, promises) {
 
 function resetGlobe() {
     svg.selectAll('path')
-        .attr('transform', { k: 0, x: 0, y: 0 });
+        .attr('transform', { k: 1, x: 0, y: 0 });
     svg.selectAll("circle")
-        .attr('transform', { k: 0, x: 0, y: 0 });
+        .attr('transform', { k: 1, x: 0, y: 0 });
 
 }
 
@@ -173,15 +174,15 @@ function drawMarkers() {
             return gdistance > 1.57 ? "none" : "steelblue";
         })
         .attr("r", 5)
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function (event, d) {
             document.getElementById("meteorite_name").innerHTML = "Meteorite Name: " + d.name;
             document.getElementById("found_or_fell").innerHTML = "Found/Fell: " + d.fall;
             document.getElementById("mass").innerHTML = "Mass: " + d.mass;
-            document.getElementById("date_found").innerHTML = "Year: " + d.year.slice(0,4);
+            document.getElementById("date_found").innerHTML = "Year: " + d.year.slice(0, 4);
             document.getElementById("lat").innerHTML = "Latitude: " + d.reclat;
             document.getElementById("long").innerHTML = "Longitude: " + d.reclong;
         })
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function (event, d) {
             document.getElementById("meteorite_name").innerHTML = "Meteorite Name: ";
             document.getElementById("found_or_fell").innerHTML = "Found/Fell: ";
             document.getElementById("mass").innerHTML = "Mass: ";
