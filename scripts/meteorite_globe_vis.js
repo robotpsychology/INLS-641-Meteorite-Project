@@ -1,7 +1,7 @@
 //// VARIABLES
 
 // HTML/SVG/D3 selections and settings
-let globePanel = document.querySelector('.globe_panel')
+let globePanel = document.getElementById('globe_panel')
 let width = globePanel.offsetWidth;
 let height = globePanel.offsetHeight;
 // const width = 960;
@@ -28,6 +28,8 @@ let files = [
 ];
 let locations = [];
 let promises = [];
+let class1, class2, class3;
+let filtered_classes = {}
 
 
 // Zoom variable to call on the SVG globe
@@ -38,14 +40,14 @@ let zoom = d3.zoom()
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
-        console.log(event);
+        // console.log(event);
     })
     ;
 
-
+// Drag variable to call on the SVG globe
 let drag = d3.drag()
     .on('drag', function (event) {
-        console.log(event)
+        // console.log(event)
         projection.rotate([
             event.x,
             event.y,
@@ -62,27 +64,18 @@ globeRender();
 
 
 //// FUNCTIONS
-
-// run in div
-
-document.addEventListener('keydown', function (event) {
-    if (event.keyCode == 39) {
-        console.log('hey')
-        svg.call(rotate)
-
-    }
-})
-
-
-
 function globeRender() {
     createPromises(files, promises);
-    drawGlobe();
+
+    Promise.all(promises).then((response) => {
+        drawGlobe(response[0], response[1]);
+        drawMarkers();
+        populateCheckBox(response[1]);
+    });
     drawGraticule();
     // enableRotation();
     svg.call(drag);
     svg.call(zoom);
-
 
 }
 
@@ -101,39 +94,67 @@ function resetGlobe() {
 
 }
 
-function drawGlobe() {
-    Promise.all(promises).then((response) => {
-        console.log(response);
-        worldData = response[0];
+function populateCheckBox() {
+    class1 = [...new Set(locations.map(item => item.subclasses.class1[0]))];
 
-        // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
-        // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
-        // Only using the first 50 NASA data points currently
-        locationData = response[1].slice(0, 500).filter(function (datum) {
-            if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-                return datum
-            } else {
-                console.log(datum)
-            }
-        });
-        console.log(locationData)
+    // Can't get this to filter properly like class1 does.
+    class2 = [...new Set(locations.map(function(item) { 
+        if (item.subclasses.class2) {
+            // console.log(item.subclasses.class2[0])
+        }
+    }))];
 
-        svg
-            .selectAll(".segment")
-            .data(
-                topojson.feature(worldData, worldData.objects.countries).features
-            )
-            .enter()
-            .append("path")
-            .attr("class", "segment")
-            .attr("d", path)
-            .style("stroke", "#888")
-            .style("stroke-width", "1px")
-            .style("fill", (d, i) => "#e5e5e5")
-            .style("opacity", ".6");
-        locations = locationData;
-        drawMarkers();
+    class3 = [...new Set(locations.map(function(item) { 
+        if (item.subclasses.class3) {
+        return item.subclasses.class3[0]
+        }
+    }
+    ))];
+    // $.each(class2, function () {
+    //     // Basicaly checks if the value is undefined. Couldn't find another way to filter it out from the Set.
+    //     if (this != '[object Window]') {
+    //         items += "<option value='" + this + "'>" + this + "</option>";
+    //     } 
+    // });
+    // $("#test").html(items);
+
+
+    class1.forEach(function(item) {
+        filtered_classes[item] = 'example class2'
+    })
+
+
+    console.log('ey', filtered_classes)
+    // filtered_classes = [class1, class2, class3]
+}
+
+
+function drawGlobe(worldData, locationData) {
+    // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
+    // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
+    // Only using the first 50 NASA data points currently
+    locationData = locationData.slice(0, 50).filter(function (datum) {
+        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+            return datum
+        } else {
+            // console.log(datum)
+        }
     });
+
+    svg
+        .selectAll(".segment")
+        .data(
+            topojson.feature(worldData, worldData.objects.countries).features
+        )
+        .enter()
+        .append("path")
+        .attr("class", "segment")
+        .attr("d", path)
+        .style("stroke", "#888")
+        .style("stroke-width", "1px")
+        .style("fill", (d, i) => "#e5e5e5")
+        .style("opacity", ".6");
+    locations = locationData;
 }
 
 function drawGraticule() {
@@ -148,7 +169,7 @@ function drawGraticule() {
         .style("stroke", "#ccc");
 }
 
-function enableRotation() {
+function enableRotation(condition) {
     d3.timer(function (elapsed) {
         projection.rotate([
             config.speed * elapsed - 120,
@@ -158,6 +179,7 @@ function enableRotation() {
         svg.selectAll("path").attr("d", path);
         drawMarkers();
     });
+
 }
 
 function drawMarkers() {
