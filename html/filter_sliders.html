@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,109 +8,127 @@
 
 
     <script>
-        $( function() {
-            $( "#slider-range" ).slider({
+        $(function () {
+            $("#slider-range").slider({
                 range: true,
                 min: -831,
                 max: 2010,
-                values: [ 1500, 2000 ],
+                values: [-831, 2000],
 
-                slide: function( event, ui ) {
+                slide: function (event, ui) {
                     if (ui.values[0] < 0) {
-                        positive_x = ui.values[0] * -1 + " B.C.E"
+                        positive_x = ui.values[0]
                     } else {
                         positive_x = ui.values[0]
                     }
                     if (ui.values[1] < 0) {
-                        positive_y = ui.values[1] * -1 + " B.C.E"
+                        positive_y = ui.values[1]
                     } else {
                         positive_y = ui.values[1]
                     }
-                    $("#amount").val(positive_x + " - " + positive_y);
+                    $("#min_year").val(positive_x);
+                    $("#max_year").val(positive_y);
+
+                    // $("#amount").val(positive_x + " - " + positive_y);
 
                 }
             });
 
-            $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
-                " - " + $( "#slider-range" ).slider( "values", 1 ) );
-            });
-            $( function() {
-                $( "#slider-range_mass" ).slider({
-                    range: true,
-                    min: 0,
-                    max: 100000,
-                    values: [ 10000, 30000 ],
+            $("#amount").val($("#slider-range").slider("values", 0) +
+                " - " + $("#slider-range").slider("values", 1));
+        });
+        $(function () {
+            $("#slider-range_mass").slider({
+                range: true,
+                min: 0,
+                max: 100000,
+                values: [0, 100000],
 
-                    slide: function( event, ui ) {
-                        $( "#amount2" ).val(ui.values[0] + " - " + ui.values[1]);
-                    }
-                });
-                $( "#amount2" ).val($( "#slider-range_mass" ).slider( "values", 0 ) +
-                    " - " + $( "#slider-range_mass" ).slider( "values", 1 ) );
-            });
-
-            jQuery(function($) {
-                var testing = {
-                    'Alpha': ['', 'these', 'are', 'options'],
-                    'Bravo': ['you', 'can', 'choose'],
-                    'Charlie': ['but', 'only', 'if'],
-                    'Delta': ['you', 'want', 'to']
+                slide: function (event, ui) {
+                    // $( "#amount2" ).val(ui.values[0] + " - " + ui.values[1]);
+                    $("#min_mass").val(ui.values[0]);
+                    $("#max_mass").val(ui.values[1]);
                 }
+            });
 
-                var $testing = $('#testing');
-                $('#nonsense').change(function () {
-                    var nonsense =$(this).val(), temps = testing[nonsense] || [];
 
-                    var selected = $.map(temps, function(temp){
-                        return '<option value="' + temp + '" >' + temp + '</options>'
+            // $( "#amount2" ).val($( "#slider-range_mass" ).slider( "values", 0 ) +
+            //     " - " + $( "#slider-range_mass" ).slider( "values", 1 ) );
+
+
+
+        });
+
+        jQuery(function ($) {
+            var testing = {
+                'Alpha': ['', 'these', 'are', 'options'],
+                'Bravo': ['you', 'can', 'choose'],
+                'Charlie': ['but', 'only', 'if'],
+                'Delta': ['you', 'want', 'to']
+            }
+
+            var $testing = $('#testing');
+            $('#nonsense').change(function () {
+                var nonsense = $(this).val(), temps = testing[nonsense] || [];
+
+                var selected = $.map(temps, function (temp) {
+                    return '<option value="' + temp + '" >' + temp + '</options>'
                 }).join('');
                 $testing.html(selected)
 
-                });
-                var testing2 = {
-                    'these' : ['1'],
-                    'are' : ['2'],
-                    'options': ['3'],
-                    'you': ['4'],
-                    'can': ['5'],
-                    'chose': ['6'],
-                    'if': ['7'],
-                    'you': ['8'],
-                    'want': ['9'],
-                    'to': ['10']
-                }
-
-                var $testing2 = $('#testing2');
-                $('#testing').change(function () {
-                    var testing =$(this).val(), temps = testing2[testing] || [];
-
-                    var selected = $.map(temps, function(temp){
-                        return '<option value="' + temp + '" >' + temp + '</options>'
-                    }).join('');
-                    $testing2.html(selected)
-
-                });
             });
+            var testing2 = {
+                'these': ['1'],
+                'are': ['2'],
+                'options': ['3'],
+                'you': ['4'],
+                'can': ['5'],
+                'chose': ['6'],
+                'if': ['7'],
+                'you': ['8'],
+                'want': ['9'],
+                'to': ['10']
+            }
+
+            var $testing2 = $('#testing2');
+            $('#testing').change(function () {
+                var testing = $(this).val(), temps = testing2[testing] || [];
+
+                var selected = $.map(temps, function (temp) {
+                    return '<option value="' + temp + '" >' + temp + '</options>'
+                }).join('');
+                $testing2.html(selected)
+
+            });
+        });
 
     </script>
 </head>
+
 <body>
+    <h4><strong>Range of Years: </strong></h4>
+    <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
+    <label id="min_year_label" for="min_year">Min</label>
+    <input type="number" name="min_year" id="min_year" value="-831">
 
-<p>
-    <label for="amount"><strong>Range of Years: </strong></label>
-    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
+    <label id="max_year_label" for="max_year">Max</label>
+    <input type="number" name="max_year" id="max_year" value="2000">
+    <p></p>
 
-<div id="slider-range"></div>
-<p>
-    <br>
-    <label for="amount"><strong> Mass (in grams): </strong></label>
-    <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
+    <div id="slider-range"></div>
 
-<div id="slider-range_mass"></div>
+    <h4><strong> Mass (in grams): </strong></h4>
+    <!-- <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
+    <label id="min_mass_label" for="min_mass">Min</label>
+    <input type="number" name="min_mass" id="min_mass" placeholder="min">
+    <label id="max_mass_label" for="max_mass">Max</label>
+    <input type="number" name="max_mass" id="max_mass" value="100000">
+    <p></p>
 
-<p><strong>Found vs Fell:</strong></p>
+
+    <div id="slider-range_mass"></div>
+
+    <!-- <p><strong>Found vs Fell:</strong></p>
 <input type ="checkbox" id="found" name="found" value="true" checked>
 <label for="found">Found</label></br>
 
@@ -132,6 +151,7 @@
 <br>
 <label>Testing2</label>
 <select id="testing2" name="testing2"></select>
-<br>
+<br> -->
 </body>
+
 </html>
