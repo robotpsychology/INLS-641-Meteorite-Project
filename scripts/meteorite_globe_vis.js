@@ -26,7 +26,7 @@ let files = [
     "/../data/world-110m.json",
     "/../data/nasa_meteorite_data_Oct_31_2021.json",
 ];
-let locations = [];
+let filtered_locations = [];
 let promises = [];
 let class1, class2, class3;
 let filtered_classes = {}
@@ -68,6 +68,8 @@ function globeRender() {
     createPromises(files, promises);
 
     Promise.all(promises).then((response) => {
+        worldData = response[0];
+        locationData = response[1];
         drawGlobe(response[0], response[1]);
         drawMarkers();
         populateCheckBox(response[1]);
@@ -95,16 +97,16 @@ function resetGlobe() {
 }
 
 function populateCheckBox() {
-    class1 = [...new Set(locations.map(item => item.subclasses.class1[0]))];
+    class1 = [...new Set(filtered_locations.map(item => item.subclasses.class1[0]))];
 
     // Can't get this to filter properly like class1 does.
-    class2 = [...new Set(locations.map(function(item) { 
+    class2 = [...new Set(filtered_locations.map(function(item) { 
         if (item.subclasses.class2) {
             // console.log(item.subclasses.class2[0])
         }
     }))];
 
-    class3 = [...new Set(locations.map(function(item) { 
+    class3 = [...new Set(filtered_locations.map(function(item) { 
         if (item.subclasses.class3) {
         return item.subclasses.class3[0]
         }
@@ -133,7 +135,7 @@ function drawGlobe(worldData, locationData) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
-    locationData = locationData.slice(0, 50).filter(function (datum) {
+    locationData = locationData.slice(0, 500).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
             return datum
         } else {
@@ -154,7 +156,7 @@ function drawGlobe(worldData, locationData) {
         .style("stroke-width", "1px")
         .style("fill", (d, i) => "#e5e5e5")
         .style("opacity", ".6");
-    locations = locationData;
+    filtered_locations = locationData;
 }
 
 function drawGraticule() {
@@ -183,7 +185,7 @@ function enableRotation(condition) {
 }
 
 function drawMarkers() {
-    const markers = markerGroup.selectAll("circle").data(locations);
+    const markers = markerGroup.selectAll("circle").data(filtered_locations);
     markers
         .enter()
         .append("circle")
