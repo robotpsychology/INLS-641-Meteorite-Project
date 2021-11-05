@@ -3,18 +3,18 @@ let plotheight = 65;
 let margin_x = 20;
 let margin_y = 20;
 
-let data = "./data/meteoriteexample.json"
-
 
 class Plot {
     constructor(svg_elem) {
         this.svg = svg_elem;
+        this.data = "/data/meteoriteexample.json";
+        this.loadAndPrepare();
     }
     render() {
         //Fetch Json
-        json = dataFetch();
-        
-        //Linear scales
+        //json = dataFetch();
+                
+        //Linear scales for mass year scatter plot
         let myx = d3.scaleLinear()
 			.domain([861, 2012])
 			.range([0, width]);
@@ -45,14 +45,29 @@ class Plot {
             .attr("width", plotwidth)
             .attr("height", plotheight);
 
+        
         // MassYear Scatter Plot data join
-        let massyearplot = this.svg.select('massyearplot').data(json, function(d) {return d});
+        let massyearplot = this.svg.select('massyearplot').data(this.data, function(d) {return d.id;});
         massyearplot.enter().append('circle')
             .attr('class', 'scatterdot')
-            .attr("cx", function(d) { return myx(d[0]['year']); })
-            .attr("cy", function(d) { return myy(d[0]['mass']); })
+            .attr("cx", function(d) { return myx(d.year); })
+            .attr("cy", function(d) { return myy(d.mass); })
             .attr("r", 1);
         
+    }
+    loadAndPrepare() {
+        let thisvis = this;
+    
+        //Load data from json
+        
+        d3.json(this.data, function(d) {
+            console.log(d);           
+        }).then(function(data) {
+            let min_mass = d3.min(data, function(d) {return d.mass;});
+            let max_mass = d3.max(data, function(d) {return d.mass;});
+            let min_year = d3.min(data, function(d) {return d.year.slice(0, 4);});
+            let max_year = d3.max(data, function(d) {return d.year.slice(0, 4);});
+        })
     }
 }
 let json = [];
@@ -62,6 +77,7 @@ async function dataFetch() {
     console.log('look at me', json[0]['year'])
     return json;
 }
+
 producePlots();
 function producePlots() {
     const svg = d3.select('#plots_svg')
