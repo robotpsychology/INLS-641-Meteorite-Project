@@ -7,6 +7,9 @@ let height = globePanel.offsetHeight;
 // const width = 960;
 // const height = 500;
 
+// build data object
+let slider_settings = {};
+
 const config = {
     speed: 0.005,
     verticalTilt: -30,
@@ -146,7 +149,7 @@ function populateCheckBox() {
     }
     ))];
     // $.each(class2, function () {
-    //     // Basicaly checks if the value is undefined. Couldn't find another way to filter it out from the Set.
+    //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
     //     if (this != '[object Window]') {
     //         items += "<option value='" + this + "'>" + this + "</option>";
     //     } 
