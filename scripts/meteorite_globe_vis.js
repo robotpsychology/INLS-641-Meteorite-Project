@@ -30,7 +30,7 @@ let filtered_locations = [];
 let promises = [];
 let class1, class2, class3;
 let filtered_classes = {}
-
+let yearless_meteorites = []
 
 // Zoom variable to call on the SVG globe
 let zoom = d3.zoom()
@@ -41,6 +41,8 @@ let zoom = d3.zoom()
         svg.selectAll("circle")
             .attr('transform', event.transform);
         // console.log(event);
+        drawMarkers();
+
     })
     ;
 
@@ -69,10 +71,10 @@ function globeRender() {
 
     Promise.all(promises).then((response) => {
         worldData = response[0];
-        locationData = response[1];
-        drawGlobe(response[0], response[1]);
+        locationData = locationDataFiltering(response[1]);
+        drawGlobe(response[0], locationData);
         drawMarkers();
-        populateCheckBox(response[1]);
+        populateCheckBox(locationData);
     });
     drawGraticule();
     // enableRotation();
@@ -96,19 +98,50 @@ function resetGlobe() {
 
 }
 
+
+function locationDataFiltering(locationData) {
+    let slider_settings = {
+        "min_year": 1800,
+        "max_year": 1900,
+        "min_mass": 1000,
+        "max_mass": 500000
+    }
+
+    locationData = locationData.slice(0, 50000).filter(function (datum) {
+        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+            if (Boolean(datum.year) == true) {
+                datum.year = parseInt(datum.year.slice(0, 4))
+                if (datum.year >= slider_settings.min_year && datum.year <= slider_settings.max_year && datum.mass >= slider_settings.min_mass && datum.mass >= slider_settings.max_mass) {
+                    return datum
+
+                }
+            } else if (Boolean(datum.year) == false) {
+                yearless_meteorites.push(datum)
+            }
+
+
+
+        } else {
+            // console.log(datum)
+        }
+    });
+
+    return locationData
+}
+
 function populateCheckBox() {
     class1 = [...new Set(filtered_locations.map(item => item.subclasses.class1[0]))];
 
     // Can't get this to filter properly like class1 does.
-    class2 = [...new Set(filtered_locations.map(function(item) { 
+    class2 = [...new Set(filtered_locations.map(function (item) {
         if (item.subclasses.class2) {
             // console.log(item.subclasses.class2[0])
         }
     }))];
 
-    class3 = [...new Set(filtered_locations.map(function(item) { 
+    class3 = [...new Set(filtered_locations.map(function (item) {
         if (item.subclasses.class3) {
-        return item.subclasses.class3[0]
+            return item.subclasses.class3[0]
         }
     }
     ))];
@@ -121,7 +154,7 @@ function populateCheckBox() {
     // $("#test").html(items);
 
 
-    class1.forEach(function(item) {
+    class1.forEach(function (item) {
         filtered_classes[item] = 'example class2'
     })
 
@@ -135,13 +168,7 @@ function drawGlobe(worldData, locationData) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
-    locationData = locationData.slice(0, 500).filter(function (datum) {
-        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-            return datum
-        } else {
-            // console.log(datum)
-        }
-    });
+
 
     svg
         .selectAll(".segment")
@@ -202,7 +229,7 @@ function drawMarkers() {
             document.getElementById("meteorite_name").innerHTML = "Meteorite Name: " + d.name;
             document.getElementById("found_or_fell").innerHTML = "Found/Fell: " + d.fall;
             document.getElementById("mass").innerHTML = "Mass: " + d.mass;
-            document.getElementById("date_found").innerHTML = "Year: " + d.year.slice(0, 4);
+            document.getElementById("date_found").innerHTML = "Year: " + d.year;
             document.getElementById("lat").innerHTML = "Latitude: " + d.reclat;
             document.getElementById("long").innerHTML = "Longitude: " + d.reclong;
         })
