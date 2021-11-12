@@ -103,36 +103,6 @@ function resetGlobe() {
 }
 
 
-function locationDataFiltering(locationData) {
-    let slider_settings = {
-        "min_year": 1800,
-        "max_year": 1900,
-        "min_mass": 1000,
-        "max_mass": 500000
-    }
-
-    locationData = locationData.slice(0, 50000).filter(function (datum) {
-        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-            if (Boolean(datum.year) == true) {
-                datum.year = parseInt(datum.year.slice(0, 4))
-                if (datum.year >= slider_settings.min_year && datum.year <= slider_settings.max_year && datum.mass >= slider_settings.min_mass && datum.mass >= slider_settings.max_mass) {
-                    return datum
-
-                }
-            } else if (Boolean(datum.year) == false) {
-                yearless_meteorites.push(datum)
-            }
-
-
-
-        } else {
-            // console.log(datum)
-        }
-    });
-
-    return locationData
-}
-
 function populateCheckBox() {
     class1 = [...new Set(filtered_locations.map(item => item.subclasses.class1[0]))];
 
@@ -167,13 +137,53 @@ function populateCheckBox() {
     // filtered_classes = [class1, class2, class3]
 }
 
+function locationDataFiltering(locationData) {
+    let slider_settings = {
+        "min_year": 1800,
+        "max_year": 1900,
+        "min_mass": 1000,
+        "max_mass": 500000
+    }
+
+    locationData = locationData.slice(0, 50000).filter(function (datum) {
+        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+            if (Boolean(datum.year) == true) {
+                datum.year = parseInt(datum.year.slice(0, 4))
+                if (datum.year >= slider_settings.min_year && datum.year <= slider_settings.max_year && datum.mass >= slider_settings.min_mass && datum.mass >= slider_settings.max_mass) {
+                    return datum
+
+                }
+            } else if (Boolean(datum.year) == false) {
+                yearless_meteorites.push(datum)
+            }
+
+
+
+        } else {
+            // console.log(datum)
+        }
+    });
+
+    return locationData
+}
+
 // overall filter check function, calls other check functions depending on each filter.
 function filterCheck(datum) {
     return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
         && filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)
 }
 function filterYears(datum, min_year, max_year) {
-    if (datum.year.slice(0, 4) >= min_year && datum.year.slice(0, 4) <= max_year) { return true; }
+
+    if (Boolean(datum.year) == true) {
+        datum.year = parseInt(datum.year.slice(0, 4))
+        if (datum.year >= min_year && datum.year <= max_year) {
+            return true
+
+        }
+    } else if (Boolean(datum.year) == false) {
+        yearless_meteorites.push(datum)
+    }
+
 }
 function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
@@ -185,7 +195,7 @@ function drawGlobe(worldData, locationData) {
     // Only using the first 50 NASA data points currently
 
     console.log(locationData);
-    locationData = locationData.slice(0, 500).filter(function (datum) {
+    locationData = locationData.slice(0, 50000).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
             if (filterCheck(datum)) { console.log(datum); return datum; }
         } else {
