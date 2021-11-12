@@ -27,7 +27,7 @@ const center = [width / 2, height / 2];
 // List of files files and initialized lists for accessing them in the function createPromises
 let files = [
     "/../data/world-110m.json",
-    "/../data/nasa_meteorite_data_Oct_31_2021.json",
+    "/../data/nasa_meteorite_data_Nov_05_2021.json",
 ];
 let filtered_locations = [];
 let promises = [];
