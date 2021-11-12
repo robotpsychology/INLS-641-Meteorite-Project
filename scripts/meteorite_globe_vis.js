@@ -74,7 +74,8 @@ function globeRender() {
 
     Promise.all(promises).then((response) => {
         worldData = response[0];
-        locationData = locationDataFiltering(response[1]);
+        // locationData = locationDataFiltering(response[1]);
+        locationData = response[1];
         drawGlobe(response[0], locationData);
         drawMarkers();
         populateCheckBox(locationData);
@@ -182,6 +183,7 @@ function drawGlobe(worldData, locationData) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
+
     console.log(locationData);
     locationData = locationData.slice(0, 500).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
