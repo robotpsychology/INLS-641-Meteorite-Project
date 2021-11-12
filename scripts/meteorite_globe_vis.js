@@ -166,12 +166,30 @@ function populateCheckBox() {
     // filtered_classes = [class1, class2, class3]
 }
 
+// overall filter check function, calls other check functions depending on each filter.
+function filterCheck(datum) {
+    return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
+        && filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)
+}
+function filterYears(datum, min_year, max_year) {
+    if (datum.year.slice(0, 4) >= min_year && datum.year.slice(0, 4) <= max_year) { return true; }
+}
+function filterMass(datum, min_mass, max_mass) {
+    if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
+}
 
 function drawGlobe(worldData, locationData) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
+    console.log(locationData);
+    locationData = locationData.slice(0, 500).filter(function (datum) {
+        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+            if (filterCheck(datum)) { console.log(datum); return datum; }
+        } else {
 
+        }
+    });
 
     svg
         .selectAll(".segment")
