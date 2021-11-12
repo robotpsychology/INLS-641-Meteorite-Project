@@ -9,7 +9,7 @@ class Plot {
         //json = dataFetch();
         let plotwidth = 200;
         let plotheight = 200;
-        let margin_x = 30;
+        let margin_x = 15;
         let margin_y = 50;
         let plotspacing = 10;
         //Linear scales for mass year scatter plot
@@ -28,17 +28,12 @@ class Plot {
 
 
         plot_groups.append('rect')
-            .attr('class', 'massyearplot')
+            .attr('class', '.massyearplot')
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", plotwidth)
             .attr("height", plotheight)
-            .append("text")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "hanging")
-                .text("Mass(g) vs. Year");
+            
 
 
         //Mass vs. Year Scatter
@@ -48,12 +43,8 @@ class Plot {
             .attr("y", plotheight+margin_y)
             .attr("width", plotwidth)
             .attr("height", plotheight)
-            .append("text")
-                .attr("class", "label")
-                .attr("x", -5)
-                .attr("y", 70)
-                .attr("dominant-baseline", "hanging")
-                .text("Mass(g) vs. Year");
+            
+                
 
         //Mass density plot
         plot_groups.append("rect")
@@ -64,7 +55,7 @@ class Plot {
             .attr("height", plotheight);
 
         console.group('hi',d);
-        let massyearplot = plot_groups.select('massyearplot').data(d, function(d) {return d.id;});
+        let massyearplot = plot_groups.select('rect').data(d, function(d) {return d.id;});
         
         massyearplot.enter().append('circle')
             .attr('class', 'scatterdot')
@@ -73,7 +64,13 @@ class Plot {
             .attr("r", 1);
 
         //Add mass vs. year plot label
-        
+
+        massyearplot.append("text")
+            .attr("class", "axis-label")
+            .attr("y", 495)
+            .attr("x",0 + (500 / 2))
+            .style("text-anchor", "middle")
+            .text("Mass(g) vs. Year");
     }
     loadAndPrepare() {
         let thisvis = this;

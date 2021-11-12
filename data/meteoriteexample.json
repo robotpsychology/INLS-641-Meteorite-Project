@@ -12,6 +12,43 @@
         "geolocation": {
             "latitude": 50.775,
             "longitude": 6.08333
+        },
+        "subclasses": {
+            "class1": [
+                "Chondrite"
+            ],
+            "class2": [
+                "Ordinary"
+            ],
+            "class3": [
+                "L"
+            ]
+        }
+    },
+    {
+        "name": "Aarhus",
+        "id": 2,
+        "nametype": "Valid",
+        "recclass": "H6",
+        "mass": 720.0,
+        "fall": "Fell",
+        "year": "1951-01-01T00:00:00.000",
+        "reclat": 56.18333,
+        "reclong": 10.23333,
+        "geolocation": {
+            "latitude": 56.18333,
+            "longitude": 10.23333
+        },
+        "subclasses": {
+            "class1": [
+                "Chondrite"
+            ],
+            "class2": [
+                "Ordinary"
+            ],
+            "class3": [
+                "H"
+            ]
         }
     }
 ]
