@@ -195,7 +195,7 @@ function drawGlobe(worldData, locationData) {
     // Only using the first 50 NASA data points currently
 
     console.log(locationData);
-    locationData = locationData.slice(0, 50000).filter(function (datum) {
+    locationData = locationData.slice(0, 20000).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
             if (filterCheck(datum)) { console.log(datum); return datum; }
         } else {
