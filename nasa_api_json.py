@@ -83,7 +83,7 @@ def create_new_classifications(data):
             entry['subclasses']['class1'] = ["Chondrite"]
             entry['subclasses']['class2'] = ["Rumuruti"]
         # Enstatiate
-        elif classid.startswith("E") and not(classid.startswith("Eucrite"):
+        elif classid.startswith("E") and not(classid.startswith("Eucrite")):
             entry['subclasses']['class1'] = ["Chondrite"]
             entry['subclasses']['class2'] = ["Enstatiate"]
             if classid.startswith("EH"):
@@ -197,43 +197,43 @@ def create_new_classifications(data):
         elif classid.startswith("Pallasite") or classid.startswith("Mesosiderite") or classid.startswith("Stone"):
             entry['subclasses']['class1'] = ["Stony-iron"]
             if classid.startswith("Mesosiderite"):
-                entry['subclasses']['class3'] = ["Mesosiderite"]
+                entry['subclasses']['class2'] = ["Mesosiderite"]
             elif classid.startswith("Pallasite"):
-                entry['subclasses']['class3'] = ["Pallasite"]
+                entry['subclasses']['class2'] = ["Pallasite"]
             else:
-                entry['subclasses']['class3'] = ["Other Stony-iron"]
+                entry['subclasses']['class2'] = ["Other Stony-iron"]
 
         ## Iron subclasses
         elif classid.startswith("Iron"):
             entry['subclasses']['class1'] = ["Iron"]
             if "IIIAB" in classid:
-                entry['subclasses']['class3'] = ["Iron IIIAB"]
+                entry['subclasses']['class2'] = ["Iron IIIAB"]
             elif "IIAB" in classid:
-                entry['subclasses']['class3'] = ["Iron IIAB"]
+                entry['subclasses']['class2'] = ["Iron IIAB"]
             elif "IAB" in classid:
-                entry['subclasses']['class3'] = ["Iron IAB"]
+                entry['subclasses']['class2'] = ["Iron IAB"]
             elif "IIC" in classid:
-                entry['subclasses']['class3'] = ["Iron IIC"]
+                entry['subclasses']['class2'] = ["Iron IIC"]
             elif "IC" in classid:
-                entry['subclasses']['class3'] = ["Iron IC"]
+                entry['subclasses']['class2'] = ["Iron IC"]
             elif "IID" in classid:
-                entry['subclasses']['class3'] = ["Iron IID"]
+                entry['subclasses']['class2'] = ["Iron IID"]
             elif "IIIE" in classid:
-                entry['subclasses']['class3'] = ["Iron IIIE"]
+                entry['subclasses']['class2'] = ["Iron IIIE"]
             elif "IIE" in classid:
-                entry['subclasses']['class3'] = ["Iron IIE"]
+                entry['subclasses']['class2'] = ["Iron IIE"]
             elif "IIIF" in classid:
-                entry['subclasses']['class3'] = ["Iron IIIF"]
+                entry['subclasses']['class2'] = ["Iron IIIF"]
             elif "IIF" in classid:
-                entry['subclasses']['class3'] = ["Iron IIF"]
+                entry['subclasses']['class2'] = ["Iron IIF"]
             elif "IIG" in classid:
-                entry['subclasses']['class3'] = ["Iron IIG"]
+                entry['subclasses']['class2'] = ["Iron IIG"]
             elif "IVA" in classid:
-                entry['subclasses']['class3'] = ["Iron IVA"]
+                entry['subclasses']['class2'] = ["Iron IVA"]
             elif "IVB" in classid:
-                entry['subclasses']['class3'] = ["Iron IVB"]
+                entry['subclasses']['class2'] = ["Iron IVB"]
             else:
-                entry['subclasses']['class3'] = ["Other Iron"]
+                entry['subclasses']['class2'] = ["Other Iron"]
 
         ## Relicts subclass
         elif classid.startswith("Relict") or classid.startswith("Fusion"):

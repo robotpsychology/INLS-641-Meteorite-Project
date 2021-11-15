@@ -11,9 +11,9 @@
         $(function () {
             $("#slider-range").slider({
                 range: true,
-                min: -831,
-                max: 2010,
-                values: [-831, 2000],
+                min: 861,
+                max: 2013,
+                values: [861, 2013],
 
                 slide: function (event, ui) {
                     if (ui.values[0] < 0) {
@@ -28,6 +28,8 @@
                     }
                     $("#min_year").val(positive_x);
                     $("#max_year").val(positive_y);
+                    // call function to update data
+                    updateFilterInfo();
 
                     // $("#amount").val(positive_x + " - " + positive_y);
 
@@ -41,15 +43,17 @@
             $("#slider-range_mass").slider({
                 range: true,
                 min: 0,
-                max: 100000,
-                values: [0, 100000],
+                max: 60000000,
+                values: [0, 60000000],
 
                 slide: function (event, ui) {
                     // $( "#amount2" ).val(ui.values[0] + " - " + ui.values[1]);
                     $("#min_mass").val(ui.values[0]);
                     $("#max_mass").val(ui.values[1]);
+                    updateFilterInfo();
                 }
             });
+
 
 
             // $( "#amount2" ).val($( "#slider-range_mass" ).slider( "values", 0 ) +
@@ -102,6 +106,17 @@
             });
         });
 
+        function updateFilterInfo() {
+
+            // pull values from above functions to pass to globe render
+            slider_settings.min_year =  $("#min_year").val();
+            slider_settings.max_year =  $("#max_year").val();
+            slider_settings.min_mass =  $("#min_mass").val();
+            slider_settings.max_mass =  $("#max_mass").val();
+            console.log(JSON.stringify( slider_settings));
+            drawMarkers();
+        }
+
     </script>
 </head>
 
@@ -120,7 +135,7 @@
     <h4><strong> Mass (in grams): </strong></h4>
     <!-- <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
     <label id="min_mass_label" for="min_mass">Min</label>
-    <input type="number" name="min_mass" id="min_mass" placeholder="min">
+    <input type="number" name="min_mass" id="min_mass" value ="0">
     <label id="max_mass_label" for="max_mass">Max</label>
     <input type="number" name="max_mass" id="max_mass" value="100000">
     <p></p>
