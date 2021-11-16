@@ -7,8 +7,9 @@ from sodapy import Socrata
 
 today = date.today().strftime("%b_%d_%Y")
 
+
 def convert_json_data_types(results):
-    for entry in results:    
+    for entry in results:
         if 'id' in entry.keys():
             entry['id'] = int(entry['id'])
 
@@ -22,27 +23,30 @@ def convert_json_data_types(results):
             entry['reclong'] = float(entry['reclong'])
 
         if 'geolocation' in entry.keys():
-            entry['geolocation']['latitude'] = float(entry['geolocation']['latitude'])
-            entry['geolocation']['longitude'] = float(entry['geolocation']['longitude'])
+            entry['geolocation']['latitude'] = float(
+                entry['geolocation']['latitude'])
+            entry['geolocation']['longitude'] = float(
+                entry['geolocation']['longitude'])
 
     return results
 
+
 def create_new_classifications(data):
     for entry in data:
-        entry['subclasses'] = {"class1":None, "class2":None, "class3":None}
+        entry['subclasses'] = {"class1": None, "class2": None, "class3": None}
         classid = entry['recclass']
 
-        ## Chondrite subclasses
+        # Chondrite subclasses
         # Ordinary
         if (classid.startswith("L") and not("Lunar" in classid) and not("Lodranite" in classid)) or (classid.startswith("H") and not("Howardite" in classid)) or classid.startswith("OC"):
             entry['subclasses']['class1'] = ["Chondrite"]
             entry['subclasses']['class2'] = ["Ordinary"]
             if "L(LL)" in classid or "L/LL" in classid or "LL(L)" in classid:
-                entry['subclasses']['class3'] =["L","LL"]
+                entry['subclasses']['class3'] = ["L", "LL"]
             elif "LL" in classid:
                 entry['subclasses']['class3'] = ["LL"]
             elif classid.startswith("H/L") or classid.startswith("L(H)") or classid.startswith("H(L)"):
-                entry['subclasses']['class3'] = ["H","L"]
+                entry['subclasses']['class3'] = ["H", "L"]
             elif classid.startswith("L"):
                 entry['subclasses']['class3'] = ["L"]
             elif classid.startswith("H"):
@@ -99,18 +103,18 @@ def create_new_classifications(data):
             entry['subclasses']['class1'] = ["Chondrite"]
             entry['subclasses']['class2'] = ["Kakangari"]
 
-        ## Achondrite subclasses
+        # Achondrite subclasses
         # Primitive achondrites
         elif classid.startswith("Acapulcoite") or "prim" in classid or classid.startswith("Lodranite") or classid.startswith("Winonaite"):
-             entry['subclasses']['class1'] = ["Achondrite"]
-             entry['subclasses']['class2'] = ["Primitive Achondrite"]
-             if classid.startswith("Acapulcoite"):
+            entry['subclasses']['class1'] = ["Achondrite"]
+            entry['subclasses']['class2'] = ["Primitive Achondrite"]
+            if classid.startswith("Acapulcoite"):
                 entry['subclasses']['class3'] = ["Acapulcoite"]
                 if "Lodranite" in classid or "lodranite" in classid:
                     entry['subclasses']['class3'].append("Lodranite")
-             elif classid.startswith("Lodranite"):
+            elif classid.startswith("Lodranite"):
                 entry['subclasses']['class3'] = ["Lodranite"]
-             elif classid.startswith("Winonaite"):
+            elif classid.startswith("Winonaite"):
                 entry['subclasses']['class3'] = ["Winonaite"]
         # Martian
         elif classid.startswith("Martian"):
@@ -193,7 +197,7 @@ def create_new_classifications(data):
             entry['subclasses']['class1'] = ["Achondrite"]
             entry['subclasses']['class2'] = ["Other Achondrite"]
 
-        ## Stony-iron subclasses
+        # Stony-iron subclasses
         elif classid.startswith("Pallasite") or classid.startswith("Mesosiderite") or classid.startswith("Stone"):
             entry['subclasses']['class1'] = ["Stony-iron"]
             if classid.startswith("Mesosiderite"):
@@ -203,7 +207,7 @@ def create_new_classifications(data):
             else:
                 entry['subclasses']['class2'] = ["Other Stony-iron"]
 
-        ## Iron subclasses
+        # Iron subclasses
         elif classid.startswith("Iron"):
             entry['subclasses']['class1'] = ["Iron"]
             if "IIIAB" in classid:
@@ -235,15 +239,25 @@ def create_new_classifications(data):
             else:
                 entry['subclasses']['class2'] = ["Other Iron"]
 
-        ## Relicts subclass
+        # Relicts subclass
         elif classid.startswith("Relict") or classid.startswith("Fusion"):
             entry['subclasses']['class1'] = ["Relict"]
 
-        ## Unknown subclass
+        # Unknown subclass
         else:
             entry['subclasses']['class1'] = ["Unknown"]
 
     return data
+
+
+def filter_yearless_meteorites(data):
+    filtered_data = []
+    for entry in data:
+        if 'year' not in entry:
+            filtered_data.append(entry)
+
+    return filtered_data
+
 
 # Unauthenticated client only works with public data sets. Note 'None'
 # in place of application token, and no username or password:
@@ -256,7 +270,10 @@ print(len(results))
 data = convert_json_data_types(results)
 data = create_new_classifications(data)
 
+yearless_meteorites = filter_yearless_meteorites(data)
+
 with open(f'./data/nasa_meteorite_data_{today}.json', 'w') as outfile:
     json.dump(data, outfile, indent=4)
 
-
+with open(f'./data/nasa_yearless_meteorites_{today}.json', 'w') as outfile:
+    json.dump(yearless_meteorites, outfile, indent=4)
