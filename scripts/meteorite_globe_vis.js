@@ -27,24 +27,26 @@ const center = [width / 2, height / 2];
 // List of files files and initialized lists for accessing them in the function createPromises
 let files = [
     "/../data/world-110m.json",
-    "/../data/nasa_meteorite_data_Nov_05_2021.json",
+    "/../data/nasa_meteorite_data_Nov_12_2021.json",
+    "/../data/nasa_yearless_meteorites_Nov_12_2021.json"
 ];
 let filtered_locations = [];
 let promises = [];
 let class1, class2, class3;
-let filtered_classes = {}
-let yearless_meteorites = []
-
+let filtered_classes = {};
+let worldData, locationData, yearlessMeteorites;
 // Zoom variable to call on the SVG globe
 let zoom = d3.zoom()
     .scaleExtent([1, 10])
     .on('zoom', function (event) {
+
         svg.selectAll('path')
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
-        // console.log(event);
-        drawMarkers();
+        console.log(event);
+        drawGlobe();
+
 
     })
     ;
@@ -64,26 +66,52 @@ let drag = d3.drag()
 
 
 //// FUNCTION CALLS
-globeRender();
+initialRender();
+
 
 
 
 //// FUNCTIONS
-function globeRender() {
+function initialRender() {
     createPromises(files, promises);
+
 
     Promise.all(promises).then((response) => {
         worldData = response[0];
         // locationData = locationDataFiltering(response[1]);
         locationData = response[1];
-        drawGlobe(response[0], locationData);
-        drawMarkers();
-        populateCheckBox(locationData);
+        yearlessMeteorites = response[2];
+
+        globeRender();
+
     });
+
     drawGraticule();
-    // enableRotation();
     svg.call(drag);
     svg.call(zoom);
+
+}
+
+function globeRender() {
+    let checkbox = yearlessCheckbox();
+
+
+    if (checkbox == true) {
+        console.log('arjnaf', yearlessMeteorites)
+
+        drawGlobe(worldData, locationData, checkbox);
+        populateCheckBox(yearlessMeteorites);
+    } else {
+        drawGlobe(worldData, locationData);
+        populateCheckBox(locationData);
+
+    }
+    drawMarkers();
+
+
+
+    // svg.call(drag);
+    // svg.call(zoom);
 
 }
 
@@ -138,14 +166,14 @@ function populateCheckBox() {
 }
 
 function locationDataFiltering(locationData) {
-    let slider_settings = {
-        "min_year": 1800,
-        "max_year": 1900,
-        "min_mass": 1000,
-        "max_mass": 500000
-    }
+    // let slider_settings = {
+    //     "min_year": 1800,
+    //     "max_year": 1900,
+    //     "min_mass": 1000,
+    //     "max_mass": 500000
+    // }
 
-    locationData = locationData.slice(0, 50000).filter(function (datum) {
+    locationData = locationData.slice(0, 10000).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
             if (Boolean(datum.year) == true) {
                 datum.year = parseInt(datum.year.slice(0, 4))
@@ -154,7 +182,7 @@ function locationDataFiltering(locationData) {
 
                 }
             } else if (Boolean(datum.year) == false) {
-                yearless_meteorites.push(datum)
+                // yearless_meteorites.push(datum)
             }
 
 
@@ -167,6 +195,23 @@ function locationDataFiltering(locationData) {
     return locationData
 }
 
+
+function yearlessCheckbox() {
+    let checkbox_element = document.getElementById("yearless_meteorites");
+
+    if (checkbox_element.checked) {
+        console.log("Checkbox is  checked..");
+        return true
+    } else {
+        console.log("Checkbox is not checked..");
+        return false
+    }
+
+
+
+}
+
+
 // overall filter check function, calls other check functions depending on each filter.
 function filterCheck(datum) {
     return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
@@ -175,13 +220,13 @@ function filterCheck(datum) {
 function filterYears(datum, min_year, max_year) {
 
     if (Boolean(datum.year) == true) {
-        datum.year = parseInt(datum.year.slice(0, 4))
-        if (datum.year >= min_year && datum.year <= max_year) {
+        year = parseInt(datum.year.slice(0, 4))
+        if (year >= min_year && year <= max_year) {
             return true
 
         }
     } else if (Boolean(datum.year) == false) {
-        yearless_meteorites.push(datum)
+        // yearless_meteorites.push(datum)
     }
 
 }
@@ -189,34 +234,46 @@ function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
 }
 
-function drawGlobe(worldData, locationData) {
+function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
     console.log(locationData);
-    locationData = locationData.slice(0, 20000).filter(function (datum) {
-        if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-            if (filterCheck(datum)) { console.log(datum); return datum; }
-        } else {
 
-        }
-    });
+    if (!yearless_meteorites) {
+        filtered_locations = locationData.slice(0, 1000).filter(function (datum) {
+            if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+                if (filterCheck(datum)) { return datum; }
+            }
+        });
+    } else {
+        filtered_locations = locationData.slice(0, 1000).filter(function (datum) {
+            if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
+                if (filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)) {
+                    return datum
+                }
+
+            }
+        });
+
+    }
+
 
     svg
         .selectAll(".segment")
         .data(
             topojson.feature(worldData, worldData.objects.countries).features
         )
-        .enter()
-        .append("path")
+        .join("path")
         .attr("class", "segment")
         .attr("d", path)
         .style("stroke", "#888")
         .style("stroke-width", "1px")
         .style("fill", (d, i) => "#e5e5e5")
         .style("opacity", ".6");
-    filtered_locations = locationData;
+    // filtered_locations = locationData;
+    console.log(filtered_locations.length)
 }
 
 function drawGraticule() {
@@ -245,11 +302,9 @@ function enableRotation(condition) {
 }
 
 function drawMarkers() {
-    const markers = markerGroup.selectAll("circle").data(filtered_locations);
+    markers = markerGroup.selectAll("circle").data(filtered_locations);
     markers
-        .enter()
-        .append("circle")
-        .merge(markers)
+        .join("circle")
         .attr("cx", (d) => projection([d.reclong, d.reclat])[0])
         .attr("cy", (d) => projection([d.reclong, d.reclat])[1])
         .attr("fill", (d) => {
