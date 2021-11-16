@@ -1,86 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles/style.css" />
 
-    <!-- Outside scripts below: D3, topojson, Simple Statistics.-->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/topojson@3"></script>
-    <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/style.css" />
 
-    <!-- For Filter Sliders -->
-    <link
-      rel="stylesheet"
-      href="scripts/jquery-ui-1.13.0.custom/jquery-ui.css"
-    />
-    <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
-    <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+  <!-- Outside scripts below: D3, topojson, Simple Statistics.-->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson@3"></script>
+  <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
 
-    <script src="scripts/script.js"></script>
-    <script src="scripts/mathfunctions.js"></script>
-    <script>
-      $(function () {
-        $("#includedContent").load("html/filter_sliders.html");
-      });
-    </script>
-    <title>Visual Distribution of Meteor Collisions</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="panel header_panel">
-        <p>Visual Distribution of Meteor Collisions</p>
-      </div>
+  <!-- For Filter Sliders -->
+  <link rel="stylesheet" href="scripts/jquery-ui-1.13.0.custom/jquery-ui.css" />
+  <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
+  <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
-      <div class="panel left_panel">
-        <div class="subpanel filter_panel">
-          <h3>Filters</h3>
-          <p>________________________</p>
-          <div id="includedContent"></div>
-        </div>
+  <script src="scripts/script.js"></script>
+  <script src="scripts/mathfunctions.js"></script>
+  <script>
+    $(function () {
+      $("#filter_sliders").load("html/filter_sliders.html");
+    });
+  </script>
+  <script>
+    $(function () {
+      $("#checkbox").load("html/checkbox.html");
+    });
+  </script>
+  <title>Visual Distribution of Meteor Collisions</title>
+</head>
 
-        <div class="subpanel info_panel">
-          <h3>Info</h3>
-          <span id="meteorite_name">&nbsp;</span
-            >
-          <ul>
-            <li id="classification">Classification: &nbsp;</li>
-            <li id="found_or_fell">Found/Fell: &nbsp;</li>
-            <li id="mass">Mass: &nbsp;</li>
-            <li id="date_found">Date: &nbsp;</li>
-            <li id="lat">Latitude: &nbsp;</li>
-            <li id="long">Longitude: &nbsp;</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="panel globe_panel">
-        <svg
-          id="meteorite_globe_vis"
-          viewBox="0 0 950 500"
-          ondrag="svg.call(rotate)"
-        ></svg>
-        <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
-      </div>
-
-      <div class="panel right_panel">
-        <div class="subpanel plots_panel" id="plots">
-          <h3>Plots</h3>
-          <svg id="plots_svg" viewBox="0 0 100 1000"></svg>
-        </div>
-      </div>
+<body>
+  <div class="container">
+    <div id="header_panel" class="panel">
+      <p>Visual Distribution of Meteor Collisions</p>
     </div>
 
-    <!-- Only works if loaded after the svg for some reason -->
-    <!-- <script src="./scripts/meteorite_globe_vis_rotation.js"></script> -->
-    <script src="./scripts/meteorite_globe_vis_drag.js"></script>
+    <div id="left_panel" class="panel">
+      <div id="filter_panel" class="subpanel">
+        <h3>Filters</h3>
+        <div id="filter_sliders"></div>
+        <p></p>
+        <div id="checkbox"></div>
+        <div id="info_panel" class="subpanel">
+          <h3>Info</h3>
+          <table> <!--need to add class=style table or w/e -->
+            <thead>
+                <tr>
+                    <th>Meteorite</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:bold">Name</td>
+                <td id="meteorite_name">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">1st Level Class</td>
+                <td id="classification">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">2nd Level Class</td>
+                <td id="subclassification">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">3rd Level Class</td>
+                <td id="sub-subclassification">&nbsp;</td>
+              </tr>         
+              <tr>
+                <td style="font-weight:bold">Found/Fell</td>
+                <td id="found_or_fell">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Mass</td>
+                <td id="mass">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Date</td>
+                <td id="date">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Latitude</td>
+                <td id="lat">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Longitude</td>
+                <td id="long">&nbsp;</td>
+              </tr>     
+            </tbody>
+          </table>
+        
+        </div>
+      </div>
 
-    <script src="./scripts/plots.js"></script>
-    <!-- <script>
-      producePlots();
-      
-    </script> -->
-  </body>
+
+    </div>
+
+    <div id="globe_panel" class="panel">
+      <svg id="meteorite_globe_vis" viewBox="0 0 950 500" ondrag="svg.call(rotate)"></svg>
+      <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
+      <script>
+
+      </script>
+    </div>
+
+    <div id="right_panel" class="panel">
+      <div id="plots_panel">
+        <h3>Plots</h3>
+        <svg id="plots_svg" viewBox="0 0 100 300"></svg>
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+
+  <!-- Only works if loaded after the svg for some reason -->
+  <script src="./scripts/meteorite_globe_vis.js"></script>
+  <script src="./scripts/plots.js"></script>
+</body>
+
 </html>

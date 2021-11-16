@@ -1,62 +1,99 @@
-body {
+@media screen and (min-width: 900px) {
+  .container {
+    /* color: red; */
+  };
+
+  .filter_sliders > input {
+    /* width: 90%; */
+  }
+}
+
+html, body {
   margin: 0;
   padding: 0;
+
 }
 
 h3 {
   font-size: 1em;
+  text-decoration: underline;
 }
 
-.plot {
+.massyearplot {
   fill: rgb(231, 223, 223);
   stroke: rgb(231, 223, 223);
   stroke-width: 4;
 }
 
+.massdensplot {
+  fill: rgb(231, 223, 223);
+  stroke: rgb(231, 223, 223);
+  stroke-width: 4;
+}
+
+.yeardensplot {
+  fill: rgb(231, 223, 223);
+  stroke: rgb(231, 223, 223);
+  stroke-width: 4;
+}
+
+.scatterdot {
+  fill: black;
+}
+
 .container {
   display: grid;
   grid-template-columns: 15% 70% 15%;
-  grid-template-rows: 0.5fr minmax(500px, 600px);
+  grid-template-rows: 1fr minmax(0.5fr, 0.5fr);
   grid-template-areas:
     "header header header"
     "left-panel globe plots";
-
   text-align: center;
-  border-style: discrete;
+  overflow: auto;
 }
 
 .panel {
   border: 1px solid black;
 }
 
-.subpanel {
-  border: 1px solid red;
-  border-left: none;
-  border-right: none;
-}
 
-.header_panel {
+#header_panel {
   grid-area: header;
 }
 
-.left_panel {
+#left_panel {
   grid-area: left-panel;
-  display: flex;
-  flex-direction: column;
   border-top: none;
 }
 
-.filter_panel {
+#filter_panel {
   grid-area: filters;
 }
 
-.info_panel {
-  grid-area: info;
+
+
+#filter_sliders > p, #filter_sliders > div, #filter_sliders > input{
+  width: 80%;
 }
 
-.globe_panel {
+
+
+#filter_panel div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#info_panel {
+  grid-area: info;
+  text-align: left;
+}
+
+
+
+#globe_panel {
   grid-area: globe;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,6 +101,9 @@ h3 {
   border-left: none;
   border-right: none;
   /* overflow: hidden; */
+  /* width: 100%; */
+
+
 }
 
 #meteorite_globe_vis {
@@ -72,17 +112,20 @@ h3 {
   padding: 10px;
 }
 
-.right_panel {
+
+#right_panel {
 }
 
-.plots_panel {
+#plots_panel {
   grid-area: plots;
 }
 
-.header_panel,
-.left_panel,
-.globe_panel,
-.right_panel,
+#header_panel,
+#left_panel,
+#globe_panel,
+#right_panel,
 .subpanel {
   border-top: none;
 }
+
+
