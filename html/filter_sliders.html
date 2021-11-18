@@ -50,59 +50,59 @@
                 }
             });
         });
-            $(function () {
-                $("#slider-range-latitude").slider({
-                    range: true,
-                    min: -180,
-                    max: 180,
-                    values: [-180, 180],
+        $(function () {
+            $("#slider-range-latitude").slider({
+                range: true,
+                min: -180,
+                max: 180,
+                values: [-180, 180],
 
-                    slide: function (event, ui) {
-                        $("#min_lat").val(ui.values[0]);
-                        $("#max_lat").val(ui.values[1]);
-                        updateFilterInfo();
-                    }
-                });
+                slide: function (event, ui) {
+                    $("#min_lat").val(ui.values[0]);
+                    $("#max_lat").val(ui.values[1]);
+                    updateFilterInfo();
+                }
             });
-                $(function () {
-                    $("#slider-range-longitude").slider({
-                        range: true,
-                        min: -180,
-                        max: 180,
-                        values: [-180, 180],
+        });
+        $(function () {
+            $("#slider-range-longitude").slider({
+                range: true,
+                min: -180,
+                max: 180,
+                values: [-180, 180],
 
-                        slide: function (event, ui) {
-                            if ($("#minlat").val(ui.values[0]) < this.min) {
-                                $("#minlat").val(ui.values[0] = this.min);
-                            }
-                            else {
-                                $("#min_lat").val(ui.values[0]);
-                            }
-                            if ($("#max_lat").val(ui.values[1] > this.min)) {
-                                $("#max_lat").val(ui.values[1] = this.min);
-                            }
-                            else {
-                                $("#max_lat").val(ui.values[1] = this.max);
-                            }
-                            updateFilterInfo();
-                        }
-                    });
-                });
+                slide: function (event, ui) {
+                    if ($("#minlat").val(ui.values[0]) < this.min) {
+                        $("#minlat").val(ui.values[0] = this.min);
+                    }
+                    else {
+                        $("#min_lat").val(ui.values[0]);
+                    }
+                    if ($("#max_lat").val(ui.values[1] > this.min)) {
+                        $("#max_lat").val(ui.values[1] = this.min);
+                    }
+                    else {
+                        $("#max_lat").val(ui.values[1] = this.max);
+                    }
+                    updateFilterInfo();
+                }
+            });
+        });
 
         function updateFilterInfo() {
 
             // pull values from above functions to pass to globe render
-            slider_settings.min_year =  $("#min_year").val();
-            slider_settings.max_year =  $("#max_year").val();
-            slider_settings.min_mass =  $("#min_mass").val();
-            slider_settings.max_mass =  $("#max_mass").val();
+            slider_settings.min_year = $("#min_year").val();
+            slider_settings.max_year = $("#max_year").val();
+            slider_settings.min_mass = $("#min_mass").val();
+            slider_settings.max_mass = $("#max_mass").val();
             slider_settings.min_latitude = $("#min_lat").val();
             slider_settings.max_latitude = $("#max_lat").val();
             slider_settings.min_longitude = $("#min_long").val();
             slider_settings.min_longitude = $("#min_long").val();
 
 
-            console.log(JSON.stringify( slider_settings));
+            globeRender();
         }
 
     </script>
@@ -112,52 +112,83 @@
     <h4><strong>Range of Years: </strong></h4>
 
     <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
-    <table class="slider_table"><tr>
-        <td class="label_size"><label id="min_year_label" for="min_year" class="input_label">Min</label></td>
-        <td><input type="number" name="min_year" id="min_year" min= "861" value="861" maxlength="4" class="input_box"></td>
-        <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
-        <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue = "2013" maxlength="4" class="input_box"></td>
-    </tr></table>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"><label id="min_year_label" for="min_year" class="input_label">Min</label></td>
+            <td><input type="number" name="min_year" id="min_year" min="861" value="861" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
+            <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
+                    class="input_box"></td>
+        </tr>
+    </table>
     <div id="slider-range"></div>
 
     <h4><strong> Mass (in grams): </strong></h4>
     <!-- <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
-    <table class="slider_table"><tr>
-   <td class="label_size"> <label id="min_mass_label" for="min_mass">Min</label> </td>
-        <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value ="0" maxlength="8" class="input_box"> </td>
-         <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
-         <td><input type="number" name="max_mass" id="max_mass" min= "0" max="60000000" value="60000000" maxlength="8" class="input_box"></td>
-     </tr></table>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"> <label id="min_mass_label" for="min_mass">Min</label> </td>
+            <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
+                    class="input_box"> </td>
+            <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
+                    class="input_box"></td>
+        </tr>
+    </table>
 
 
     <div id="slider-range_mass"></div>
     <h4><strong>Latitude/Longitude (respectively):</strong></h4>
-    <table class="slider_table"><tr>
-        <td class="label_size"><label id="min_latitude_label" for="min_lat">Min</label></td>
-        <td><input type="number" name="min_latitude" id="min_lat" value="-180" min="-180" max="180" maxlength="4" class="input_box"></td>
-        <td class="label_size"><label id="max_latitude_label" for="max_lat">Max</label></td>
-        <td><input type="number" name="max_latitude" id="max_lat" value="180" min="-180" max="180" maxlength="4" class="input_box"></td>
-    </tr></table>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"><label id="min_latitude_label" for="min_lat">Min</label></td>
+            <td><input type="number" name="min_latitude" id="min_lat" value="-180" min="-180" max="180" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_latitude_label" for="max_lat">Max</label></td>
+            <td><input type="number" name="max_latitude" id="max_lat" value="180" min="-180" max="180" maxlength="4"
+                    class="input_box"></td>
+        </tr>
+    </table>
 
     <div id="slider-range-latitude"></div>
-    <table class="slider_table"><tr>
-        <td class="label_size" id="min_longitude_label" for="min_long">Min</label></td>
-        <td><input type="number" name="min_longitude" id="min_long" min="-180" max="180" value="-180" maxlength="4" class="input_box"></td>
-        <td class="label_size"><label id="max_longitude_label" for="max_long">Max</label></td>
-        <td><input type="number" name="max_longitude_label" id="max_long" min="-180" max="180" value="180" maxlength="4" class="input_box"></td>
-    </tr></table>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size" id="min_longitude_label" for="min_long">Min</label></td>
+            <td><input type="number" name="min_longitude" id="min_long" min="-180" max="180" value="-180" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_longitude_label" for="max_long">Max</label></td>
+            <td><input type="number" name="max_longitude_label" id="max_long" min="-180" max="180" value="180"
+                    maxlength="4" class="input_box"></td>
+        </tr>
+    </table>
 
     <div id="slider-range-longitude"></div>
 
-<p><strong>Found vs Fell:</strong></p>
+    <p><strong>Found vs Fell:</strong></p>
 
-<table><tr>
-<td><input type ="checkbox" id="found" name="found" value="true" checked><td></td>
-    <td><label for="found">Found</label></td>
+    <table>
+        <tr>
+            <td><input type="checkbox" id="found" name="found" value="true" checked>
+            <td></td>
+            <td><label for="found">Found</label></td>
 
-    <td><input type ="checkbox" id="fell" name="fell" value="true"></td>
-<td><label for="fell">Fell</label></td></table>
-<br>
+            <td><input type="checkbox" id="fell" name="fell" value="true"></td>
+            <td><label for="fell">Fell</label></td>
+    </table>
+    <br>
+
+    <p><strong>Yearless Meteorites:</strong></p>
+
+    <table>
+        <tr>
+            <td><input onchange="globeRender()" type="checkbox" id="yearless_meteorites" name="yearless_meteorites">
+            <td><label for="yearless_meteorites">Yearless Meteorites</label></td>
+        </tr>
+    </table>
+    <br>
+
+
 
 </body>
 
