@@ -1,87 +1,146 @@
-let plotwidth = 65;
-let plotheight = 65;
-let margin_x = 20;
-let margin_y = 20;
-
-let data = "./data/meteoriteexample.json"
-
-
 class Plot {
     constructor(svg_elem) {
         this.svg = svg_elem;
-    }
-    render() {
-        //Fetch Json
-        json = dataFetch();
-        
-        //Linear scales
-        let myx = d3.scaleLinear()
-			.domain([861, 2012])
-			.range([0, width]);
+        this.data = "/data/meteoriteexample.json";
 
-		let myy = d3.scaleLinear()
-			.domain([0, 60000000])
-			.range([height, 0]);
-        
+        //set plot attributes
+        let plotwidth = 200;
+        let plotheight = 200;
+        let margin_x = 15;
+        let margin_y = 50;
+
         // Add rectangles for each plot
+        this.massyearplot = this.svg.append('g')
+            .attr('transform', 'translate('+margin_x+','+margin_y+')');
 
-        //Mass vs. Year Scatter
-        this.svg.append("rect")
-            .attr("class", "massyearplot")
-            .attr("x", 18)
+        this.massdensplot = this.svg.append('g')
+            .attr('transform', 'translate('+margin_x+','+margin_y+')');
+
+        this.yeardensplot = this.svg.append('g')
+            .attr('transform', 'translate('+margin_x+','+margin_y+')');
+
+        //Mass vs. year plot
+        this.massyearplot.append('rect')
+            .attr('class', 'massyearplot')
+            .attr("x", 0)
             .attr("y", 0)
             .attr("width", plotwidth)
-            .attr("height", plotheight)
-            .append("text")
-                .attr("class", "label")
-                .attr("x", -5)
-                .attr("y", 70)
-                .attr("dominant-baseline", "hanging")
-                .text("Mass(g) vs. Year");
-
-        //Mass density plot
-        this.svg.append("rect")
+            .attr("height", plotheight);
+        
+        //Mass Dens Scatter
+        this.massdensplot.append("rect")
             .attr("class", "massdensplot")
-            .attr("x", 18)
+            .attr("x", 0)
             .attr("y", plotheight+margin_y)
             .attr("width", plotwidth)
             .attr("height", plotheight);
 
-        // Year Density Plot
-        this.svg.append("rect")
+        //Year density plot
+        this.yeardensplot.append("rect")
             .attr("class", "yeardensplot")
-            .attr("x", 18)
+            .attr("x", 0)
             .attr("y", 2*plotheight+2*margin_y)
             .attr("width", plotwidth)
             .attr("height", plotheight);
 
-        // MassYear Scatter Plot data join
-        let massyearplot = this.svg.select('massyearplot').data(json, function(d) {return d});
         
-        massyearplot.enter().append('circle')
-            .attr('class', 'scatterdot')
-            .attr("cx", function(d) { return myx(d[0]['year']); })
-            .attr("cy", function(d) { return myy(d[0]['mass']); })
-            .attr("r", 1);
+        //Add Axes Labels
+        // Add the x axis labels.
+    	this.massyearplot.append("text")
+            .attr("x",plotwidth/2)
+            .attr("y",plotheight +3)
+            .attr("dominant-baseline", "hanging")
+            .attr("text-anchor", "middle")
+            .text("Year");
 
-        //Add mass vs. year plot label
+        this.massdensplot.append("text")
+            .attr("x",plotwidth/2)
+            .attr("y",2*plotheight + margin_y+3)
+            .attr("dominant-baseline", "hanging")
+            .attr("text-anchor", "middle")
+            .text("Mass");
+
+        this.yeardensplot.append("text")
+            .attr("x",plotwidth/2)
+            .attr("y",3*plotheight + 2*margin_y+3)
+            .attr("dominant-baseline", "hanging")
+            .attr("text-anchor", "middle")
+            .text("Year");
+
+        // Add y axis labels
+        this.massyearplot.append("text")
+            .attr("x",-plotwidth/2 - margin_y/2)
+            .attr("y",-15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .text("Mass");
+
+        this.massdensplot.append("text")
+            .attr("x",-2*plotwidth)
+            .attr("y",-15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .text("Num. Meteorites");
+
+        this.yeardensplot.append("text")
+            .attr("x",-3*plotwidth - margin_y)
+            .attr("y",-15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .text("Num. Meteorites");
+
+
+        this.loadAndPrepare();
+    }
+    render(data) {
+        
+        //Check data
+        console.log('hi',data);
+
+        //Linear scales for mass year scatter plot
+        let myx = d3.scaleLinear()
+			.domain([861, 2012])
+			.range([0, ]);
+
+		let myy = d3.scaleLinear()
+			.domain([0, 60000000])
+			.range([, 0]);
+        
+        //datajoin for massyear plot
+        let massyear = this.massyearplot.select(".massyearplot").selectAll('.scatterdot').data(data, function(d) {return d.id;});
+
+        //update
+        massyear.enter().append('circle')
+            .attr('class', 'scatterdot')
+            .attr("cx", function(d) { return myx(d.year.slice(0, 4)); })
+            .attr("cy", function(d) { return myy(d.mass); })
+            .attr("r", 10);
+        
+
         
     }
-}
-//dataFetch function to use json
-let json = [];
-async function dataFetch() {
-    let response = await fetch(data);
-    let json = await response.json();
-    console.log('look at me', json[0]['year'])
-    return json;
+
+    //Load data and call render
+    loadAndPrepare() {
+        let thisvis = this;
+    
+        //Load data from json
+        d3.json(this.data).then(function(data) {
+            
+            thisvis.render(data);
+            
+        });
+            
+            
+    }
 }
 
-//Produce plots and call render function
+
+//Produce plots and call load function
 producePlots();
 function producePlots() {
     const svg = d3.select('#plots_svg')      
             
     let vis = new Plot(svg);
-    vis.render();
+    vis.loadAndPrepare();
 } 
