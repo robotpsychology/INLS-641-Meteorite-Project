@@ -10,41 +10,36 @@
     <script>
         $(document).ready(function () {
             $("#test").CreateMultiCheckBox({ width: '200px', defaultText: 'Select Below', height: '250px' });
+            $("#test > option").each(function() {
+                console.log(this.text);
+            });
         });
     </script>
     <script src="../scripts/checkbox.js"></script>
+
 </head>
 
 <body>
-    <!-- <script>
-        let things = [
-            {id: 1,
-            text: 'hey'},
-            {id: 2, 
-            text: 'h2fnsa'},
-            {id: 2, 
-            text: 'hey'},
-        ];
-        let unique = [...new Set(locations.map(item => item.subclasses.class1))]
-        var items = ""
-        $.each(things, function () {
-            items += "<option value='" + this.id + "'>" + this.text + "</option>";
-            // console.log(this.text)
-        });
-        $("#test").html(items);
 
-        console.log('ey', unique)
-
-    </script> -->
     <select id="test">
-        <option value="Carbonacous">Carbonacous</option>
-        <option value="Enstatiate">Enstatiate</option>
-        <option value="Achondrites">Achondrites</option>
-        <option value="Iron">Iron</option>
-        <option value="Stony-Iron">Stony-Iron</option>
-        <option value="Relicts">Relicts</option>
-        <option value="Unknown">Unknown</option>
+        <option checked value="Carbonacous">Carbonacous</option>
+        <option checked value="Enstatiate">Enstatiate</option>
+        <option checked value="Achondrites">Achondrites</option>
+        <option checked value="Iron">Iron</option>
+        <option checkedvalue="Stony-Iron">Stony-Iron</option>
+        <option checkedvalue="Relicts">Relicts</option>
+        <option checkedvalue="Unknown">Unknown</option>
     </select>
+    <!--experimenting
+    <script>
+        var select = document.getElementById("test");
+        for (var i = 0; i < select.length; i++){
+        var option = select.options[i];
+        console.log(option.text);
+        // now have option.text, option.value
+        }
+    </script> !-->
+
 </body>
 
 </html>

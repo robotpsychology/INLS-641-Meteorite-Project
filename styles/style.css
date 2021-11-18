@@ -78,11 +78,13 @@ h3 {
 
 #header_panel {
   grid-area: header;
+  background: #D3D3D3
 }
 
 #left_panel {
   grid-area: left-panel;
   border-top: none;
+  background: #D3D3D3
 }
 
 #filter_panel {
@@ -94,7 +96,6 @@ h3 {
 #filter_sliders > p, #filter_sliders > div, #filter_sliders > input{
   width: 80%;
 }
-
 
 
 #filter_panel div {
