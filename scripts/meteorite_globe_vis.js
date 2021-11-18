@@ -134,7 +134,7 @@ function populateCheckBox() {
     })
 
 
-    console.log('ey', filtered_classes)
+    // console.log('ey', filtered_classes)
     // filtered_classes = [class1, class2, class3]
 }
 
@@ -195,10 +195,12 @@ function drawGlobe(worldData, locationData) {
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
-    console.log(locationData);
+    // console.log(locationData);
     locationData = locationData.slice(0, 20000).filter(function (datum) {
         if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-            if (filterCheck(datum)) { console.log(datum); return datum; }
+            if (filterCheck(datum)) { 
+                //console.log(datum); 
+                return datum; }
         } else {
 
         }
@@ -267,7 +269,7 @@ function drawMarkers() {
             document.getElementById("sub-subclassification").innerHTML = d.subclasses.class3[0];
             document.getElementById("found_or_fell").innerHTML = d.fall;
             document.getElementById("mass").innerHTML = d.mass;
-            document.getElementById("date").innerHTML = d.year.slice(0, 4);
+            document.getElementById("date").innerHTML = d.year;
             document.getElementById("lat").innerHTML = d.reclat;
             document.getElementById("long").innerHTML = d.reclong;
 

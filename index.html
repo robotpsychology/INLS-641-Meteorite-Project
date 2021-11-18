@@ -46,18 +46,13 @@
         <div id="checkbox"></div>
         <div id="info_panel" class="subpanel">
           <h3>Info</h3>
-          <table> <!--need to add class=style table or w/e -->
+          <table style="width:100%"> <!--need to add class=style table or w/e -->
             <thead>
                 <tr>
-                    <th>Meteorite</th>
-                    <th>Details</th>
+                    <th colspan="2" id="meteorite_name">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style="font-weight:bold">Name</td>
-                <td id="meteorite_name">&nbsp;</td>
-              </tr>
               <tr>
                 <td style="font-weight:bold">1st Level Class</td>
                 <td id="classification">&nbsp;</td>
@@ -110,7 +105,7 @@
     <div id="right_panel" class="panel">
       <div id="plots_panel">
         <h3>Plots</h3>
-        <svg id="plots_svg" viewBox="0 0 100 300"></svg>
+        <svg id="plots_svg" width="300" height="820"></svg>
       </div>
 
     </div>
