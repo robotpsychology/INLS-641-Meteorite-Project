@@ -72,8 +72,18 @@
                         values: [-180, 180],
 
                         slide: function (event, ui) {
-                            $("#min_lat").val(ui.values[0]);
-                            $("#max_lat").val(ui.values[1]);
+                            if ($("#minlat").val(ui.values[0]) < this.min) {
+                                $("#minlat").val(ui.values[0] = this.min);
+                            }
+                            else {
+                                $("#min_lat").val(ui.values[0]);
+                            }
+                            if ($("#max_lat").val(ui.values[1] > this.min)) {
+                                $("#max_lat").val(ui.values[1] = this.min);
+                            }
+                            else {
+                                $("#max_lat").val(ui.values[1] = this.max);
+                            }
                             updateFilterInfo();
                         }
                     });

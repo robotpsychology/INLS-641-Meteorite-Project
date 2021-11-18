@@ -4,6 +4,7 @@
 let globePanel = document.getElementById('globe_panel')
 let width = globePanel.offsetWidth;
 let height = globePanel.offsetHeight;
+
 // const width = 960;
 // const height = 500;
 
