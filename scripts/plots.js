@@ -4,9 +4,9 @@ class Plot {
         this.data = "/data/meteoriteexample.json";
 
         //set plot attributes
-        let plotwidth = 200;
-        let plotheight = 200;
-        let margin_x = 15;
+        let plotwidth = 250;
+        let plotheight = 250;
+        let margin_x = 20;
         let margin_y = 50;
 
         // Add rectangles for each plot
