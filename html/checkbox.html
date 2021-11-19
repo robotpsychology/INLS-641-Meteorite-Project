@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+    <link rel="stylesheet" href="../styles/checkbox.css" />
+    <script>
+        $(document).ready(function () {
+            $("#test").CreateMultiCheckBox({ width: '225px', defaultText: 'Select Classifications:', height: '250px' });
+            $("#test").on("change", function(){
+                updateFilterInfo();
+            });
+        });
+    </script>
+    <script src="../scripts/checkbox.js"></script>
+</head>
+
+<body>
+    <!-- <script>
+        let things = [
+            {id: 1,
+            text: 'hey'},
+            {id: 2, 
+            text: 'h2fnsa'},
+            {id: 2, 
+            text: 'hey'},
+        ];
+        let unique = [...new Set(locations.map(item => item.subclasses.class1))]
+        var items = ""
+        $.each(things, function () {
+            items += "<option value='" + this.id + "'>" + this.text + "</option>";
+            // console.log(this.text)
+        });
+        $("#test").html(items);
+
+        console.log('ey', unique)
+
+    </script> -->
+    <select id="test">
+        <option checked value="Chondrite">Chondrite</option>
+        <option checked value="Achondrites">Achondrites</option>
+        <option checked value="Iron">Iron</option>
+        <option checked value="Stony-Iron">Stony-Iron</option>
+        <option checked value="Relicts">Relicts</option>
+        <option checked value="Unknown">Unknown</option>
+    </select>
+</body>
+
+</html>

@@ -90,6 +90,10 @@
         });
 
         function updateFilterInfo() {
+            globeRender();
+        }
+
+        function getFilterInfo() {
 
             // pull values from above functions to pass to globe render
             slider_settings.min_year = $("#min_year").val();
@@ -100,9 +104,15 @@
             slider_settings.max_latitude = $("#max_lat").val();
             slider_settings.min_longitude = $("#min_long").val();
             slider_settings.min_longitude = $("#min_long").val();
-
-
-            globeRender();
+            slider_settings.classifications = [];
+            $("#test option").each(function(){
+                // if the option is checked put it in the array
+                if($(this).is(":checked")){
+                    slider_settings.classifications.push($(this).val());
+                }
+            })
+            console.log('abel', slider_settings.classifications.toString())
+            return slider_settings;
         }
 
     </script>

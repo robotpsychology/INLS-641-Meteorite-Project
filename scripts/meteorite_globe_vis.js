@@ -143,8 +143,9 @@ function resetGlobe() {
 
 
 function populateCheckBox() {
-    class1 = [...new Set(filtered_locations.map(item => item.subclasses.class1[0]))];
-
+    class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
+    console.log("blah", slider_settings.classifications.toString())
+/*
     // Can't get this to filter properly like class1 does.
     class2 = [...new Set(filtered_locations.map(function (item) {
         if (item.subclasses.class2) {
@@ -156,6 +157,8 @@ function populateCheckBox() {
         if (item.subclasses.class3) {
             return item.subclasses.class3[0]
         }
+
+
     }
     ))];
     // $.each(class2, function () {
@@ -165,7 +168,7 @@ function populateCheckBox() {
     //     } 
     // });
     // $("#test").html(items);
-
+*/
 
     class1.forEach(function (item) {
         filtered_classes[item] = 'example class2'
@@ -193,9 +196,10 @@ function yearlessCheckbox() {
 
 
 // overall filter check function, calls other check functions depending on each filter.
-function filterCheck(datum) {
+function filterCheck(datum, slider_settings) {
     return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
         && filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)
+        && filterClass(datum, slider_settings.classifications)
 }
 function filterYears(datum, min_year, max_year) {
 
@@ -213,7 +217,9 @@ function filterYears(datum, min_year, max_year) {
 function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
 }
-
+function filterClass(datum, classifications) {
+    if (classifications.indexOf(datum.subclasses.class1[0]) != -1) { return true; }
+}
 
 
 ////////////
@@ -226,11 +232,11 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // Only using the first 50 NASA data points currently
 
     console.log(locationData);
-
+    slider_settings = getFilterInfo();
     if (!yearless_meteorites) {
         filtered_locations = locationData.slice(0, 20000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-                if (filterCheck(datum)) { return datum; }
+                if (filterCheck(datum, slider_settings)) { return datum; }
             }
         });
     } else {
