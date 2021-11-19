@@ -24,11 +24,11 @@
       $("#filter_sliders").load("html/filter_sliders.html");
     });
   </script>
-  <script>
+  <!-- <script>
     $(function () {
       $("#checkbox").load("html/checkbox.html");
     });
-  </script>
+  </script> -->
   <title>Visual Distribution of Meteor Collisions</title>
 </head>
 
@@ -46,18 +46,14 @@
         <div id="checkbox"></div>
         <div id="info_panel" class="subpanel">
           <h3>Info</h3>
-          <table> <!--need to add class=style table or w/e -->
+          <table style="width:100%">
+            <!--need to add class=style table or w/e -->
             <thead>
-                <tr>
-                    <th>Meteorite</th>
-                    <th>Details</th>
-                </tr>
+              <tr>
+                <th colspan="2" id="meteorite_name">&nbsp;</th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style="font-weight:bold">Name</td>
-                <td id="meteorite_name">&nbsp;</td>
-              </tr>
               <tr>
                 <td style="font-weight:bold">1st Level Class</td>
                 <td id="classification">&nbsp;</td>
@@ -69,7 +65,7 @@
               <tr>
                 <td style="font-weight:bold">3rd Level Class</td>
                 <td id="sub-subclassification">&nbsp;</td>
-              </tr>         
+              </tr>
               <tr>
                 <td style="font-weight:bold">Found/Fell</td>
                 <td id="found_or_fell">&nbsp;</td>
@@ -89,10 +85,10 @@
               <tr>
                 <td style="font-weight:bold">Longitude</td>
                 <td id="long">&nbsp;</td>
-              </tr>     
+              </tr>
             </tbody>
           </table>
-        
+
         </div>
       </div>
 

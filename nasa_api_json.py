@@ -250,7 +250,7 @@ def create_new_classifications(data):
     return data
 
 
-def filter_yearless_meteorites(data):
+def yearless_data(data):
     filtered_data = []
     for entry in data:
         if 'year' not in entry:
@@ -275,5 +275,7 @@ yearless_meteorites = filter_yearless_meteorites(data)
 with open(f'./data/nasa_meteorite_data_{today}.json', 'w') as outfile:
     json.dump(data, outfile, indent=4)
 
+
+yearless_meteorites = yearless_data(data)
 with open(f'./data/nasa_yearless_meteorites_{today}.json', 'w') as outfile:
     json.dump(yearless_meteorites, outfile, indent=4)

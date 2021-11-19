@@ -1,7 +1,7 @@
 @media screen and (min-width: 900px) {
   .container {
     /* color: red; */
-  };
+  }
 
   .filter_sliders > input {
     /* width: 90%; */
@@ -26,30 +26,30 @@ h3 {
 }
 
 .massyearplot {
-  fill: rgb(231, 223, 223);
-  stroke: rgb(231, 223, 223);
+  fill: lightgrey;
+  stroke: lightgrey;
   stroke-width: 4;
 }
 
 .massdensplot {
-  fill: rgb(231, 223, 223);
-  stroke: rgb(231, 223, 223);
+  fill: lightgrey;
+  stroke: lightgrey;
   stroke-width: 4;
 }
 
 .yeardensplot {
-  fill: rgb(231, 223, 223);
-  stroke: rgb(231, 223, 223);
+  fill: lightgrey;
+  stroke: lightgrey;
   stroke-width: 4;
 }
 
 .scatterdot {
-  fill: black;
+  fill: blue;
 }
 
 .container {
   display: grid;
-  grid-template-columns: 15% 70% 15%;
+  grid-template-columns: 20% 60% 20%;
   grid-template-rows: 1fr minmax(0.5fr, 0.5fr);
   grid-template-areas:
     "header header header"
@@ -62,6 +62,19 @@ h3 {
   border: 1px solid black;
 }
 
+.input_box {
+  width:80% !important;
+}
+
+.slider_table{
+  padding: 5px;
+  border-spacing: 5px;
+  border-collapse: collapse;
+}
+
+.label_size{
+  width: 5%;
+}
 
 #header_panel {
   grid-area: header;
