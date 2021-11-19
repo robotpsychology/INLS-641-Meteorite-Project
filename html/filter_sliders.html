@@ -35,9 +35,6 @@
 
                 }
             });
-
-            $("#amount").val($("#slider-range").slider("values", 0) +
-                " - " + $("#slider-range").slider("values", 1));
         });
         $(function () {
             $("#slider-range_mass").slider({
@@ -47,74 +44,65 @@
                 values: [0, 60000000],
 
                 slide: function (event, ui) {
-                    // $( "#amount2" ).val(ui.values[0] + " - " + ui.values[1]);
                     $("#min_mass").val(ui.values[0]);
                     $("#max_mass").val(ui.values[1]);
                     updateFilterInfo();
                 }
             });
-
-
-
-            // $( "#amount2" ).val($( "#slider-range_mass" ).slider( "values", 0 ) +
-            //     " - " + $( "#slider-range_mass" ).slider( "values", 1 ) );
-
-
-
         });
+        $(function () {
+            $("#slider-range-latitude").slider({
+                range: true,
+                min: -180,
+                max: 180,
+                values: [-180, 180],
 
-        jQuery(function ($) {
-            var testing = {
-                'Alpha': ['', 'these', 'are', 'options'],
-                'Bravo': ['you', 'can', 'choose'],
-                'Charlie': ['but', 'only', 'if'],
-                'Delta': ['you', 'want', 'to']
-            }
-
-            var $testing = $('#testing');
-            $('#nonsense').change(function () {
-                var nonsense = $(this).val(), temps = testing[nonsense] || [];
-
-                var selected = $.map(temps, function (temp) {
-                    return '<option value="' + temp + '" >' + temp + '</options>'
-                }).join('');
-                $testing.html(selected)
-
+                slide: function (event, ui) {
+                    $("#min_lat").val(ui.values[0]);
+                    $("#max_lat").val(ui.values[1]);
+                    updateFilterInfo();
+                }
             });
-            var testing2 = {
-                'these': ['1'],
-                'are': ['2'],
-                'options': ['3'],
-                'you': ['4'],
-                'can': ['5'],
-                'chose': ['6'],
-                'if': ['7'],
-                'you': ['8'],
-                'want': ['9'],
-                'to': ['10']
-            }
+        });
+        $(function () {
+            $("#slider-range-longitude").slider({
+                range: true,
+                min: -180,
+                max: 180,
+                values: [-180, 180],
 
-            var $testing2 = $('#testing2');
-            $('#testing').change(function () {
-                var testing = $(this).val(), temps = testing2[testing] || [];
-
-                var selected = $.map(temps, function (temp) {
-                    return '<option value="' + temp + '" >' + temp + '</options>'
-                }).join('');
-                $testing2.html(selected)
-
+                slide: function (event, ui) {
+                    if ($("#minlat").val(ui.values[0]) < this.min) {
+                        $("#minlat").val(ui.values[0] = this.min);
+                    }
+                    else {
+                        $("#min_lat").val(ui.values[0]);
+                    }
+                    if ($("#max_lat").val(ui.values[1] > this.min)) {
+                        $("#max_lat").val(ui.values[1] = this.min);
+                    }
+                    else {
+                        $("#max_lat").val(ui.values[1] = this.max);
+                    }
+                    updateFilterInfo();
+                }
             });
         });
 
         function updateFilterInfo() {
 
             // pull values from above functions to pass to globe render
-            slider_settings.min_year =  $("#min_year").val();
-            slider_settings.max_year =  $("#max_year").val();
-            slider_settings.min_mass =  $("#min_mass").val();
-            slider_settings.max_mass =  $("#max_mass").val();
-            console.log(JSON.stringify( slider_settings));
-            drawMarkers();
+            slider_settings.min_year = $("#min_year").val();
+            slider_settings.max_year = $("#max_year").val();
+            slider_settings.min_mass = $("#min_mass").val();
+            slider_settings.max_mass = $("#max_mass").val();
+            slider_settings.min_latitude = $("#min_lat").val();
+            slider_settings.max_latitude = $("#max_lat").val();
+            slider_settings.min_longitude = $("#min_long").val();
+            slider_settings.min_longitude = $("#min_long").val();
+
+
+            globeRender();
         }
 
     </script>
@@ -122,51 +110,86 @@
 
 <body>
     <h4><strong>Range of Years: </strong></h4>
+
     <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
-    <label id="min_year_label" for="min_year">Min</label>
-    <input type="number" name="min_year" id="min_year" value="-831">
-
-    <label id="max_year_label" for="max_year">Max</label>
-    <input type="number" name="max_year" id="max_year" value="2000">
-    <p></p>
-
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"><label id="min_year_label" for="min_year" class="input_label">Min</label></td>
+            <td><input type="number" name="min_year" id="min_year" min="861" value="861" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
+            <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
+                    class="input_box"></td>
+        </tr>
+    </table>
     <div id="slider-range"></div>
 
     <h4><strong> Mass (in grams): </strong></h4>
     <!-- <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
-    <label id="min_mass_label" for="min_mass">Min</label>
-    <input type="number" name="min_mass" id="min_mass" value ="0">
-    <label id="max_mass_label" for="max_mass">Max</label>
-    <input type="number" name="max_mass" id="max_mass" value="100000">
-    <p></p>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"> <label id="min_mass_label" for="min_mass">Min</label> </td>
+            <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
+                    class="input_box"> </td>
+            <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
+                    class="input_box"></td>
+        </tr>
+    </table>
 
 
     <div id="slider-range_mass"></div>
+    <h4><strong>Latitude/Longitude (respectively):</strong></h4>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size"><label id="min_latitude_label" for="min_lat">Min</label></td>
+            <td><input type="number" name="min_latitude" id="min_lat" value="-180" min="-180" max="180" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_latitude_label" for="max_lat">Max</label></td>
+            <td><input type="number" name="max_latitude" id="max_lat" value="180" min="-180" max="180" maxlength="4"
+                    class="input_box"></td>
+        </tr>
+    </table>
 
-    <!-- <p><strong>Found vs Fell:</strong></p>
-<input type ="checkbox" id="found" name="found" value="true" checked>
-<label for="found">Found</label></br>
+    <div id="slider-range-latitude"></div>
+    <table class="slider_table">
+        <tr>
+            <td class="label_size" id="min_longitude_label" for="min_long">Min</label></td>
+            <td><input type="number" name="min_longitude" id="min_long" min="-180" max="180" value="-180" maxlength="4"
+                    class="input_box"></td>
+            <td class="label_size"><label id="max_longitude_label" for="max_long">Max</label></td>
+            <td><input type="number" name="max_longitude_label" id="max_long" min="-180" max="180" value="180"
+                    maxlength="4" class="input_box"></td>
+        </tr>
+    </table>
 
-<input type ="checkbox" id="fell" name="fell" value="true">
-<label for="fell">Fell</label></br>
-<br>
+    <div id="slider-range-longitude"></div>
 
-<label>nonsense</label>
-    <select id="nonsense" name="nonsense">
-        <option></option>
-        <option value="Alpha">A</option>
-        <option value="Bravo">B</option>
-        <option value="Charlie">C</option>
-        <option value="Delta">D</option>
-    </select>
-<br>
+    <p><strong>Found vs Fell:</strong></p>
 
-<label>Testing</label>
-<select id="testing" name="testing"></select>
-<br>
-<label>Testing2</label>
-<select id="testing2" name="testing2"></select>
-<br> -->
+    <table>
+        <tr>
+            <td><input type="checkbox" id="found" name="found" value="true" checked>
+            <td></td>
+            <td><label for="found">Found</label></td>
+
+            <td><input type="checkbox" id="fell" name="fell" value="true"></td>
+            <td><label for="fell">Fell</label></td>
+    </table>
+    <br>
+
+    <p><strong>Yearless Meteorites:</strong></p>
+
+    <table>
+        <tr>
+            <td><input onchange="globeRender()" type="checkbox" id="yearless_meteorites" name="yearless_meteorites">
+            <td><label for="yearless_meteorites">Yearless Meteorites</label></td>
+        </tr>
+    </table>
+    <br>
+
+
+
 </body>
 
 </html>
