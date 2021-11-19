@@ -90,7 +90,9 @@ class Plot {
             .text("Num. Meteorites");
 
 
-        this.loadAndPrepare();
+        // this.loadAndPrepare();
+
+        
     }
     render(data) {
         
@@ -99,22 +101,22 @@ class Plot {
 
         //Linear scales for mass year scatter plot
         let myx = d3.scaleLinear()
-			.domain([861, 2012])
-			.range([0, ]);
+		 	.domain([Number(document.getElementById("min_year").value), Number(document.getElementById("max_year").value)])
+		 	.range([0, this.plotwidth]);
 
 		let myy = d3.scaleLinear()
-			.domain([0, 60000000])
-			.range([, 0]);
+		 	.domain([Number(document.getElementById("min_mass").value), Number(document.getElementById("max_mass").value)])
+		 	.range([this.plotheight, 0]);
         
         //datajoin for massyear plot
-        let massyear = this.massyearplot.select(".massyearplot").selectAll('.scatterdot').data(data, function(d) {return d.id;});
+        let massyear = this.massyearplot.selectAll('.scatterdot').data(data, function(d) {return d.id;});
 
         //update
         massyear.enter().append('circle')
             .attr('class', 'scatterdot')
-            .attr("cx", function(d) { return myx(d.year.slice(0, 4)); })
-            .attr("cy", function(d) { return myy(d.mass); })
-            .attr("r", 10);
+            .attr("cx", function(d) { return myy(Number(d.year.slice(0, 4))); })
+            .attr("cy", function(d) { return myx(Number(d.mass)); })
+            .attr("r", 2);
         
 
         
