@@ -195,22 +195,25 @@ function yearlessCheckbox() {
 function filterCheck(datum) {
     return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
         && filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)
+        && filterLat(datum, document.getElementById("min_lat").value, document.getElementById("max_lat").value)
+        && filterLong(datum, document.getElementById("min_long").value, document.getElementById("max_long").value);
 }
 function filterYears(datum, min_year, max_year) {
-
     if (Boolean(datum.year) == true) {
         year = parseInt(datum.year.slice(0, 4))
-        if (year >= min_year && year <= max_year) {
-            return true
-
-        }
+        if (year >= min_year && year <= max_year) { return true }
     } else if (Boolean(datum.year) == false) {
         // yearless_meteorites.push(datum)
     }
-
 }
 function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
+}
+function filterLat(datum, min_lat, max_lat) {
+    if (datum.reclat >= min_lat && datum.reclat <= max_lat) {return true;}
+}
+function filterLong(datum, min_long, max_long) {
+    if (datum.reclong >= min_long && datum.reclong <= max_long) {return true;}
 }
 
 
