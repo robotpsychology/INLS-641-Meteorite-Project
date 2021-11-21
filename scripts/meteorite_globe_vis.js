@@ -310,7 +310,7 @@ function drawMarkers() {
             document.getElementById("sub-subclassification").innerHTML = d.subclasses.class3[0];
             document.getElementById("found_or_fell").innerHTML = d.fall;
             document.getElementById("mass").innerHTML = d.mass;
-            document.getElementById("date").innerHTML = d.year;
+            document.getElementById("date").innerHTML = d.year.slice(0,4);
             document.getElementById("lat").innerHTML = d.reclat;
             document.getElementById("long").innerHTML = d.reclong;
 
