@@ -1,5 +1,3 @@
-import {nest} from 'd3-collection';
-
 class Plot {
     constructor(svg_elem) {
         this.svg = svg_elem;
@@ -123,18 +121,9 @@ class Plot {
 
     renderClassifications(data) {
 
-        d3.nest().key(function(d){
-            return d.subclasses.class1; })
-            .rollup(function(leaves){
-                return d3.sum(leaves, function(d){
-                    return 1;
-                });
-            }).entries(data)
-            .map(function(d){
-                return { Subclass: d.key, Value: d.values};
-            });
+        let metsByClass = d3.rollup(data, v => v.length, d => d.subclasses)
 
-        console.log(data);
+        console.log(metsByClass);
     }
 
     //Load data and call render
