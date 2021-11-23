@@ -173,7 +173,12 @@ class Plot {
                 }
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
-            .attr("r", 2);
+            .attr("r", 2)
+            .on("mouseover", function (event, datum) {
+
+                populateInfoPanel(datum);
+
+            })
     }
     render(data) {
         this.massYearPlotRender();

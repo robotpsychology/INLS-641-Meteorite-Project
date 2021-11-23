@@ -229,6 +229,25 @@ function filterLongitude(datum, min_long, max_long) {
     }
 }
 
+
+
+////////////
+// INFO PANEL
+////////////
+
+function populateInfoPanel(datum) {
+    document.getElementById("meteorite_name").innerHTML = datum.name;
+    document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
+    document.getElementById("subclassification").innerHTML = datum.subclasses.class2[0];
+    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3[0];
+    document.getElementById("found_or_fell").innerHTML = datum.fall;
+    document.getElementById("mass").innerHTML = datum.mass;
+    document.getElementById("date").innerHTML = datum.year.slice(0, 10);
+    document.getElementById("lat").innerHTML = datum.reclat;
+    document.getElementById("long").innerHTML = datum.reclong;
+}
+
+
 ////////////
 // DRAWING
 ////////////
@@ -312,30 +331,21 @@ function drawMarkers() {
             return gdistance > 1.57 ? "none" : "steelblue";
         })
         .attr("r", 5)
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (event, datum) {
 
-            document.getElementById("meteorite_name").innerHTML = d.name;
-            document.getElementById("classification").innerHTML = d.subclasses.class1[0];
-            document.getElementById("subclassification").innerHTML = d.subclasses.class2[0];
-            document.getElementById("sub-subclassification").innerHTML = d.subclasses.class3[0];
-            document.getElementById("found_or_fell").innerHTML = d.fall;
-            document.getElementById("mass").innerHTML = d.mass;
-            document.getElementById("date").innerHTML = d.year;
-            document.getElementById("lat").innerHTML = d.reclat;
-            document.getElementById("long").innerHTML = d.reclong;
-
-        })
-        .on("mouseout", function (event, d) {
-            document.getElementById("meteorite_name").innerHTML = "&nbsp";
-            document.getElementById("classification").innerHTML = "&nbsp";
-            document.getElementById("subclassification").innerHTML = "&nbsp";
-            document.getElementById("sub-subclassification").innerHTML = "&nbsp";
-            document.getElementById("found_or_fell").innerHTML = "&nbsp";
-            document.getElementById("mass").innerHTML = "&nbsp";
-            document.getElementById("date").innerHTML = "&nbsp";
-            document.getElementById("lat").innerHTML = "&nbsp";
-            document.getElementById("long").innerHTML = "&nbsp";
+            populateInfoPanel(datum);
         });
+    // .on("mouseout", function (event, d) {
+    //     document.getElementById("meteorite_name").innerHTML = "&nbsp";
+    //     document.getElementById("classification").innerHTML = "&nbsp";
+    //     document.getElementById("subclassification").innerHTML = "&nbsp";
+    //     document.getElementById("sub-subclassification").innerHTML = "&nbsp";
+    //     document.getElementById("found_or_fell").innerHTML = "&nbsp";
+    //     document.getElementById("mass").innerHTML = "&nbsp";
+    //     document.getElementById("date").innerHTML = "&nbsp";
+    //     document.getElementById("lat").innerHTML = "&nbsp";
+    //     document.getElementById("long").innerHTML = "&nbsp";
+    // });
 
     markerGroup.each(function () {
         this.parentNode.appendChild(this);
