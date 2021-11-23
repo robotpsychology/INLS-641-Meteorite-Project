@@ -48,8 +48,6 @@ let zoom = d3.zoom()
         svg.selectAll('path')
             .attr('transform', event.transform);
 
-        console.log(event.transform.k)
-
 
         if (event.transform.k > 6) {
             svg.selectAll("circle")
@@ -202,7 +200,17 @@ function filterCheck(datum, slider_settings) {
         && filterClass(datum, slider_settings.classifications)
         && filterLatitude(datum, slider_settings.min_latitude, slider_settings.max_latitude)
         && filterLongitude(datum, slider_settings.min_longitude, slider_settings.max_longitude)
+        && filterFall(datum, slider_settings.fall)
 }
+
+function yearlessFilterCheck(datum, slider_settings) {
+    return filterMass(datum, slider_settings.min_mass, slider_settings.max_mass)
+        && filterClass(datum, slider_settings.classifications)
+        && filterLatitude(datum, slider_settings.min_latitude, slider_settings.max_latitude)
+        && filterLongitude(datum, slider_settings.min_longitude, slider_settings.max_longitude)
+        && filterFall(datum, slider_settings.fall)
+}
+
 function filterYears(datum, min_year, max_year) {
 
     if (Boolean(datum.year) == true) {
@@ -231,6 +239,9 @@ function filterLongitude(datum, min_long, max_long) {
     if (datum.geolocation.longitude >= min_long && datum.geolocation.longitude <= max_long) {
         return true;
     }
+}
+function filterFall(datum, classifier) {
+    if (classifier.indexOf(datum.fall) != -1) { return true; }
 }
 
 
@@ -274,7 +285,7 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
 
         filtered_locations = locationData.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-                if (filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)) {
+                if (yearlessFilterCheck(datum, slider_settings)) {
                     return datum
 
                 }
