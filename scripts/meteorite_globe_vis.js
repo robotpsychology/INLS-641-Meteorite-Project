@@ -22,6 +22,8 @@ let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
 
+let default_color = "steelblue";
+
 
 ///// Utility and Filterings Variables
 
@@ -327,7 +329,6 @@ function enableRotation(condition) {
 }
 
 function drawMarkers() {
-    let default_color = "steelblue";
     markers = markerGroup.selectAll("circle").data(filtered_locations);
     markers
         .join("circle")
@@ -349,10 +350,6 @@ function drawMarkers() {
                 .transition()
                 .duration(200)
                 .style("fill", default_color)
-            // this.style.fill = default_color;
-
-
-
         });
     // .on("mouseout", function (event, d) {
     //     document.getElementById("meteorite_name").innerHTML = "&nbsp";

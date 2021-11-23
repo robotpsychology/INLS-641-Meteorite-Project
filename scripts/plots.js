@@ -105,6 +105,9 @@ class Plot {
             .domain([slider_settings.min_mass, slider_settings.max_mass])
             .range([this.plotheight, 0]);
 
+        const colorScale = d3.scaleOrdinal()
+            .range(d3.schemeCategory10);
+
 
 
         //mass axes labels
@@ -174,10 +177,9 @@ class Plot {
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2)
+            .attr("fill", d => colorScale("steelblue"))
             .on("mouseover", function (event, datum) {
-
                 populateInfoPanel(datum);
-
             })
     }
     render(data) {
