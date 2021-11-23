@@ -8,12 +8,20 @@
 
 
     <script>
+        let default_values = {
+            min_year: 1950,
+            max_year: 2013,
+            min_mass: 0,
+            max_mass: 1000
+        }
+
+
         $(function () {
             $("#slider-range").slider({
                 range: true,
                 min: 861,
                 max: 2013,
-                values: [861, 2013],
+                values: [default_values.min_year, default_values.max_year],
 
                 slide: function (event, ui) {
                     if (ui.values[0] < 0) {
@@ -41,7 +49,7 @@
                 range: true,
                 min: 0,
                 max: 60000000,
-                values: [0, 60000000],
+                values: [default_values.min_mass, default_values.max_mass],
 
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
@@ -115,8 +123,9 @@
     <table class="slider_table">
         <tr>
             <td class="label_size"><label id="min_year_label" for="min_year" class="input_label">Min</label></td>
-            <td><input type="number" name="min_year" id="min_year" min="861" value="861" maxlength="4"
-                    class="input_box"></td>
+            <td><input type="number" name="min_year" id="min_year" min="861" value="1950" maxlength="4"
+                    class="input_box">
+            </td>
             <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
             <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
                     class="input_box"></td>
@@ -132,7 +141,7 @@
             <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
                     class="input_box"> </td>
             <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
-            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="2500000" maxlength="8"
                     class="input_box"></td>
         </tr>
     </table>

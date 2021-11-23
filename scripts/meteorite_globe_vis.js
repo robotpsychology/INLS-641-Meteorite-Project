@@ -15,7 +15,7 @@ const config = {
 };
 
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
-const markerGroup = svg.append("g");
+const markerGroup = svg.append("g").attr("class", "g-circles");
 // let projection = d3.geoOrthographic();
 let projection = d3.geoOrthographic();
 let initialScale = projection.scale();
@@ -43,15 +43,10 @@ let worldData, locationData, yearlessMeteorites;
 let zoom = d3.zoom()
     .scaleExtent([1, 10])
     .on('zoom', function (event) {
-
         svg.selectAll('path')
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
-        // console.log(event);
-        drawMarkers();
-
-
     })
     ;
 
@@ -91,16 +86,16 @@ function initialRender() {
         globeRender();
 
     });
-
+    drawMarkers();
     drawGraticule();
-    // svg.call(drag);
-    // svg.call(zoom);
+    svg.call(drag);
+    svg.call(zoom);
 
 }
 
 function globeRender() {
-    svg.call(drag);
-    svg.call(zoom);
+    // svg.call(drag);
+    // svg.call(zoom);
 
     let checkbox = yearlessCheckbox();
 
@@ -228,13 +223,12 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     console.log(locationData);
 
     if (!yearless_meteorites) {
-        filtered_locations = locationData.slice(0, 20000).filter(function (datum) {
+        filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum)) { return datum; }
             }
         });
     } else {
-        // document.getElementById("max_mass").value += 1
 
         filtered_locations = locationData.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
@@ -297,7 +291,7 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 1.65 ? "none" : "steelblue";
+            return gdistance > 1.57 ? "none" : "steelblue";
         })
         .attr("r", 5)
         .on("mouseover", function (event, d) {
