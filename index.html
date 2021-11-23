@@ -19,11 +19,7 @@
 
   <script src="scripts/script.js"></script>
   <script src="scripts/mathfunctions.js"></script>
-  <script>
-    $(function () {
-      $("#filter_sliders").load("html/filter_sliders.html");
-    });
-  </script>
+
   <!-- <script>
     $(function () {
       $("#checkbox").load("html/checkbox.html");
@@ -42,6 +38,11 @@
       <div id="filter_panel" class="subpanel">
         <h3>Filters</h3>
         <div id="filter_sliders"></div>
+        <script>
+          $(function () {
+            $("#filter_sliders").load("html/filter_sliders.html");
+          });
+        </script>
         <p></p>
         <div id="checkbox"></div>
         <div id="info_panel" class="subpanel">
