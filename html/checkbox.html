@@ -6,16 +6,24 @@
     <meta charset="utf-8" />
     <title></title>
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
-   <!-- <link rel="stylesheet" href="../styles/style.css" />  -->
-    <script>
+    <!-- <link rel="stylesheet" href="../styles/style.css" />  -->
+    <!-- <script>
         $(document).ready(function () {
             $("#test").CreateMultiCheckBox({ width: '225px', defaultText: 'Select Classifications:', height: '250px' });
             $("#test").on("change", function(){
                 updateFilterInfo();
             });
         });
-    </script>
-    <script src="../scripts/checkbox.js"></script>
+    </script> -->
+
+    <!-- <script src="../scripts/checkbox.js"></script> -->
+    <!-- <script>
+        $(document).ready(function () {
+            $("#classification_checkboxes").on("change", function () {
+                updateFilterInfo();
+            });
+        });
+    </script> -->
 </head>
 
 <body>
@@ -39,14 +47,23 @@
         console.log('ey', unique)
 
     </script> -->
-    <select id="test">
+    <!-- <select id="test">
         <option checked value="Chondrite">Chondrite</option>
         <option checked value="Achondrites">Achondrites</option>
         <option checked value="Iron">Iron</option>
         <option checked value="Stony-Iron">Stony-Iron</option>
         <option checked value="Relicts">Relicts</option>
         <option checked value="Unknown">Unknown</option>
-    </select>
+    </select> -->
+
+    <!-- <div id="classification_checkboxes">
+        <input type="checkbox" checked value="Chondrite">Chondrite</input>
+        <input type="checkbox" checked value="Achondrites">Achondrites</input>
+        <input type="checkbox" checked value="Iron">Iron</input>
+        <input type="checkbox" checked value="Stony-Iron">Stony-Iron</input>
+        <input type="checkbox" checked value="Relicts">Relicts</input>
+        <input type="checkbox" checked value="Unknown">Unknown</input>
+    </div> -->
 </body>
 
 </html>

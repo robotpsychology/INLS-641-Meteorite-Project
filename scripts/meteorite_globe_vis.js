@@ -145,30 +145,30 @@ function resetGlobe() {
 function populateCheckBox() {
     class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
     console.log("blah", slider_settings.classifications.toString())
-/*
-    // Can't get this to filter properly like class1 does.
-    class2 = [...new Set(filtered_locations.map(function (item) {
-        if (item.subclasses.class2) {
-            // console.log(item.subclasses.class2[0])
+    /*
+        // Can't get this to filter properly like class1 does.
+        class2 = [...new Set(filtered_locations.map(function (item) {
+            if (item.subclasses.class2) {
+                // console.log(item.subclasses.class2[0])
+            }
+        }))];
+    
+        class3 = [...new Set(filtered_locations.map(function (item) {
+            if (item.subclasses.class3) {
+                return item.subclasses.class3[0]
+            }
+    
+    
         }
-    }))];
-
-    class3 = [...new Set(filtered_locations.map(function (item) {
-        if (item.subclasses.class3) {
-            return item.subclasses.class3[0]
-        }
-
-
-    }
-    ))];
-    // $.each(class2, function () {
-    //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
-    //     if (this != '[object Window]') {
-    //         items += "<option value='" + this + "'>" + this + "</option>";
-    //     } 
-    // });
-    // $("#test").html(items);
-*/
+        ))];
+        // $.each(class2, function () {
+        //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
+        //     if (this != '[object Window]') {
+        //         items += "<option value='" + this + "'>" + this + "</option>";
+        //     } 
+        // });
+        // $("#test").html(items);
+    */
 
     class1.forEach(function (item) {
         filtered_classes[item] = 'example class2'
@@ -245,7 +245,7 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     console.log(locationData);
     slider_settings = getFilterInfo();
     if (!yearless_meteorites) {
-        filtered_locations = locationData.slice(0, 20000).filter(function (datum) {
+        filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum, slider_settings)) { return datum; }
             }
