@@ -15,7 +15,7 @@ const config = {
 };
 
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
-const markerGroup = svg.append("g");
+const markerGroup = svg.append("g").attr("class", "g-circles");
 // let projection = d3.geoOrthographic();
 let projection = d3.geoOrthographic();
 let initialScale = projection.scale();
@@ -43,16 +43,10 @@ let worldData, locationData, yearlessMeteorites;
 let zoom = d3.zoom()
     .scaleExtent([1, 10])
     .on('zoom', function (event) {
-
         svg.selectAll('path')
             .attr('transform', event.transform);
         svg.selectAll("circle")
             .attr('transform', event.transform);
-        console.log(event);
-        drawGlobe();
-
-
-
     })
     ;
 
@@ -90,18 +84,19 @@ function initialRender() {
         yearlessMeteorites = response[2];
 
         globeRender();
+        producePlots();
 
     });
-
+    drawMarkers();
     drawGraticule();
-    // svg.call(drag);
-    // svg.call(zoom);
+    svg.call(drag);
+    svg.call(zoom);
 
 }
 
 function globeRender() {
-    svg.call(drag);
-    svg.call(zoom);
+    // svg.call(drag);
+    // svg.call(zoom);
 
     let checkbox = yearlessCheckbox();
 
@@ -143,29 +138,32 @@ function resetGlobe() {
 
 
 function populateCheckBox() {
-    class1 = [...new Set(filtered_locations.map(item => item.subclasses.class1[0]))];
-
-    // Can't get this to filter properly like class1 does.
-    class2 = [...new Set(filtered_locations.map(function (item) {
-        if (item.subclasses.class2) {
-            // console.log(item.subclasses.class2[0])
+    class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
+    console.log("blah", slider_settings.classifications.toString())
+    /*
+        // Can't get this to filter properly like class1 does.
+        class2 = [...new Set(filtered_locations.map(function (item) {
+            if (item.subclasses.class2) {
+                // console.log(item.subclasses.class2[0])
+            }
+        }))];
+    
+        class3 = [...new Set(filtered_locations.map(function (item) {
+            if (item.subclasses.class3) {
+                return item.subclasses.class3[0]
+            }
+    
+    
         }
-    }))];
-
-    class3 = [...new Set(filtered_locations.map(function (item) {
-        if (item.subclasses.class3) {
-            return item.subclasses.class3[0]
-        }
-    }
-    ))];
-    // $.each(class2, function () {
-    //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
-    //     if (this != '[object Window]') {
-    //         items += "<option value='" + this + "'>" + this + "</option>";
-    //     } 
-    // });
-    // $("#test").html(items);
-
+        ))];
+        // $.each(class2, function () {
+        //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
+        //     if (this != '[object Window]') {
+        //         items += "<option value='" + this + "'>" + this + "</option>";
+        //     } 
+        // });
+        // $("#test").html(items);
+    */
 
     class1.forEach(function (item) {
         filtered_classes[item] = 'example class2'
@@ -177,9 +175,9 @@ function populateCheckBox() {
 
 
 function yearlessCheckbox() {
-    let checkbox_element = document.getElementById("yearless_meteorites");
+    let yearless_checkbox = document.getElementById("yearless_meteorites");
 
-    if (checkbox_element.checked) {
+    if (yearless_checkbox.checked) {
         console.log("Checkbox is  checked..");
         return true
     } else {
@@ -192,11 +190,12 @@ function yearlessCheckbox() {
 
 
 // overall filter check function, calls other check functions depending on each filter.
-function filterCheck(datum) {
-    return filterYears(datum, document.getElementById("min_year").value, document.getElementById("max_year").value)
-        && filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)
-        && filterLat(datum, document.getElementById("min_lat").value, document.getElementById("max_lat").value)
-        && filterLong(datum, document.getElementById("min_long").value, document.getElementById("max_long").value);
+function filterCheck(datum, slider_settings) {
+    return filterYears(datum, slider_settings.min_year, slider_settings.max_year)
+        && filterMass(datum, slider_settings.min_mass, slider_settings.max_mass)
+        && filterClass(datum, slider_settings.classifications)
+        && filterLatitude(datum, slider_settings.min_latitude, slider_settings.max_latitude)
+        && filterLongitude(datum, slider_settings.min_longitude, slider_settings.max_longitude)
 }
 function filterYears(datum, min_year, max_year) {
     if (Boolean(datum.year) == true) {
@@ -209,13 +208,37 @@ function filterYears(datum, min_year, max_year) {
 function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
 }
-function filterLat(datum, min_lat, max_lat) {
-    if (datum.reclat >= min_lat && datum.reclat <= max_lat) {return true;}
+function filterClass(datum, classifications) {
+    if (classifications.indexOf(datum.subclasses.class1[0]) != -1) { return true; }
 }
-function filterLong(datum, min_long, max_long) {
-    if (datum.reclong >= min_long && datum.reclong <= max_long) {return true;}
+function filterLatitude(datum, min_lat, max_lat) {
+    if (datum.geolocation.latitude >= min_lat && datum.geolocation.latitude <= max_lat) {
+        return true;
+    }
+}
+function filterLongitude(datum, min_long, max_long) {
+    if (datum.geolocation.longitude >= min_long && datum.geolocation.longitude <= max_long) {
+        return true;
+    }
 }
 
+
+
+////////////
+// INFO PANEL
+////////////
+
+function populateInfoPanel(datum) {
+    document.getElementById("meteorite_name").innerHTML = datum.name;
+    document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
+    document.getElementById("subclassification").innerHTML = datum.subclasses.class2[0];
+    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3[0];
+    document.getElementById("found_or_fell").innerHTML = datum.fall;
+    document.getElementById("mass").innerHTML = datum.mass;
+    document.getElementById("date").innerHTML = datum.year.slice(0, 10);
+    document.getElementById("lat").innerHTML = datum.reclat;
+    document.getElementById("long").innerHTML = datum.reclong;
+}
 
 
 ////////////
@@ -227,16 +250,15 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
-    console.log(locationData);
-
+    // console.log(locationData);
+    slider_settings = getFilterInfo();
     if (!yearless_meteorites) {
-        filtered_locations = locationData.slice(0, 20000).filter(function (datum) {
+        filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-                if (filterCheck(datum)) { return datum; }
+                if (filterCheck(datum, slider_settings)) { return datum; }
             }
         });
     } else {
-        // document.getElementById("max_mass").value += 1
 
         filtered_locations = locationData.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
@@ -299,33 +321,24 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 1.65 ? "none" : "steelblue";
+            return gdistance > 1.57 ? "none" : "steelblue";
         })
         .attr("r", 5)
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (event, datum) {
 
-            document.getElementById("meteorite_name").innerHTML = d.name;
-            document.getElementById("classification").innerHTML = d.subclasses.class1[0];
-            document.getElementById("subclassification").innerHTML = d.subclasses.class2[0];
-            document.getElementById("sub-subclassification").innerHTML = d.subclasses.class3[0];
-            document.getElementById("found_or_fell").innerHTML = d.fall;
-            document.getElementById("mass").innerHTML = d.mass;
-            document.getElementById("date").innerHTML = d.year.slice(0,4);
-            document.getElementById("lat").innerHTML = d.reclat;
-            document.getElementById("long").innerHTML = d.reclong;
-
-        })
-        .on("mouseout", function (event, d) {
-            document.getElementById("meteorite_name").innerHTML = "&nbsp";
-            document.getElementById("classification").innerHTML = "&nbsp";
-            document.getElementById("subclassification").innerHTML = "&nbsp";
-            document.getElementById("sub-subclassification").innerHTML = "&nbsp";
-            document.getElementById("found_or_fell").innerHTML = "&nbsp";
-            document.getElementById("mass").innerHTML = "&nbsp";
-            document.getElementById("date").innerHTML = "&nbsp";
-            document.getElementById("lat").innerHTML = "&nbsp";
-            document.getElementById("long").innerHTML = "&nbsp";
+            populateInfoPanel(datum);
         });
+    // .on("mouseout", function (event, d) {
+    //     document.getElementById("meteorite_name").innerHTML = "&nbsp";
+    //     document.getElementById("classification").innerHTML = "&nbsp";
+    //     document.getElementById("subclassification").innerHTML = "&nbsp";
+    //     document.getElementById("sub-subclassification").innerHTML = "&nbsp";
+    //     document.getElementById("found_or_fell").innerHTML = "&nbsp";
+    //     document.getElementById("mass").innerHTML = "&nbsp";
+    //     document.getElementById("date").innerHTML = "&nbsp";
+    //     document.getElementById("lat").innerHTML = "&nbsp";
+    //     document.getElementById("long").innerHTML = "&nbsp";
+    // });
 
     markerGroup.each(function () {
         this.parentNode.appendChild(this);
