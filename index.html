@@ -17,7 +17,6 @@
   <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
   <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
-  <script src="scripts/script.js"></script>
   <script src="scripts/mathfunctions.js"></script>
   <!-- <script>
     $(function () {
@@ -37,11 +36,7 @@
       <div id="filter_panel" class="subpanel">
         <h3>Filters</h3>
         <div id="filter_sliders"></div>
-        <script>
-          $(function () {
-            $("#filter_sliders").load("html/filter_sliders.html");
-          });
-        </script>
+
         <p></p>
         <div id="checkbox"></div>
         <div id="info_panel" class="subpanel">
@@ -118,6 +113,11 @@
   <!-- Only works if loaded after the svg for some reason -->
   <script src="./scripts/meteorite_globe_vis.js"></script>
   <script src="./scripts/plots.js"></script>
+  <script>
+    $(function () {
+      $("#filter_sliders").load("html/filter_sliders.html");
+    });
+  </script>
 </body>
 
 </html>

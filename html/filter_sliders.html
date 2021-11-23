@@ -13,6 +13,15 @@
                 updateFilterInfo();
             });
         });
+        // $(document).ready(function () {
+        //     $(".input_box").on("change", function () {
+        //         console.log('hejasfcjan ')
+        //         // globeRender();
+        //         // producePlots();
+        //     });
+        // });
+
+
     </script>
 
     <script>
@@ -20,7 +29,7 @@
             min_year: 1950,
             max_year: 2013,
             min_mass: 0,
-            max_mass: 1000
+            max_mass: 60000000
         }
 
 
@@ -116,6 +125,7 @@
 
         function updateFilterInfo() {
             globeRender();
+            producePlots();
         }
 
         function getFilterInfo() {
@@ -136,7 +146,6 @@
                     slider_settings.classifications.push($(this).val());
                 }
             })
-            console.log('abel', slider_settings.classifications.toString())
             return slider_settings;
         }
 
@@ -168,7 +177,7 @@
             <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
                     class="input_box"> </td>
             <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
-            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="2500000" maxlength="8"
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
                     class="input_box"></td>
         </tr>
     </table>

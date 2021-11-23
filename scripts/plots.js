@@ -1,7 +1,8 @@
 class Plot {
     constructor(svg_elem) {
         this.svg = svg_elem;
-        this.data = "/data/nasa_meteorite_data_Nov_18_2021.json";
+        // this.data = "/data/nasa_meteorite_data_Nov_18_2021.json";
+        this.data = filtered_locations;
 
         //set plot attributes
         this.plotwidth = 250;
@@ -102,46 +103,63 @@ class Plot {
 
         //Linear scales for mass year scatter plot
         let myx = d3.scaleLinear()
-            .domain([Number(document.getElementById("min_year").value), Number(document.getElementById("max_year").value)])
+            .domain([slider_settings.min_year, slider_settings.max_year])
             .range([0, this.plotwidth]);
 
         let myy = d3.scaleLinear()
-            .domain([Number(document.getElementById("min_mass").value), Number(document.getElementById("max_mass").value)])
+            .domain([slider_settings.min_mass, slider_settings.max_mass])
             .range([this.plotheight, 0]);
+
+
+
+
 
         //mass axes labels
         this.massyearplot.append("text")
+            .attr("id", "min_mass_text")
             .attr("x", -this.plotwidth - this.margin_y / 2 + 25)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .style("font-size", "12")
-            .text(document.getElementById("min_mass").value);
+        // .text(slider_settings.min_mass);
 
         this.massyearplot.append("text")
+            .attr("id", "max_mass_text")
             .attr("x", this.margin_y / 2 - 50)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .style("font-size", "12")
-            .text(document.getElementById("max_mass").value);
+        // .text(slider_settings.max_mass);
 
         //year axes labels
         this.massyearplot.append("text")
-            .attr("x", this.plotwidth)
-            .attr("y", this.plotheight + 3)
-            .attr("dominant-baseline", "hanging")
-            .attr("text-anchor", "middle")
-            .style("font-size", "12")
-            .text(document.getElementById("max_year").value);
-
-        this.massyearplot.append("text")
+            .attr("id", "min_year_text")
             .attr("x", 0)
             .attr("y", this.plotheight + 3)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle")
             .style("font-size", "12")
-            .text(document.getElementById("min_year").value);
+        // .text(slider_settings.min_year);
+
+        this.massyearplot.append("text")
+            .attr("id", "max_year_text")
+            .attr("x", this.plotwidth)
+            .attr("y", this.plotheight + 3)
+            .attr("dominant-baseline", "hanging")
+            .attr("text-anchor", "middle")
+            .style("font-size", "12")
+        // .text(slider_settings.max_year);
+
+
+
+        $("#min_mass_text").text(slider_settings.min_mass);
+        $("#max_mass_text").text(slider_settings.max_mass);
+        $("#min_year_text").text(slider_settings.min_year);
+        $("#max_year_text").text(slider_settings.max_year);
+
+
 
         //datajoin for massyear plot
         let massyear = this.massyearplot.selectAll('.scatterdot').data(data, function (d) { return d.id; });
@@ -154,7 +172,7 @@ class Plot {
         massyear.enter().append('circle')
             .attr('class', 'scatterdot')
             .attr("cx", function (d) {
-                if (d.year && Number(d.year.slice(0, 4)) <= Number(document.getElementById("max_year").value)) {
+                if (d.year && Number(d.year.slice(0, 4)) <= slider_settings.max_year) {
                     return myx(Number(d.year.slice(0, 4)));
                 }
                 else {
@@ -172,11 +190,13 @@ class Plot {
         let thisvis = this;
 
         //Load data from json
-        d3.json(this.data).then(function (data) {
+        // d3.json(this.data).then(function (data) {
 
-            thisvis.render(data);
+        //     thisvis.render(data);
 
-        });
+        // });
+
+        thisvis.render(this.data)
 
 
     }

@@ -84,6 +84,7 @@ function initialRender() {
         yearlessMeteorites = response[2];
 
         globeRender();
+        producePlots();
 
     });
     drawMarkers();
@@ -237,7 +238,7 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
-    console.log(locationData);
+    // console.log(locationData);
     slider_settings = getFilterInfo();
     if (!yearless_meteorites) {
         filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
