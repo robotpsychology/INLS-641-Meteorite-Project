@@ -6,14 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Slider - Range slider</title>
 
+    <!-- Moved from checkbox.html -->
+    <script>
+        $(document).ready(function () {
+            $("#classification_checkboxes").on("change", function () {
+                updateFilterInfo();
+            });
+        });
+        // $(document).ready(function () {
+        //     $(".input_box").on("change", function () {
+        //         console.log('hejasfcjan ')
+        //         // globeRender();
+        //         // producePlots();
+        //     });
+        // });
+
+
+    </script>
 
     <script>
+        let default_values = {
+            min_year: 1950,
+            max_year: 2013,
+            min_mass: 0,
+            max_mass: 60000000
+        }
+
+
         $(function () {
             $("#slider-range").slider({
                 range: true,
                 min: 861,
                 max: 2013,
-                values: [$("#min_year").val(), $("#max_year").val()],
+                values: [default_values.min_year, default_values.max_year],
 
                 slide: function (event, ui) {
                     if (ui.values[0] < 0) {
@@ -41,7 +66,7 @@
                 range: true,
                 min: 0,
                 max: 60000000,
-                values: [$("#min_mass").val(), $("#max_mass").val()],
+                values: [default_values.min_mass, default_values.max_mass],
 
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
@@ -50,6 +75,7 @@
                 }
             });
         });
+        // error handling for textboxes
         $(function () {
             $("#slider-range-latitude").slider({
                 range: true,
@@ -58,12 +84,21 @@
                 values: [-180, 180],
 
                 slide: function (event, ui) {
+                    if (ui.values[0] < this.min) {
+                        ui.values[0] = this.min;
+                    }
+
+                    if (ui.values[1] > this.max) {
+                        ui.values[1] = this.max;
+                    }
                     $("#min_lat").val(ui.values[0]);
                     $("#max_lat").val(ui.values[1]);
                     updateFilterInfo();
                 }
             });
         });
+
+        // error handling for checkboxes
         $(function () {
             $("#slider-range-longitude").slider({
                 range: true,
@@ -72,25 +107,28 @@
                 values: [-180, 180],
 
                 slide: function (event, ui) {
-                    if ($("#minlat").val(ui.values[0]) < this.min) {
-                        $("#minlat").val(ui.values[0] = this.min);
+                    if (ui.values[0] < this.min) {
+                        ui.values[0] = this.min;
                     }
-                    else {
-                        $("#min_lat").val(ui.values[0]);
+
+                    if (ui.values[1] > this.max) {
+                        ui.values[1] = this.max;
                     }
-                    if ($("#max_lat").val(ui.values[1] > this.min)) {
-                        $("#max_lat").val(ui.values[1] = this.min);
-                    }
-                    else {
-                        $("#max_lat").val(ui.values[1] = this.max);
-                    }
+                    $("#min_long").val(ui.values[0]);
+                    $("#max_long").val(ui.values[1]);
                     updateFilterInfo();
                 }
             });
         });
 
+
+
         function updateFilterInfo() {
-            // let slider_settings = {};
+            globeRender();
+            producePlots();
+        }
+
+        function getFilterInfo() {
 
             // pull values from above functions to pass to globe render
             slider_settings.min_year = $("#min_year").val();
@@ -100,10 +138,15 @@
             slider_settings.min_latitude = $("#min_lat").val();
             slider_settings.max_latitude = $("#max_lat").val();
             slider_settings.min_longitude = $("#min_long").val();
-            slider_settings.min_longitude = $("#min_long").val();
-
-
-            globeRender();
+            slider_settings.max_longitude = $("#max_long").val();
+            slider_settings.classifications = [];
+            $("#classification_checkboxes input").each(function () {
+                // if the option is checked put it in the array
+                if ($(this).is(":checked")) {
+                    slider_settings.classifications.push($(this).val());
+                }
+            })
+            return slider_settings;
         }
 
     </script>
@@ -116,8 +159,9 @@
     <table class="slider_table">
         <tr>
             <td class="label_size"><label id="min_year_label" for="min_year" class="input_label">Min</label></td>
-            <td><input type="number" name="min_year" id="min_year" min="861" value="861" maxlength="4"
-                    class="input_box"></td>
+            <td><input type="number" name="min_year" id="min_year" min="861" value="1950" maxlength="4"
+                    class="input_box">
+            </td>
             <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
             <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
                     class="input_box"></td>
@@ -193,6 +237,54 @@
         </tr>
     </table>
     <br>
+
+    <p><strong>Classifications:</strong></p>
+    <table id="classification_checkboxes">
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Chondrite" value="Chondrite"></input>
+                <label for="Chondrite">Chondrite</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Achondrites" value="Achondrites"></input>
+                <label for="Achondrites">Achondrites</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Iron" value="Iron"></input>
+                <label for="Iron">Iron</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Stony-Iron" value="Stony-Iron"></input>
+                <label for="Stony-Iron">Stony-Iron</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Relicts" value="Relicts"></input>
+                <label for="Relicts">Relicts</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Unknown" value="Unknown"></input>
+                <label for="Unknown">Unknown</label>
+
+
+            </td>
+        </tr>
+
+
+
+
+
+
+
+    </table>
+
+    <div>
+    </div>
 
 
 
