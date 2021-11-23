@@ -6,10 +6,13 @@
     <meta charset="utf-8" />
     <title></title>
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
-    <link rel="stylesheet" href="../styles/checkbox.css" />
+   <!-- <link rel="stylesheet" href="../styles/style.css" />  -->
     <script>
         $(document).ready(function () {
-            $("#test").CreateMultiCheckBox({ width: '200px', defaultText: 'Select Below', height: '250px' });
+            $("#test").CreateMultiCheckBox({ width: '225px', defaultText: 'Select Classifications:', height: '250px' });
+            $("#test").on("change", function(){
+                updateFilterInfo();
+            });
         });
     </script>
     <script src="../scripts/checkbox.js"></script>
@@ -37,13 +40,12 @@
 
     </script> -->
     <select id="test">
-        <option value="Carbonacous">Carbonacous</option>
-        <option value="Enstatiate">Enstatiate</option>
-        <option value="Achondrites">Achondrites</option>
-        <option value="Iron">Iron</option>
-        <option value="Stony-Iron">Stony-Iron</option>
-        <option value="Relicts">Relicts</option>
-        <option value="Unknown">Unknown</option>
+        <option checked value="Chondrite">Chondrite</option>
+        <option checked value="Achondrites">Achondrites</option>
+        <option checked value="Iron">Iron</option>
+        <option checked value="Stony-Iron">Stony-Iron</option>
+        <option checked value="Relicts">Relicts</option>
+        <option checked value="Unknown">Unknown</option>
     </select>
 </body>
 

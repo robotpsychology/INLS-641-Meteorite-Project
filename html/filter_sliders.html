@@ -58,6 +58,7 @@
                 }
             });
         });
+        // error handling for textboxes
         $(function () {
             $("#slider-range-latitude").slider({
                 range: true,
@@ -66,12 +67,21 @@
                 values: [-180, 180],
 
                 slide: function (event, ui) {
+                    if (ui.values[0] < this.min) {
+                        ui.values[0] = this.min;
+                    }
+
+                    if (ui.values[1] > this.max) {
+                        ui.values[1] = this.max;
+                    }
                     $("#min_lat").val(ui.values[0]);
                     $("#max_lat").val(ui.values[1]);
                     updateFilterInfo();
                 }
             });
         });
+
+        // error handling for checkboxes
         $(function () {
             $("#slider-range-longitude").slider({
                 range: true,
@@ -80,24 +90,25 @@
                 values: [-180, 180],
 
                 slide: function (event, ui) {
-                    if ($("#minlat").val(ui.values[0]) < this.min) {
-                        $("#minlat").val(ui.values[0] = this.min);
+                    if (ui.values[0] < this.min) {
+                        ui.values[0] = this.min;
                     }
-                    else {
-                        $("#min_lat").val(ui.values[0]);
+
+                    if (ui.values[1] > this.max) {
+                        ui.values[1] = this.max;
                     }
-                    if ($("#max_lat").val(ui.values[1] > this.min)) {
-                        $("#max_lat").val(ui.values[1] = this.min);
-                    }
-                    else {
-                        $("#max_lat").val(ui.values[1] = this.max);
-                    }
+                    $("#min_long").val(ui.values[0]);
+                    $("#max_long").val(ui.values[1]);
                     updateFilterInfo();
                 }
             });
         });
 
         function updateFilterInfo() {
+            globeRender();
+        }
+
+        function getFilterInfo() {
 
             // pull values from above functions to pass to globe render
             slider_settings.min_year = $("#min_year").val();
@@ -107,10 +118,16 @@
             slider_settings.min_latitude = $("#min_lat").val();
             slider_settings.max_latitude = $("#max_lat").val();
             slider_settings.min_longitude = $("#min_long").val();
-            slider_settings.min_longitude = $("#min_long").val();
-
-
-            globeRender();
+            slider_settings.max_longitude = $("#max_long").val();
+            slider_settings.classifications = [];
+            $("#test option").each(function(){
+                // if the option is checked put it in the array
+                if($(this).is(":checked")){
+                    slider_settings.classifications.push($(this).val());
+                }
+            })
+            console.log('abel', slider_settings.classifications.toString())
+            return slider_settings;
         }
 
     </script>
