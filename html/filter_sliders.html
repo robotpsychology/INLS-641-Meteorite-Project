@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Slider - Range slider</title>
 
+    <!-- Moved from checkbox.html -->
+    <script>
+        $(document).ready(function () {
+            $("#classification_checkboxes").on("change", function () {
+                updateFilterInfo();
+            });
+        });
+    </script>
 
     <script>
         let default_values = {
@@ -104,6 +112,8 @@
             });
         });
 
+
+
         function updateFilterInfo() {
             globeRender();
         }
@@ -120,9 +130,9 @@
             slider_settings.min_longitude = $("#min_long").val();
             slider_settings.max_longitude = $("#max_long").val();
             slider_settings.classifications = [];
-            $("#test option").each(function(){
+            $("#classification_checkboxes input").each(function () {
                 // if the option is checked put it in the array
-                if($(this).is(":checked")){
+                if ($(this).is(":checked")) {
                     slider_settings.classifications.push($(this).val());
                 }
             })
@@ -213,6 +223,54 @@
         </tr>
     </table>
     <br>
+
+    <p><strong>Classifications:</strong></p>
+    <table id="classification_checkboxes">
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Chondrite" value="Chondrite"></input>
+                <label for="Chondrite">Chondrite</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Achondrites" value="Achondrites"></input>
+                <label for="Achondrites">Achondrites</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Iron" value="Iron"></input>
+                <label for="Iron">Iron</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Stony-Iron" value="Stony-Iron"></input>
+                <label for="Stony-Iron">Stony-Iron</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox" checked name="Relicts" value="Relicts"></input>
+                <label for="Relicts">Relicts</label>
+            </td>
+            <td>
+                <input type="checkbox" checked name="Unknown" value="Unknown"></input>
+                <label for="Unknown">Unknown</label>
+
+
+            </td>
+        </tr>
+
+
+
+
+
+
+
+    </table>
+
+    <div>
+    </div>
 
 
 
