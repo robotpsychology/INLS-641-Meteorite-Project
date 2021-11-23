@@ -53,10 +53,11 @@ let zoom = d3.zoom()
 // Drag variable to call on the SVG globe
 let drag = d3.drag()
     .on('drag', function (event) {
+        console.log(event)
         projection.rotate([
-            event.x,
-            event.y,
-            0,
+            event.x / 2,
+            event.y / 2,
+            0
         ]);
         svg.selectAll("path").attr("d", path);
         drawMarkers();
@@ -104,10 +105,8 @@ function globeRender() {
     if (checkbox == true) {
 
         drawGlobe(worldData, yearlessMeteorites, checkbox);
-        // populateCheckBox(yearlessMeteorites);
     } else {
         drawGlobe(worldData, locationData);
-        // populateCheckBox(locationData);
 
     }
     drawMarkers();
@@ -238,11 +237,11 @@ function filterLongitude(datum, min_long, max_long) {
 function populateInfoPanel(datum) {
     document.getElementById("meteorite_name").innerHTML = datum.name;
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
-    document.getElementById("subclassification").innerHTML = datum.subclasses.class2[0];
-    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3[0];
+    document.getElementById("subclassification").innerHTML = datum.subclasses.class2 ? datum.subclasses.class2[0] : 'none';
+    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3 ? datum.subclasses.class3[0] : 'none';
     document.getElementById("found_or_fell").innerHTML = datum.fall;
-    document.getElementById("mass").innerHTML = datum.mass;
-    document.getElementById("date").innerHTML = datum.year.slice(0, 10);
+    document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
+    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
     document.getElementById("lat").innerHTML = datum.reclat;
     document.getElementById("long").innerHTML = datum.reclong;
 }
@@ -257,9 +256,11 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
-    // console.log(locationData);
+
+
+    console.log(!yearless_meteorites);
     slider_settings = getFilterInfo();
-    if (!yearless_meteorites) {
+    if (yearless_meteorites == false) {
         filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum, slider_settings)) { return datum; }
@@ -271,10 +272,13 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)) {
                     return datum
+
                 }
 
             }
         });
+
+        console.log(filtered_locations)
 
     }
 
@@ -328,7 +332,7 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 1.57 ? "none" : "steelblue";
+            return gdistance > 2.4 ? "none" : "steelblue";
         })
         .attr("r", 5)
         .on("mouseover", function (event, datum) {
