@@ -106,7 +106,6 @@ class Plot {
             .range([this.plotheight, 0]);
 
 
-
         //mass axes labels
         this.massyearplot.append("text")
             .attr("id", "min_mass_text")
@@ -175,9 +174,7 @@ class Plot {
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2)
             .on("mouseover", function (event, datum) {
-
                 populateInfoPanel(datum);
-
             })
     }
     render(data) {

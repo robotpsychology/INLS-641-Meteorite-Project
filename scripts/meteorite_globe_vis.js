@@ -22,6 +22,8 @@ let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
 
+let default_color = "steelblue";
+
 
 ///// Utility and Filterings Variables
 
@@ -45,21 +47,39 @@ let zoom = d3.zoom()
     .on('zoom', function (event) {
         svg.selectAll('path')
             .attr('transform', event.transform);
-        svg.selectAll("circle")
-            .attr('transform', event.transform);
-    })
-    ;
+
+        console.log(event.transform.k)
+
+
+        if (event.transform.k > 6) {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 1);
+        } else if (event.transform.k > 3.5) {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 2);
+        }
+        else {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 3.5);
+        }
+
+
+    });
 
 // Drag variable to call on the SVG globe
 let drag = d3.drag()
     .on('drag', function (event) {
         projection.rotate([
-            event.x,
-            event.y,
-            0,
+            event.x / 2.5,
+            event.y / 2.5,
+            0
         ]);
         svg.selectAll("path").attr("d", path);
         drawMarkers();
+
     });
 
 
@@ -95,27 +115,16 @@ function initialRender() {
 }
 
 function globeRender() {
-    // svg.call(drag);
-    // svg.call(zoom);
-
     let checkbox = yearlessCheckbox();
-
-
     if (checkbox == true) {
 
         drawGlobe(worldData, yearlessMeteorites, checkbox);
-        // populateCheckBox(yearlessMeteorites);
     } else {
         drawGlobe(worldData, locationData);
-        // populateCheckBox(locationData);
 
     }
+
     drawMarkers();
-
-
-    // svg.call(drag);
-    // svg.call(zoom);
-
 }
 
 function createPromises(files, promises) {
@@ -139,7 +148,6 @@ function resetGlobe() {
 
 function populateCheckBox() {
     class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
-    console.log("blah", slider_settings.classifications.toString())
     /*
         // Can't get this to filter properly like class1 does.
         class2 = [...new Set(filtered_locations.map(function (item) {
@@ -178,10 +186,8 @@ function yearlessCheckbox() {
     let yearless_checkbox = document.getElementById("yearless_meteorites");
 
     if (yearless_checkbox.checked) {
-        console.log("Checkbox is  checked..");
         return true
     } else {
-        console.log("Checkbox is not checked..");
         return false
     }
 
@@ -236,11 +242,11 @@ function filterLongitude(datum, min_long, max_long) {
 function populateInfoPanel(datum) {
     document.getElementById("meteorite_name").innerHTML = datum.name;
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
-    document.getElementById("subclassification").innerHTML = datum.subclasses.class2[0];
-    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3[0];
+    document.getElementById("subclassification").innerHTML = datum.subclasses.class2 ? datum.subclasses.class2[0] : 'none';
+    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3 ? datum.subclasses.class3[0] : 'none';
     document.getElementById("found_or_fell").innerHTML = datum.fall;
-    document.getElementById("mass").innerHTML = datum.mass;
-    document.getElementById("date").innerHTML = datum.year.slice(0, 10);
+    document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
+    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
     document.getElementById("lat").innerHTML = datum.reclat;
     document.getElementById("long").innerHTML = datum.reclong;
 }
@@ -255,9 +261,10 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
 
-    // console.log(locationData);
+
+
     slider_settings = getFilterInfo();
-    if (!yearless_meteorites) {
+    if (yearless_meteorites == false) {
         filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum, slider_settings)) { return datum; }
@@ -269,10 +276,12 @@ function drawGlobe(worldData, locationData, yearless_meteorites = false) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)) {
                     return datum
+
                 }
 
             }
         });
+
 
     }
 
@@ -326,12 +335,19 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 1.57 ? "none" : "steelblue";
+            return gdistance > 2.4 ? "none" : default_color;
         })
-        .attr("r", 5)
+        .attr("r", 3.5)
         .on("mouseover", function (event, datum) {
-
+            this.style.fill = "#DC143C"
             populateInfoPanel(datum);
+        })
+        .on("mouseout", function () {
+
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style("fill", default_color)
         });
     // .on("mouseout", function (event, d) {
     //     document.getElementById("meteorite_name").innerHTML = "&nbsp";

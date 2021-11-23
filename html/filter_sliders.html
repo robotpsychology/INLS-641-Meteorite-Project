@@ -10,16 +10,9 @@
     <script>
         $(document).ready(function () {
             $("#classification_checkboxes").on("change", function () {
-                updateFilterInfo();
+                runNewFilterInfo();
             });
         });
-        // $(document).ready(function () {
-        //     $(".input_box").on("change", function () {
-        //         console.log('hejasfcjan ')
-        //         // globeRender();
-        //         // producePlots();
-        //     });
-        // });
 
 
     </script>
@@ -54,7 +47,7 @@
                     $("#min_year").val(positive_x);
                     $("#max_year").val(positive_y);
                     // call function to update data
-                    updateFilterInfo();
+                    runNewFilterInfo();
 
                     // $("#amount").val(positive_x + " - " + positive_y);
 
@@ -71,7 +64,7 @@
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
                     $("#max_mass").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
@@ -93,7 +86,7 @@
                     }
                     $("#min_lat").val(ui.values[0]);
                     $("#max_lat").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
@@ -116,14 +109,14 @@
                     }
                     $("#min_long").val(ui.values[0]);
                     $("#max_long").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
 
 
 
-        function updateFilterInfo() {
+        function runNewFilterInfo() {
             globeRender();
             producePlots();
         }
@@ -232,7 +225,8 @@
 
     <table>
         <tr>
-            <td><input onchange="globeRender()" type="checkbox" id="yearless_meteorites" name="yearless_meteorites">
+            <td><input onchange="runNewFilterInfo()" type="checkbox" id="yearless_meteorites"
+                    name="yearless_meteorites">
             <td><label for="yearless_meteorites">Yearless Meteorites</label></td>
         </tr>
     </table>
