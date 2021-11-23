@@ -95,12 +95,7 @@ class Plot {
 
 
     }
-    render(data) {
-
-        //Check data
-        // console.log('hi',data);
-        // console.log('yo', document.getElementById("max_year").value);
-
+    massYearPlotRender() {
         //Linear scales for mass year scatter plot
         let myx = d3.scaleLinear()
             .domain([slider_settings.min_year, slider_settings.max_year])
@@ -109,8 +104,6 @@ class Plot {
         let myy = d3.scaleLinear()
             .domain([slider_settings.min_mass, slider_settings.max_mass])
             .range([this.plotheight, 0]);
-
-
 
 
 
@@ -162,7 +155,7 @@ class Plot {
 
 
         //datajoin for massyear plot
-        let massyear = this.massyearplot.selectAll('.scatterdot').data(data, function (d) { return d.id; });
+        let massyear = this.massyearplot.selectAll('.scatterdot').data(this.data, function (d) { return d.id; });
 
         //add circles
         massyear.exit()
@@ -181,9 +174,9 @@ class Plot {
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2);
-
-
-
+    }
+    render(data) {
+        this.massYearPlotRender();
     }
     //Load data and call render
     loadAndPrepare() {
