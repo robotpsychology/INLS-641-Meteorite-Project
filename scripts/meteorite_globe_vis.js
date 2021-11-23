@@ -177,9 +177,9 @@ function populateCheckBox() {
 
 
 function yearlessCheckbox() {
-    let checkbox_element = document.getElementById("yearless_meteorites");
+    let yearless_checkbox = document.getElementById("yearless_meteorites");
 
-    if (checkbox_element.checked) {
+    if (yearless_checkbox.checked) {
         console.log("Checkbox is  checked..");
         return true
     } else {
