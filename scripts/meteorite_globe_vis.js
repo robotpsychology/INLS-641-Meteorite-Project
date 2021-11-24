@@ -37,7 +37,7 @@ let promises = [];
 let class1, class2, class3;
 let filtered_classes = {};
 let slider_settings = {};
-let worldData, locationData, yearlessMeteorites;
+let worldData, locationData, yearlessMeteorites, sampledLocationData;
 
 
 let speed = true;
@@ -102,18 +102,20 @@ function initialRender() {
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
+        sampledLocationData = _.sample(response[1], 8000)
         yearlessMeteorites = response[2];
+
 
         globeRender();
         producePlots();
-
-
 
     });
     drawMarkers();
     drawGraticule();
     svg.call(drag);
     svg.call(zoom);
+
+
 
 
 
@@ -126,7 +128,6 @@ function globeRender(speed = true) {
 
     } else {
         if (speed == true) {
-            let sampledLocationData = _.sample(locationData, 8000)
             drawGlobe(worldData, sampledLocationData);
 
 
