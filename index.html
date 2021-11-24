@@ -17,7 +17,7 @@
   <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
   <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
-  <script src="scripts/mathfunctions.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js"></script>
 
   <!-- <script>
     $(function () {
@@ -103,6 +103,18 @@
       <div id="plots_panel">
         <h3>Plots</h3>
         <svg id="plots_svg" width="300" height="950"></svg>
+      </div>
+
+      <div id="speed_option">
+        <p><strong>Data Optimization:</strong></p>
+        <form name="speed_option" action="">
+          <input type="radio" name="speedChoice" id="speed" value="speed" checked>
+          <label for="speedChoice">Speed</label>
+
+          <input type="radio" name="speedChoice" id="all_data" value="all_data">
+          <label for="speedChoice">All Data</label>
+        </form>
+
       </div>
 
     </div>

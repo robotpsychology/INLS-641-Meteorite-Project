@@ -40,6 +40,8 @@ let slider_settings = {};
 let worldData, locationData, yearlessMeteorites;
 
 
+let speed = true;
+
 
 // Zoom variable to call on the SVG globe
 let zoom = d3.zoom()
@@ -93,6 +95,7 @@ initialRender();
 // UTILITIES
 ////////////
 function initialRender() {
+    dataOptimization();
     createPromises(files, promises);
 
 
@@ -104,21 +107,33 @@ function initialRender() {
         globeRender();
         producePlots();
 
+
+
     });
     drawMarkers();
     drawGraticule();
     svg.call(drag);
     svg.call(zoom);
 
+
+
 }
 
-function globeRender() {
+function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
     if (checkbox == true) {
-
         drawGlobe(worldData, yearlessMeteorites, checkbox);
+
     } else {
-        drawGlobe(worldData, locationData);
+        if (speed == true) {
+            let sampledLocationData = _.sample(locationData, 8000)
+            drawGlobe(worldData, sampledLocationData);
+
+
+        }
+        else {
+            drawGlobe(worldData, locationData);
+        }
 
     }
 
@@ -136,6 +151,28 @@ function resetGlobe() {
         .attr('transform', { k: 1, x: 0, y: 0 });
     svg.selectAll("circle")
         .attr('transform', { k: 1, x: 0, y: 0 });
+
+}
+
+function dataOptimization() {
+    let speed = document.getElementById("speed")
+    let all_data = document.getElementById("all_data")
+
+    speed.addEventListener("click", function () {
+        if (speed.checked) {
+            speed = true;
+
+        }
+        globeRender(true)
+    })
+
+    all_data.addEventListener("click", function () {
+        if (all_data.checked) {
+            speed = false
+        }
+        globeRender(false);
+    })
+
 
 }
 
@@ -181,6 +218,7 @@ function populateCheckBox() {
 
 
 function yearlessCheckbox() {
+    dataOptimization();
     let yearless_checkbox = document.getElementById("yearless_meteorites");
 
     if (yearless_checkbox.checked) {
@@ -188,7 +226,6 @@ function yearlessCheckbox() {
     } else {
         return false
     }
-
 
 }
 
@@ -267,23 +304,24 @@ function populateInfoPanel(datum) {
 // DRAWING
 ////////////
 
-function drawGlobe(worldData, locationData, yearless_meteorites = false) {
+function drawGlobe(worldData, locations, yearless_meteorites = false) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
-
-
-
     slider_settings = getFilterInfo();
+
+
     if (yearless_meteorites == false) {
-        filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
+        filtered_locations = locations.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum, slider_settings)) { return datum; }
             }
         });
-    } else {
+    }
 
-        filtered_locations = locationData.filter(function (datum) {
+    else {
+
+        filtered_locations = locations.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (yearlessFilterCheck(datum, slider_settings)) {
                     return datum
