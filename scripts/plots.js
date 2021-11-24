@@ -161,12 +161,16 @@ class Plot {
                     return -1000;
                 } 
                  })
-            .attr("cy", function(d) { return myy(Number(d.mass)); })
-            .attr("r", 2);
-        
-
-        
+            .attr("cy", function(d) { 
+                if (d.mass && Number(d.mass) <= Number(document.getElementById("max_mass").value)) {
+                    return myy(Number(d.mass));
+                }
+                else {
+                    return -1000;
+                }; })
+            .attr("r", 2); 
     }
+    
     //Load data and call render
     loadAndPrepare() {
         let thisvis = this;
@@ -180,6 +184,7 @@ class Plot {
             
             
     }
+    
 }
 
 
