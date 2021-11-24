@@ -384,7 +384,7 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 2.4 ? "none" : default_color;
+            return gdistance > 1.57 ? "none" : default_color;
         })
         .attr("r", 3.5)
         .on("mouseover", function (event, datum) {
