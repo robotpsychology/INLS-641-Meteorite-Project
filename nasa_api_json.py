@@ -270,6 +270,8 @@ print(len(results))
 data = convert_json_data_types(results)
 data = create_new_classifications(data)
 
+yearless_meteorites = filter_yearless_meteorites(data)
+
 with open(f'./data/nasa_meteorite_data_{today}.json', 'w') as outfile:
     json.dump(data, outfile, indent=4)
 

@@ -17,13 +17,8 @@
   <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
   <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
-  <script src="scripts/script.js"></script>
-  <script src="scripts/mathfunctions.js"></script>
-  <script>
-    $(function () {
-      $("#filter_sliders").load("html/filter_sliders.html");
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js"></script>
+
   <!-- <script>
     $(function () {
       $("#checkbox").load("html/checkbox.html");
@@ -42,6 +37,7 @@
       <div id="filter_panel" class="subpanel">
         <h3>Filters</h3>
         <div id="filter_sliders"></div>
+
         <p></p>
         <div id="checkbox"></div>
         <div id="info_panel" class="subpanel">
@@ -97,7 +93,7 @@
 
     <div id="globe_panel" class="panel">
       <svg id="meteorite_globe_vis" viewBox="0 0 950 500" ondrag="svg.call(rotate)"></svg>
-      <button id="globe_reset" onclick="resetGlobe()">Reset Globe</button>
+      <button id="globe_reset" onclick="resetGlobe()">Recenter Globe</button>
       <script>
 
       </script>
@@ -109,6 +105,19 @@
         <svg id="plots_svg" width="300" height="950"></svg>
       </div>
 
+      <div id="speed_option">
+        <p><strong>Data Optimization:</strong></p>
+        <form name="speed_option" action="">
+          <input type="radio" name="speedChoice" id="speed" value="speed" checked>
+          <label for="speedChoice">Speed</label>
+
+          <input type="radio" name="speedChoice" id="all_data" value="all_data">
+          <label for="speedChoice">All Data</label>
+          <p>(If the plots come out misaligned, zoom out to reset the globe.) </p>
+        </form>
+
+      </div>
+
     </div>
 
   </div>
@@ -116,8 +125,14 @@
   </div>
 
   <!-- Only works if loaded after the svg for some reason -->
+  <script>
+    $(function () {
+      $("#filter_sliders").load("html/filter_sliders.html");
+    });
+  </script>
   <script src="./scripts/meteorite_globe_vis.js"></script>
   <script src="./scripts/plots.js"></script>
+
 </body>
 
 </html>
