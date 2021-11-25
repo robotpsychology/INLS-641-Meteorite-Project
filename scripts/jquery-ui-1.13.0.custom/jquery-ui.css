@@ -745,7 +745,7 @@ button.ui-button::-moz-focus-inner {
 	display: block;
 	border: 0;
 	background-position: 0 0;
-	background: blue;
+	background: #7b8ab8;
 }
 
 /* support: IE8 - See #6727 */
@@ -905,7 +905,7 @@ body .ui-tooltip {
 }
 .ui-widget-content {
 	border: 1px solid #dddddd;
-	background: #ffffff;
+	background: #d9e3f1;
 	color: #333333;
 }
 .ui-widget-content a {

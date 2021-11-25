@@ -48,14 +48,17 @@ h3 {
 }
 
 .container {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 1fr minmax(0.5fr, 0.5fr);
   grid-template-areas:
     "header header header"
-    "left-panel globe plots";
+    "left-panel globe plots"; */
   text-align: center;
   overflow: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100vh;
 }
 
 .panel {
@@ -74,6 +77,14 @@ h3 {
 
 .label_size{
   width: 5%;
+}
+#title_div {
+  margin: 0px;
+}
+#title {
+  text-align: center;
+  font-size: 25px;
+  margin: 0px;
 }
 
 #header_panel {
