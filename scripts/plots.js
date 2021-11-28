@@ -173,9 +173,18 @@ class Plot {
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2)
+            .attr("fill", default_color)
             .on("mouseover", function (event, datum) {
+                this.style.fill = "#DC143C"
                 populateInfoPanel(datum);
             })
+            .on("mouseleave", function () {
+
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .style("fill", default_color)
+            });
     }
     render(data) {
         this.massYearPlotRender();

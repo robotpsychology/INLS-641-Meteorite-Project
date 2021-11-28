@@ -72,6 +72,7 @@ let zoom = d3.zoom()
 // Drag variable to call on the SVG globe
 let drag = d3.drag()
     .on('drag', function (event) {
+
         projection.rotate([
             event.x / 2.5,
             event.y / 2.5,
@@ -79,7 +80,6 @@ let drag = d3.drag()
         ]);
         svg.selectAll("path").attr("d", path);
         drawMarkers();
-
     });
 
 
@@ -392,7 +392,7 @@ function drawMarkers() {
             this.style.fill = "#DC143C"
             populateInfoPanel(datum);
         })
-        .on("mouseout", function () {
+        .on("mouseleave", function () {
 
             d3.select(this)
                 .transition()
