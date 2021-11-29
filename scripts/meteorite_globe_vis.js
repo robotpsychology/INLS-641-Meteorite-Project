@@ -90,7 +90,6 @@ initialRender();
 
 
 
-
 ////////////
 // UTILITIES
 ////////////
@@ -102,7 +101,10 @@ function initialRender() {
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
-        sampledLocationData = _.sample(response[1], 8000)
+        // sampledLocationData = _.sample(response[1], 8000)
+        sampledLocationData = response[1].filter(function (value, index, arr) {
+            return index % 5 == 0;
+        })
         yearlessMeteorites = response[2];
 
 
@@ -139,6 +141,7 @@ function globeRender(speed = true) {
     }
 
     drawMarkers();
+    producePlots();
 }
 
 function createPromises(files, promises) {
@@ -250,17 +253,12 @@ function yearlessFilterCheck(datum, slider_settings) {
 }
 
 function filterYears(datum, min_year, max_year) {
-
     if (Boolean(datum.year) == true) {
         year = parseInt(datum.year.slice(0, 4))
-        if (year >= min_year && year <= max_year) {
-            return true
-
-        }
+        if (year >= min_year && year <= max_year) { return true }
     } else if (Boolean(datum.year) == false) {
         // yearless_meteorites.push(datum)
     }
-
 }
 function filterMass(datum, min_mass, max_mass) {
     if (datum.mass >= min_mass && datum.mass <= max_mass) { return true; }
@@ -291,8 +289,6 @@ function filterFall(datum, classifier) {
 function populateInfoPanel(datum) {
     document.getElementById("meteorite_name").innerHTML = datum.name;
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
-    document.getElementById("subclassification").innerHTML = datum.subclasses.class2 ? datum.subclasses.class2[0] : 'none';
-    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3 ? datum.subclasses.class3[0] : 'none';
     document.getElementById("found_or_fell").innerHTML = datum.fall;
     document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
     document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
