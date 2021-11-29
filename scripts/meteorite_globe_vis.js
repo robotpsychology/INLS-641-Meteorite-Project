@@ -288,7 +288,7 @@ function populateInfoPanel(datum) {
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
     document.getElementById("found_or_fell").innerHTML = datum.fall;
     document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
-    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
+    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 4) : 'unknown';
     document.getElementById("lat").innerHTML = datum.reclat;
     document.getElementById("long").innerHTML = datum.reclong;
 }
