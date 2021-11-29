@@ -54,12 +54,14 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
+        /*
         this.classbarplot.append("text")
             .attr("x", this.plotwidth / 2)
             .attr("y", 2 * this.plotheight + this.margin_y + 3)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle")
             .text("Mass(g)");
+         */
 
         this.yeardensplot.append("text")
             .attr("x", this.plotwidth / 2)
@@ -219,34 +221,29 @@ class Plot {
             metClass_data.push(new ClassSummary(classifs, total))
         };
 
-        console.log(metClassGrouped)
-        console.log(currClassifications.length)
-        console.log(metClassGrouped.get("Chondrite"))
-        console.log(metClass_data)
-
         //Linear scales for mass year scatter plot
 
         let cby = d3.scaleLinear()
             .domain([0, metClass_max])
             .range([this.plotheight, 0]);
 
-
-        //x axis
         const cbx = d3.scaleBand()
             .range([ 0, this.plotwidth ])
             .domain(metClass_data.map(d => d.classifs))
             .padding(0.2);
 
+        // x axis
         this.classbarplot.append("g")
             .attr("id", "classifications_text")
             .attr("transform", `translate(0, ${2*this.plotheight + this.margin_y} )`)
             .call(d3.axisBottom(cbx))
-            .selectAll("text")
+                .selectAll("text")
                 .attr("transform", "translate(-10,0)rotate(-45)")
                 .style("text-anchor", "end")
                 .style("font-size", "11")
 
-        //y axis
+
+        // y axis
         this.classbarplot.append("text")
             .attr("x", -2*this.plotwidth - 3*this.margin_y / 2 + 25)
             .attr("y", -15)
@@ -256,14 +253,16 @@ class Plot {
             .text(0);
 
         this.classbarplot.append("text")
+            .attr("id", "classif_count_max")
             .attr("x", -this.plotwidth - this.margin_y/ 2 - 50)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
-            .style("font-size", "12")
-            .text(metClass_max);
+            .style("font-size", "12");
 
-        //datajoin for classifictions bar plot
+        $("#classif_count_max").text(metClass_max);
+
+        $("#classifications_text")
 
         //add bars
         this.classbarplot.selectAll("bars")
@@ -275,6 +274,7 @@ class Plot {
             .attr("width", cbx.bandwidth())
             .attr("height", d => this.plotheight - cby(d.total))
             .attr("fill", "#69b3a2")
+
 
         console.log(cbx(metClass_data.classifs))
         console.log(metClass_data)
