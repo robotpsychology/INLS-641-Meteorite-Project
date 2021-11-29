@@ -102,7 +102,6 @@ initialRender();
 function initialRender() {
     dataOptimization();
     createPromises(files, promises);
-    // let max_mass_slider = document.getElementById('max_mass');
 
 
 
@@ -118,21 +117,6 @@ function initialRender() {
 
 
 
-
-
-        // slider_settings.max_mass = String(Math.max(...sampledLocationData.filter(function (item) {
-        //     if (typeof (item.masss) != Number) {
-        //         return item.mass
-
-        //     }
-        // }).map(function (item) {
-        //     return item.mass
-        // })))
-
-        // max_mass_slider.max = slider_settings.max_mass
-
-        // default_values.max_mass = parseInt(slider_settings.max_mass)
-
         globeRender();
         producePlots();
 
@@ -142,11 +126,21 @@ function initialRender() {
     svg.call(drag);
     svg.call(zoom);
 
+
+
+
+
 }
 
 function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
 
+
+    // max_mass_slider.max = Math.max.apply(Math, filtered_locations.map(function (o) {
+
+
+    //     return o.mass;
+    // }))
 
     if (checkbox == true) {
         drawGlobe(worldData, yearlessMeteorites, checkbox);
@@ -155,6 +149,35 @@ function globeRender(speed = true) {
         if (speed == true) {
             drawGlobe(worldData, sampledLocationData);
             // FIX HERE
+            // slider_settings. = Math.max(...sampledLocationData.filter(function (item) {
+            //     if (typeof (item.mass) != Number) {
+            //         return item.mass
+
+            //     }
+            // }).map(function (item) {
+            //     return item.mass
+            // }));
+
+            // let max_mass_data = Math.max(...sampledLocationData.filter(function (item) {
+            //     if (typeof (item.masss) != Number) {
+            //         return item.mass
+
+            //     }
+            // }).map(function (item) {
+            //     return item.mass
+            // }))
+
+            // // slider_settings.max_mass = max_mass_data;
+            // let max_mass_slider = document.getElementById('max_mass');
+
+
+            // // max_mass_slider.value = slider_settings.max_mass
+            // $("#slider-range_mass").slider({
+            //     range: true,
+            //     min: 0,
+            //     max: max_mass_data,
+            //     values: [default_slider_values.min_mass, max_mass_data / 2],
+            // });
 
 
 
@@ -163,6 +186,7 @@ function globeRender(speed = true) {
         }
         else {
             drawGlobe(worldData, locationData);
+
         }
 
     }
