@@ -190,17 +190,18 @@ class Plot {
     }
 
     classificationPlotRender() {
+
         // Group by classifications and get counts
         let metClassSums = d3.rollup(this.data,
-            function(d_groups) {
-                let class1tot  = d_groups.length;
+            function (d_groups) {
+                let class1tot = d_groups.length;
 
                 return {
                     total_class1: class1tot,
                     meteorites: d_groups
                 }
             },
-            function(d) {
+            function (d) {
                 return d.subclasses.class1[0];
             });
 
@@ -214,16 +215,16 @@ class Plot {
             this.total = totalMet;
         }
 
-       let metClass_data = new Array()
+        let metClass_data = new Array()
 
-        for(let i =  0; i < currClassifications.length; i++) {
+        for (let i = 0; i < currClassifications.length; i++) {
             let classifs = currClassifications[i][0];
             let total = currClassifications[i][1].length;
             metClass_data.push(new ClassSummary(classifs, total))
         };
 
         //Get max counts
-        let metClass_max = d3.max(metClass_data, function(d) {return d.total;});
+        let metClass_max = d3.max(metClass_data, function (d) { return d.total; });
 
         //Linear scales for mass year scatter plot
         let cby = d3.scaleLinear()
@@ -231,24 +232,40 @@ class Plot {
             .range([this.plotheight, 0]);
 
         const cbx = d3.scaleBand()
-            .range([ 0, this.plotwidth ])
+            .range([0, this.plotwidth])
             .domain(metClass_data.map(d => d.classifs))
             .padding(0.2);
 
         // x axis
+        // reset values - delete all previously appended bottom axes
+        if (document.querySelectorAll("#classifications_text").length > 1) {
+            // this.classbarplot.remove("#classifications_text")
+            console.log('hi')
+            let nodeList = document.querySelectorAll("#classifications_text")
+            console.log(nodeList)
+
+            nodeList.forEach(function (node, index) {
+                if (index != nodeList.length - 1) {
+                    nodeList[index].remove();
+
+                }
+            })
+        }
+
         this.classbarplot.append("g")
             .attr("id", "classifications_text")
-            .attr("transform", `translate(0, ${2*this.plotheight + this.margin_y} )`)
+            .attr("transform", `translate(0, ${2 * this.plotheight + this.margin_y} )`)
             .call(d3.axisBottom(cbx))
-                .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end")
-                .style("font-size", "11")
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end")
+            .style("font-size", "11")
+
 
 
         // y axis
         this.classbarplot.append("text")
-            .attr("x", -2*this.plotwidth - 3*this.margin_y / 2 + 25)
+            .attr("x", -2 * this.plotwidth - 3 * this.margin_y / 2 + 25)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
@@ -257,7 +274,7 @@ class Plot {
 
         this.classbarplot.append("text")
             .attr("id", "classif_count_max")
-            .attr("x", -this.plotwidth - this.margin_y/ 2 - 50)
+            .attr("x", -this.plotwidth - this.margin_y / 2 - 50)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
@@ -265,7 +282,7 @@ class Plot {
 
         $("#classif_count_max").text(metClass_max);
 
-        //add bars
+        // add bars
         this.classbarplot.selectAll("bars")
             .data(metClass_data)
             .attr('class', 'bars')
@@ -276,8 +293,12 @@ class Plot {
             .attr("height", d => this.plotheight - cby(d.total))
             .attr("fill", default_color)
 
+        cbx.domain(metClass_data.map(d => d.classifs))
+
+
         console.log(cbx(metClass_data.classifs))
         console.log(metClass_data)
+        console.log(cbx.domain)
         //
 
         /*
@@ -332,7 +353,7 @@ class Plot {
 
 
 //Produce plots and call load function
-producePlots();
+// producePlots();
 function producePlots() {
     const svg = d3.select('#plots_svg')
 
