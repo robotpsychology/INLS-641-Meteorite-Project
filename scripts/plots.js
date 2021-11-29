@@ -204,18 +204,10 @@ class Plot {
                 return d.subclasses.class1[0];
             });
 
-        //Get max counts
-        let metClassGrouped = d3.group(this.data, d => d.subclasses.class1[0]);
-
-        let currClassifications = Array.from(metClassGrouped.entries());
-        let metClass_max = d3.max(currClassifications,
-            function(d) {
-                for(let i =  0; i < currClassifications.length; i++) {
-                    return currClassifications[i][1].length;
-                }
-        });
 
         // Create data for barplot
+        let metClassGrouped = d3.group(this.data, d => d.subclasses.class1[0]);
+        let currClassifications = Array.from(metClassGrouped.entries());
 
         function ClassSummary(className, totalMet) {
             this.classifs = className;
@@ -230,8 +222,10 @@ class Plot {
             metClass_data.push(new ClassSummary(classifs, total))
         };
 
-        //Linear scales for mass year scatter plot
+        //Get max counts
+        let metClass_max = d3.max(metClass_data, function(d) {return d.total;});
 
+        //Linear scales for mass year scatter plot
         let cby = d3.scaleLinear()
             .domain([0, metClass_max])
             .range([this.plotheight, 0]);
@@ -270,7 +264,6 @@ class Plot {
             .style("font-size", "12");
 
         $("#classif_count_max").text(metClass_max);
-
 
         //add bars
         this.classbarplot.selectAll("bars")
