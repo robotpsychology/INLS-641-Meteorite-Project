@@ -262,7 +262,6 @@ class Plot {
 
         $("#classif_count_max").text(metClass_max);
 
-        $("#classifications_text")
 
         //add bars
         this.classbarplot.selectAll("bars")
