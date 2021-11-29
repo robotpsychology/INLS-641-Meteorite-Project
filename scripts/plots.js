@@ -239,10 +239,7 @@ class Plot {
         // x axis
         // reset values - delete all previously appended bottom axes
         if (document.querySelectorAll("#classifications_text").length > 1) {
-            // this.classbarplot.remove("#classifications_text")
-            console.log('hi')
             let nodeList = document.querySelectorAll("#classifications_text")
-            console.log(nodeList)
 
             nodeList.forEach(function (node, index) {
                 if (index != nodeList.length - 1) {
