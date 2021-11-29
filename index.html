@@ -31,16 +31,16 @@
 <body>
   <div class="container-fluid">
     <div class="row" id="title_div" style="height:5vh">
-      <p id="title" style="font-size:2.0vw">Visual Distribution of Meteor Collisions</p>
+      <p id="title">Visual Distribution of Meteor Collisions</p>
     </div>
     <div class="row" style="height:95vh; padding-bottom:2vh; width:100vw" >
       <div class="col" id="left_panel" style="padding-right:0px; padding-left:2vh; max-width:18%;">
-        <h5 style="font-size:1.4vw">Filters</h5>
+        <h5>Filters</h5>
         <div id="filter_panel" class="card border-primary mb-3" style="height:63%">
           <div id="filter_sliders"></div>
           <div id="checkbox"></div>
         </div>
-        <h5 style="font-size:1.4vw">Info</h5>
+        <h5>Info</h5>
         <div id="info_panel" class="card border-primary mb-3">
           <!--to put info panel at bottom, use style="position:absolute; bottom:0;"... it will screw up the card, though-->
           <table style="width:100%">
@@ -85,8 +85,8 @@
           <button id="globe_reset" type="button" class="btn btn-primary" onclick="resetGlobe()">Reset Globe</button>
         </div>
       </div>
-      <div class="col" style="padding-left:0px; padding-right:2vh; overflow-y:auto; height:100%; max-width: 21%">
-        <h5 style="font-size:1.4vw">Plots</h5>
+      <div class="col" style="padding-left:0px; padding-right:2vh; overflow-y:scroll; height:100%; max-width: 21%">
+        <h5>Plots</h5>
         <div id="plots_panel">
           <svg id="plots_svg" width="300" height="950"></svg>
         </div>
