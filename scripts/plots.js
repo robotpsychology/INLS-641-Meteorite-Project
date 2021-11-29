@@ -14,7 +14,7 @@ class Plot {
         this.massyearplot = this.svg.append('g')
             .attr('transform', 'translate(' + this.margin_x + ',' + this.margin_y + ')');
 
-        this.massdensplot = this.svg.append('g')
+        this.classbarplot = this.svg.append('g')
             .attr('transform', 'translate(' + this.margin_x + ',' + this.margin_y + ')');
 
         this.yeardensplot = this.svg.append('g')
@@ -28,8 +28,8 @@ class Plot {
             .attr("width", this.plotwidth)
             .attr("height", this.plotheight);
 
-        //Mass Dens Scatter
-        this.massdensplot.append("rect")
+        //Classifications Bar Plot
+        this.classbarplot.append("rect")
             .attr("class", "massdensplot")
             .attr("x", 0)
             .attr("y", this.plotheight + this.margin_y)
@@ -54,12 +54,14 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
-        this.massdensplot.append("text")
+        /*
+        this.classbarplot.append("text")
             .attr("x", this.plotwidth / 2)
             .attr("y", 2 * this.plotheight + this.margin_y + 3)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle")
             .text("Mass(g)");
+         */
 
         this.yeardensplot.append("text")
             .attr("x", this.plotwidth / 2)
@@ -76,7 +78,7 @@ class Plot {
             .attr("transform", "rotate(270,0,0)")
             .text("Mass(g)");
 
-        this.massdensplot.append("text")
+        this.classbarplot.append("text")
             .attr("x", -2 * this.plotwidth)
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
@@ -173,7 +175,7 @@ class Plot {
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2)
-            .attr("fill", default_color)
+            .style("fill", default_color)
             .on("mouseover", function (event, datum) {
                 this.style.fill = "#DC143C"
                 populateInfoPanel(datum);
@@ -186,11 +188,151 @@ class Plot {
                     .style("fill", default_color)
             });
     }
+
+    classificationPlotRender() {
+
+        // Group by classifications and get counts
+        let metClassSums = d3.rollup(this.data,
+            function (d_groups) {
+                let class1tot = d_groups.length;
+
+                return {
+                    total_class1: class1tot,
+                    meteorites: d_groups
+                }
+            },
+            function (d) {
+                return d.subclasses.class1[0];
+            });
+
+
+        // Create data for barplot
+        let metClassGrouped = d3.group(this.data, d => d.subclasses.class1[0]);
+        let currClassifications = Array.from(metClassGrouped.entries());
+
+        function ClassSummary(className, totalMet) {
+            this.classifs = className;
+            this.total = totalMet;
+        }
+
+        let metClass_data = new Array()
+
+        for (let i = 0; i < currClassifications.length; i++) {
+            let classifs = currClassifications[i][0];
+            let total = currClassifications[i][1].length;
+            metClass_data.push(new ClassSummary(classifs, total))
+        };
+
+        //Get max counts
+        let metClass_max = d3.max(metClass_data, function (d) { return d.total; });
+
+        //Linear scales for mass year scatter plot
+        let cby = d3.scaleLinear()
+            .domain([0, metClass_max])
+            .range([this.plotheight, 0]);
+
+        const cbx = d3.scaleBand()
+            .range([0, this.plotwidth])
+            .domain(metClass_data.map(d => d.classifs))
+            .padding(0.2);
+
+        // x axis
+        // reset values - delete all previously appended bottom axes
+        if (document.querySelectorAll("#classifications_text").length > 1) {
+            // this.classbarplot.remove("#classifications_text")
+            console.log('hi')
+            let nodeList = document.querySelectorAll("#classifications_text")
+            console.log(nodeList)
+
+            nodeList.forEach(function (node, index) {
+                if (index != nodeList.length - 1) {
+                    nodeList[index].remove();
+
+                }
+            })
+        }
+
+        this.classbarplot.append("g")
+            .attr("id", "classifications_text")
+            .attr("transform", `translate(0, ${2 * this.plotheight + this.margin_y} )`)
+            .call(d3.axisBottom(cbx))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end")
+            .style("font-size", "11")
+
+
+
+        // y axis
+        this.classbarplot.append("text")
+            .attr("x", -2 * this.plotwidth - 3 * this.margin_y / 2 + 25)
+            .attr("y", -15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .style("font-size", "12")
+            .text(0);
+
+        this.classbarplot.append("text")
+            .attr("id", "classif_count_max")
+            .attr("x", -this.plotwidth - this.margin_y / 2 - 50)
+            .attr("y", -15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .style("font-size", "12");
+
+        $("#classif_count_max").text(metClass_max);
+
+        // add bars
+        this.classbarplot.selectAll("bars")
+            .data(metClass_data)
+            .attr('class', 'bars')
+            .join("rect")
+            .attr("x", d => cbx(d.classifs))
+            .attr("y", d => this.plotheight + this.margin_y + cby(d.total))
+            .attr("width", cbx.bandwidth())
+            .attr("height", d => this.plotheight - cby(d.total))
+            .attr("fill", default_color)
+
+        cbx.domain(metClass_data.map(d => d.classifs))
+
+
+        console.log(cbx(metClass_data.classifs))
+        console.log(metClass_data)
+        console.log(cbx.domain)
+        //
+
+        /*
+        //add circles
+        massyear.exit()
+            .attr("r", 0)
+            .remove();
+
+        massyear.enter().append('rectangle')
+            .attr('class', 'bars')
+            .attr("cx", function (d) {
+                if (d.year && Number(d.year.slice(0, 4)) <= slider_settings.max_year) {
+                    return myx(Number(d.year.slice(0, 4)));
+                }
+                else {
+                    return -1000;
+                }
+            })
+            .attr("cy", function (d) { return myy(Number(d.mass)); })
+            .attr("r", 2)
+            .on("mouseover", function (event, datum) {
+                populateInfoPanel(datum);
+            })
+
+         */
+    }
+
+
     render(data) {
         this.massYearPlotRender();
+        this.classificationPlotRender();
 
     }
-    
+
     //Load data and call render
     loadAndPrepare() {
         let thisvis = this;
@@ -206,12 +348,12 @@ class Plot {
 
 
     }
-    
+
 }
 
 
 //Produce plots and call load function
-producePlots();
+// producePlots();
 function producePlots() {
     const svg = d3.select('#plots_svg')
 

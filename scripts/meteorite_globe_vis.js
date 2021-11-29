@@ -109,7 +109,6 @@ function initialRender() {
 
 
         globeRender();
-        producePlots();
 
     });
     drawMarkers();
