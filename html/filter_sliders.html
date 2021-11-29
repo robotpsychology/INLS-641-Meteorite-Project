@@ -20,6 +20,12 @@
             });
         });
 
+        $(document).ready(function () {
+            $(".input_box").on("change", function () {
+                runNewFilterInfo();
+            });
+        });
+
 
 
 
@@ -172,7 +178,7 @@
                     class="input_box">
             </td>
             <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
-            <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
+            <td><input type="number" name="max_year" id="max_year" value="2013" max="2013" maxlength="4"
                     class="input_box"></td>
         </tr>
     </table>
@@ -188,13 +194,13 @@
             <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
                     class="input_box"> </td>
             <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
-            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="3000" maxlength="8"
                     class="input_box"></td>
         </tr>
     </table>
 
-
     <div id="slider-range_mass"></div>
+
     <h4><strong>Latitude/Longitude (respectively):</strong></h4>
     <table class="slider_table">
         <tr>

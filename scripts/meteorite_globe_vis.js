@@ -88,6 +88,12 @@ let drag = d3.drag()
 ////////////
 initialRender();
 
+// Math.max.apply(Math, sampledLocationData.map(function (o) {
+
+
+//     return o.year;
+// }))
+
 
 
 ////////////
@@ -96,17 +102,36 @@ initialRender();
 function initialRender() {
     dataOptimization();
     createPromises(files, promises);
+    // let max_mass_slider = document.getElementById('max_mass');
+
 
 
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
         // sampledLocationData = _.sample(response[1], 8000)
+
         sampledLocationData = response[1].filter(function (value, index, arr) {
-            return index % 5 == 0;
+            return index % 5 == 0 && value.mass <= 5000;
         })
         yearlessMeteorites = response[2];
 
+
+
+
+
+        // slider_settings.max_mass = String(Math.max(...sampledLocationData.filter(function (item) {
+        //     if (typeof (item.masss) != Number) {
+        //         return item.mass
+
+        //     }
+        // }).map(function (item) {
+        //     return item.mass
+        // })))
+
+        // max_mass_slider.max = slider_settings.max_mass
+
+        // default_values.max_mass = parseInt(slider_settings.max_mass)
 
         globeRender();
         producePlots();
@@ -117,20 +142,22 @@ function initialRender() {
     svg.call(drag);
     svg.call(zoom);
 
-
-
-
-
 }
 
 function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
+
+
     if (checkbox == true) {
         drawGlobe(worldData, yearlessMeteorites, checkbox);
 
     } else {
         if (speed == true) {
             drawGlobe(worldData, sampledLocationData);
+            // FIX HERE
+
+
+
 
 
         }

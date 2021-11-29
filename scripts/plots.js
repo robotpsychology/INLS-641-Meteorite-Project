@@ -188,7 +188,9 @@ class Plot {
     }
     render(data) {
         this.massYearPlotRender();
+
     }
+
     //Load data and call render
     loadAndPrepare() {
         let thisvis = this;
@@ -204,6 +206,7 @@ class Plot {
 
 
     }
+
 }
 
 
