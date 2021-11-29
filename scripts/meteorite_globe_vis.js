@@ -22,6 +22,8 @@ let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
 
+let default_color = "steelblue";
+
 
 ///// Utility and Filterings Variables
 
@@ -35,8 +37,10 @@ let promises = [];
 let class1, class2, class3;
 let filtered_classes = {};
 let slider_settings = {};
-let worldData, locationData, yearlessMeteorites;
+let worldData, locationData, yearlessMeteorites, sampledLocationData;
 
+
+let speed = true;
 
 
 // Zoom variable to call on the SVG globe
@@ -45,18 +49,34 @@ let zoom = d3.zoom()
     .on('zoom', function (event) {
         svg.selectAll('path')
             .attr('transform', event.transform);
-        svg.selectAll("circle")
-            .attr('transform', event.transform);
-    })
-    ;
+
+
+        if (event.transform.k > 6) {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 1);
+        } else if (event.transform.k > 3.5) {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 2);
+        }
+        else {
+            svg.selectAll("circle")
+                .attr('transform', event.transform)
+                .attr("r", 3.5);
+        }
+
+
+    });
 
 // Drag variable to call on the SVG globe
 let drag = d3.drag()
     .on('drag', function (event) {
+
         projection.rotate([
-            event.x,
-            event.y,
-            0,
+            event.x / 2.5,
+            event.y / 2.5,
+            0
         ]);
         svg.selectAll("path").attr("d", path);
         drawMarkers();
@@ -75,13 +95,16 @@ initialRender();
 // UTILITIES
 ////////////
 function initialRender() {
+    dataOptimization();
     createPromises(files, promises);
 
 
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
+        sampledLocationData = _.sample(response[1], 8000)
         yearlessMeteorites = response[2];
+
 
         globeRender();
         producePlots();
@@ -92,30 +115,30 @@ function initialRender() {
     svg.call(drag);
     svg.call(zoom);
 
+
+
+
+
 }
 
-function globeRender() {
-    // svg.call(drag);
-    // svg.call(zoom);
-
+function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
-
-
     if (checkbox == true) {
-
         drawGlobe(worldData, yearlessMeteorites, checkbox);
-        // populateCheckBox(yearlessMeteorites);
+
     } else {
-        drawGlobe(worldData, locationData);
-        // populateCheckBox(locationData);
+        if (speed == true) {
+            drawGlobe(worldData, sampledLocationData);
+
+
+        }
+        else {
+            drawGlobe(worldData, locationData);
+        }
 
     }
+
     drawMarkers();
-
-
-    // svg.call(drag);
-    // svg.call(zoom);
-
 }
 
 function createPromises(files, promises) {
@@ -132,6 +155,28 @@ function resetGlobe() {
 
 }
 
+function dataOptimization() {
+    let speed = document.getElementById("speed")
+    let all_data = document.getElementById("all_data")
+
+    speed.addEventListener("click", function () {
+        if (speed.checked) {
+            speed = true;
+
+        }
+        globeRender(true)
+    })
+
+    all_data.addEventListener("click", function () {
+        if (all_data.checked) {
+            speed = false
+        }
+        globeRender(false);
+    })
+
+
+}
+
 ////////////
 // FILTERS
 ////////////
@@ -139,7 +184,6 @@ function resetGlobe() {
 
 function populateCheckBox() {
     class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
-    console.log("blah", slider_settings.classifications.toString())
     /*
         // Can't get this to filter properly like class1 does.
         class2 = [...new Set(filtered_locations.map(function (item) {
@@ -175,16 +219,14 @@ function populateCheckBox() {
 
 
 function yearlessCheckbox() {
+    dataOptimization();
     let yearless_checkbox = document.getElementById("yearless_meteorites");
 
     if (yearless_checkbox.checked) {
-        console.log("Checkbox is  checked..");
         return true
     } else {
-        console.log("Checkbox is not checked..");
         return false
     }
-
 
 }
 
@@ -196,7 +238,17 @@ function filterCheck(datum, slider_settings) {
         && filterClass(datum, slider_settings.classifications)
         && filterLatitude(datum, slider_settings.min_latitude, slider_settings.max_latitude)
         && filterLongitude(datum, slider_settings.min_longitude, slider_settings.max_longitude)
+        && filterFall(datum, slider_settings.fall)
 }
+
+function yearlessFilterCheck(datum, slider_settings) {
+    return filterMass(datum, slider_settings.min_mass, slider_settings.max_mass)
+        && filterClass(datum, slider_settings.classifications)
+        && filterLatitude(datum, slider_settings.min_latitude, slider_settings.max_latitude)
+        && filterLongitude(datum, slider_settings.min_longitude, slider_settings.max_longitude)
+        && filterFall(datum, slider_settings.fall)
+}
+
 function filterYears(datum, min_year, max_year) {
     if (Boolean(datum.year) == true) {
         year = parseInt(datum.year.slice(0, 4))
@@ -221,6 +273,9 @@ function filterLongitude(datum, min_long, max_long) {
         return true;
     }
 }
+function filterFall(datum, classifier) {
+    if (classifier.indexOf(datum.fall) != -1) { return true; }
+}
 
 
 
@@ -232,8 +287,8 @@ function populateInfoPanel(datum) {
     document.getElementById("meteorite_name").innerHTML = datum.name;
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
     document.getElementById("found_or_fell").innerHTML = datum.fall;
-    document.getElementById("mass").innerHTML = datum.mass;
-    document.getElementById("date").innerHTML = datum.year.slice(0, 10);
+    document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
+    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
     document.getElementById("lat").innerHTML = datum.reclat;
     document.getElementById("long").innerHTML = datum.reclong;
 }
@@ -243,29 +298,33 @@ function populateInfoPanel(datum) {
 // DRAWING
 ////////////
 
-function drawGlobe(worldData, locationData, yearless_meteorites = false) {
+function drawGlobe(worldData, locations, yearless_meteorites = false) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
     // Only using the first 50 NASA data points currently
-
-    // console.log(locationData);
     slider_settings = getFilterInfo();
-    if (!yearless_meteorites) {
-        filtered_locations = locationData.slice(0, 50000).filter(function (datum) {
+
+
+    if (yearless_meteorites == false) {
+        filtered_locations = locations.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (filterCheck(datum, slider_settings)) { return datum; }
             }
         });
-    } else {
+    }
 
-        filtered_locations = locationData.filter(function (datum) {
+    else {
+
+        filtered_locations = locations.filter(function (datum) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
-                if (filterMass(datum, document.getElementById("min_mass").value, document.getElementById("max_mass").value)) {
+                if (yearlessFilterCheck(datum, slider_settings)) {
                     return datum
+
                 }
 
             }
         });
+
 
     }
 
@@ -319,12 +378,19 @@ function drawMarkers() {
         .attr("fill", (d) => {
             const coordinate = [d.reclong, d.reclat];
             gdistance = d3.geoDistance(coordinate, projection.invert(center));
-            return gdistance > 1.57 ? "none" : "steelblue";
+            return gdistance > 1.85 ? "none" : default_color;
         })
-        .attr("r", 5)
+        .attr("r", 3.5)
         .on("mouseover", function (event, datum) {
-
+            this.style.fill = "#DC143C"
             populateInfoPanel(datum);
+        })
+        .on("mouseleave", function () {
+
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style("fill", default_color)
         });
     // .on("mouseout", function (event, d) {
     //     document.getElementById("meteorite_name").innerHTML = "&nbsp";

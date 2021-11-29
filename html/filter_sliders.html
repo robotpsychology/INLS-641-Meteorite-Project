@@ -10,16 +10,17 @@
     <script>
         $(document).ready(function () {
             $("#classification_checkboxes").on("change", function () {
-                updateFilterInfo();
+                runNewFilterInfo();
             });
         });
-        // $(document).ready(function () {
-        //     $(".input_box").on("change", function () {
-        //         console.log('hejasfcjan ')
-        //         // globeRender();
-        //         // producePlots();
-        //     });
-        // });
+
+        $(document).ready(function () {
+            $("#fall_checkboxes").on("change", function () {
+                runNewFilterInfo();
+            });
+        });
+
+
 
 
     </script>
@@ -54,7 +55,7 @@
                     $("#min_year").val(positive_x);
                     $("#max_year").val(positive_y);
                     // call function to update data
-                    updateFilterInfo();
+                    runNewFilterInfo();
 
                     // $("#amount").val(positive_x + " - " + positive_y);
 
@@ -71,7 +72,7 @@
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
                     $("#max_mass").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
@@ -93,7 +94,7 @@
                     }
                     $("#min_lat").val(ui.values[0]);
                     $("#max_lat").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
@@ -116,14 +117,14 @@
                     }
                     $("#min_long").val(ui.values[0]);
                     $("#max_long").val(ui.values[1]);
-                    updateFilterInfo();
+                    runNewFilterInfo();
                 }
             });
         });
 
 
 
-        function updateFilterInfo() {
+        function runNewFilterInfo() {
             globeRender();
             producePlots();
         }
@@ -146,6 +147,14 @@
                     slider_settings.classifications.push($(this).val());
                 }
             })
+            slider_settings.fall = [];
+            $("#fall_checkboxes input").each(function () {
+                // if the option is checked put it in the array
+                if ($(this).is(":checked")) {
+                    slider_settings.fall.push($(this).val());
+                }
+            })
+
             return slider_settings;
         }
 
@@ -171,10 +180,7 @@
     </table>
     <div id="slider-range"></div>
 
-    <p></p>
 
-    <label for="yearless_meteorites">Meteorites Without Years</label>
-    <input onchange="globeRender()" type="checkbox" id="yearless_meteorites" name="yearless_meteorites">
 
     <h4><strong> Mass (in grams): </strong></h4>
     <!-- <input type="text" id="amount2" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
@@ -219,13 +225,13 @@
 
     <p><strong>Found vs Fell:</strong></p>
 
-    <table>
+    <table id="fall_checkboxes">
         <tr>
-            <td><input type="checkbox" class="form-check-input" id="found" name="found" value="true" checked>
+            <td><input type="checkbox" class="form-check-input" id="found" name="found" value="Found" checked>
             <td></td>
             <td><label for="found">Found</label></td>
 
-            <td><input type="checkbox" class="form-check-input" id="fell" name="fell" value="true"></td>
+            <td><input type="checkbox" class="form-check-input" id="fell" name="fell" value="Fell" checked></td>
             <td><label for="fell">Fell</label></td>
     </table>
     <br>
@@ -234,7 +240,8 @@
 
     <table>
         <tr>
-            <td><input onchange="globeRender()" class="form-check-input" type="checkbox" id="yearless_meteorites" name="yearless_meteorites">
+            <td><input onchange="runNewFilterInfo()" type="form-check-input" id="yearless_meteorites"
+                    name="yearless_meteorites">
             <td><label for="yearless_meteorites">Yearless Meteorites</label></td>
         </tr>
     </table>
