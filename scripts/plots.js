@@ -175,7 +175,7 @@ class Plot {
             })
             .attr("cy", function (d) { return myy(Number(d.mass)); })
             .attr("r", 2)
-            .attr("fill", default_color)
+            .style("fill", default_color)
             .on("mouseover", function (event, datum) {
                 this.style.fill = "#DC143C"
                 populateInfoPanel(datum);
@@ -274,8 +274,7 @@ class Plot {
             .attr("y", d => this.plotheight + this.margin_y + cby(d.total))
             .attr("width", cbx.bandwidth())
             .attr("height", d => this.plotheight - cby(d.total))
-            .attr("fill", "#69b3a2")
-
+            .attr("fill", default_color)
 
         console.log(cbx(metClass_data.classifs))
         console.log(metClass_data)
