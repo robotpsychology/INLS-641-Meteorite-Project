@@ -94,10 +94,13 @@ h3 {
 #left_panel {
   grid-area: left-panel;
   border-top: none;
+  height:100%
 }
 
 #filter_panel {
   grid-area: filters;
+  height: 55vh;
+  overflow-y: scroll;
 }
 
 
@@ -118,6 +121,7 @@ h3 {
 #info_panel {
   grid-area: info;
   text-align: left;
+  height: 24vh;
 }
 
 
@@ -144,6 +148,7 @@ h3 {
 
 
 #right_panel {
+  height:100%
 }
 
 #plots_panel {

@@ -30,82 +30,65 @@
 
 <body>
   <div class="container-fluid">
-    <div class="row" id="title_div">
+    <div class="row" id="title_div" style="height:5vh">
       <p id="title">Visual Distribution of Meteor Collisions</p>
     </div>
-    <div class="row">
-      <div class="col-2">
-        <div id="left_panel" class="panel">
-          <div id="filter_panel" class="subpanel">
-            <h3>Filters</h3>
-            <input id="dummy-slider" type="range" class="form-range" min="861" max="2013">
-            <div id="filter_sliders"></div>
-            <p></p>
-            <div id="checkbox"></div>
-            <div id="info_panel" class="card border-primary mb-3">
-              <h3>Info</h3>
-              <table style="width:100%">
-                <!--need to add class=style table or w/e -->
-                <thead>
-                  <tr>
-                    <th colspan="2" id="meteorite_name">&nbsp;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="font-weight:bold">1st Level Class</td>
-                    <td id="classification">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">2nd Level Class</td>
-                    <td id="subclassification">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">3rd Level Class</td>
-                    <td id="sub-subclassification">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Found/Fell</td>
-                    <td id="found_or_fell">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Mass</td>
-                    <td id="mass">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Date</td>
-                    <td id="date">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Latitude</td>
-                    <td id="lat">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Longitude</td>
-                    <td id="long">&nbsp;</td>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
-          </div>
+    <div class="row" style="height:95vh; padding-bottom:2vh; width:100vw" >
+      <div class="col" id="left_panel" style="padding-right:0px; padding-left:2vh; max-width:18%;">
+        <h5>Filters</h5>
+        <div id="filter_panel" class="card border-primary mb-3" style="height:63%">
+          <div id="filter_sliders"></div>
+          <div id="checkbox"></div>
+        </div>
+        <h5>Info</h5>
+        <div id="info_panel" class="card border-primary mb-3">
+          <!--to put info panel at bottom, use style="position:absolute; bottom:0;"... it will screw up the card, though-->
+          <table style="width:100%">
+            <!--need to add class=style table or w/e -->
+            <thead>
+              <tr>
+                <th colspan="2" id="meteorite_name">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:bold">Class</td>
+                <td id="classification">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Found/Fell</td>
+                <td id="found_or_fell">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Mass</td>
+                <td id="mass">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Date</td>
+                <td id="date">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Latitude</td>
+                <td id="lat">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Longitude</td>
+                <td id="long">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col p-0" style="width:40%">
         <div id="globe_panel" class="panel">
           <svg id="meteorite_globe_vis" viewBox="0 0 950 500" ondrag="svg.call(rotate)"></svg>
           <button id="globe_reset" type="button" class="btn btn-primary" onclick="resetGlobe()">Reset Globe</button>
-          <script>
-
-          </script>
         </div>
       </div>
-      <div class="col-2">
-        <div id="right_panel" class="panel">
-          <div id="plots_panel">
-            <h3>Plots</h3>
-            <svg id="plots_svg" width="300" height="950"></svg>
-          </div>
+      <div class="col" style="padding-left:0px; padding-right:2vh; overflow-y:scroll; height:100%; max-width: 21%">
+        <h5>Plots</h5>
+        <div id="plots_panel">
+          <svg id="plots_svg" width="300" height="950"></svg>
         </div>
       </div>
     </div>

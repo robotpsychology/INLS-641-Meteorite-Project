@@ -231,8 +231,6 @@ function filterLongitude(datum, min_long, max_long) {
 function populateInfoPanel(datum) {
     document.getElementById("meteorite_name").innerHTML = datum.name;
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
-    document.getElementById("subclassification").innerHTML = datum.subclasses.class2[0];
-    document.getElementById("sub-subclassification").innerHTML = datum.subclasses.class3[0];
     document.getElementById("found_or_fell").innerHTML = datum.fall;
     document.getElementById("mass").innerHTML = datum.mass;
     document.getElementById("date").innerHTML = datum.year.slice(0, 10);
