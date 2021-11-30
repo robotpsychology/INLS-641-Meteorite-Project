@@ -151,3 +151,12 @@ h3 {
   text-align: center;
 }
 
+
+.ui-slider-handle {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.ui-state-hover {
+  
+}
