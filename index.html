@@ -36,11 +36,11 @@
     <div class="row" style="height:95vh; padding-bottom:2vh; width:100vw" >
       <div class="col" id="left_panel" style="padding-right:0px; padding-left:2vh; max-width:18%;">
         <h5 style="font-weight: bold; font-size:1.5vw">Filters</h5>
-        <div id="filter_panel" class="card border-primary mb-3" style="height:63%">
+        <div id="filter_panel" class="card" style="height:63%">
           <div id="filter_sliders"></div>
         </div>
-        <h5 style="font-weight: bold; font-size:1.5vw">Info</h5>
-        <div id="info_panel" class="card border-primary mb-3">
+        <h5 style="font-weight: bold; font-size:1.5vw; padding-top:2%;">Info</h5>
+        <div id="info_panel" class="card">
           <!--to put info panel at bottom, use style="position:absolute; bottom:0;"... it will screw up the card, though-->
           <table style="width:100%">
             <!--need to add class=style table or w/e -->
@@ -86,18 +86,18 @@
       </div>
       <div class="col" style="padding-left:0px; padding-right:2vh; height:100%; max-width: 21%">
         <h5 style="font-weight: bold; font-size:1.5vw">Plots</h5>
-        <div id="plots_panel" style="overflow-y:auto; height: 80%">
+        <div id="plots_panel">
           <svg id="plots_svg" width="300" height="950"></svg>
         </div>
         <div id="speed_option" style="position: absolute; bottom: 0">
-          <p><strong>Data Optimization:</strong></p>
+          <p style="font-family:var(--bs-body-font-family); margin:0; font-size:1.0vw;"><strong>Data Optimization:</strong></p>
           <form name="speed_option" action="">
             <input type="radio" name="speedChoice" id="speed" value="speed" checked>
             <label for="speedChoice">Speed</label>
   
             <input type="radio" name="speedChoice" id="all_data" value="all_data">
             <label for="speedChoice">All Data</label>
-            <p>(If the plots come out misaligned, zoom out to reset the globe.) </p>
+            <p style="font-family:var(--bs-body-font-family); font-size:1.0vw;">(If the plots come out misaligned, zoom out to reset the globe.) </p>
           </form>
         </div>
       </div>
