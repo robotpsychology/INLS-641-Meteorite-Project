@@ -38,7 +38,6 @@
         <h5 style="font-weight: bold; font-size:1.5vw">Filters</h5>
         <div id="filter_panel" class="card border-primary mb-3" style="height:63%">
           <div id="filter_sliders"></div>
-          <div id="checkbox"></div>
         </div>
         <h5 style="font-weight: bold; font-size:1.5vw">Info</h5>
         <div id="info_panel" class="card border-primary mb-3">
@@ -60,7 +59,7 @@
                 <td id="found_or_fell" style="font-size:1.0vw">&nbsp;</td>
               </tr>
               <tr>
-                <td style="font-weight:bold; font-size:1.15vw">Mass</td>
+                <td style="font-weight:bold; font-size:1.15vw">Mass(g)</td>
                 <td id="mass" style="font-size:1.0vw">&nbsp;</td>
               </tr>
               <tr>
@@ -79,8 +78,8 @@
           </table>
         </div>
       </div>
-      <div class="col p-0" style="width:40%">
-        <div id="globe_panel" class="panel">
+      <div class="col p-0" style="width:40%; display:flex; max-height:100%">
+        <div id="globe_panel">
           <svg id="meteorite_globe_vis" viewBox="0 0 950 500" ondrag="svg.call(rotate)"></svg>
           <button id="globe_reset" type="button" class="btn btn-primary" onclick="resetGlobe()">Recenter Globe</button>
         </div>
