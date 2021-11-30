@@ -223,6 +223,10 @@ class Plot {
             metClass_data.push(new ClassSummary(classifs, total))
         };
 
+        metClass_data.sort(function(x, y){
+            return d3.ascending(x.classifs, y.classifs);
+        })
+
         //Get max counts
         let metClass_max = d3.max(metClass_data, function (d) { return d.total; });
 
