@@ -420,6 +420,7 @@ class Plot {
     }
     render(data) {
         this.massYearPlotRender();
+        this.classificationPlotRender();
         this.centuriesPlotRender();
     }
 
