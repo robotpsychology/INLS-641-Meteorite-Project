@@ -90,7 +90,6 @@ initialRender();
 
 
 
-
 ////////////
 // UTILITIES
 ////////////
@@ -102,12 +101,14 @@ function initialRender() {
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
-        sampledLocationData = _.sample(response[1], 8000)
+        // sampledLocationData = _.sample(response[1], 8000)
+        sampledLocationData = response[1].filter(function (value, index, arr) {
+            return index % 5 == 0;
+        })
         yearlessMeteorites = response[2];
 
 
         globeRender();
-        producePlots();
 
     });
     drawMarkers();
@@ -139,6 +140,7 @@ function globeRender(speed = true) {
     }
 
     drawMarkers();
+    producePlots();
 }
 
 function createPromises(files, promises) {

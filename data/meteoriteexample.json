@@ -50,5 +50,31 @@
                 "H"
             ]
         }
+    },
+    {
+        "name": "Acapulco",
+        "id": 10,
+        "nametype": "Valid",
+        "recclass": "Acapulcoite",
+        "mass": 1914.0,
+        "fall": "Fell",
+        "year": "1976-01-01T00:00:00.000",
+        "reclat": 16.88333,
+        "reclong": -99.9,
+        "geolocation": {
+            "latitude": 16.88333,
+            "longitude": -99.9
+        },
+        "subclasses": {
+            "class1": [
+                "Achondrite"
+            ],
+            "class2": [
+                "Primitive Achondrite"
+            ],
+            "class3": [
+                "Acapulcoite"
+            ]
+        }
     }
 ]
