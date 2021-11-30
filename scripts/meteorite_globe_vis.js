@@ -88,6 +88,12 @@ let drag = d3.drag()
 ////////////
 initialRender();
 
+// Math.max.apply(Math, sampledLocationData.map(function (o) {
+
+
+//     return o.year;
+// }))
+
 
 
 ////////////
@@ -98,14 +104,17 @@ function initialRender() {
     createPromises(files, promises);
 
 
+
     Promise.all(promises).then((response) => {
         worldData = response[0];
         locationData = response[1];
         // sampledLocationData = _.sample(response[1], 8000)
+
         sampledLocationData = response[1].filter(function (value, index, arr) {
-            return index % 5 == 0;
+            return index % 5 == 0 && value.mass <= 5000;
         })
         yearlessMeteorites = response[2];
+
 
 
         globeRender();
@@ -124,17 +133,59 @@ function initialRender() {
 
 function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
+
+
+    // max_mass_slider.max = Math.max.apply(Math, filtered_locations.map(function (o) {
+
+
+    //     return o.mass;
+    // }))
+
     if (checkbox == true) {
         drawGlobe(worldData, yearlessMeteorites, checkbox);
 
     } else {
         if (speed == true) {
             drawGlobe(worldData, sampledLocationData);
+            // FIX HERE
+            // slider_settings. = Math.max(...sampledLocationData.filter(function (item) {
+            //     if (typeof (item.mass) != Number) {
+            //         return item.mass
+
+            //     }
+            // }).map(function (item) {
+            //     return item.mass
+            // }));
+
+            // let max_mass_data = Math.max(...sampledLocationData.filter(function (item) {
+            //     if (typeof (item.masss) != Number) {
+            //         return item.mass
+
+            //     }
+            // }).map(function (item) {
+            //     return item.mass
+            // }))
+
+            // // slider_settings.max_mass = max_mass_data;
+            // let max_mass_slider = document.getElementById('max_mass');
+
+
+            // // max_mass_slider.value = slider_settings.max_mass
+            // $("#slider-range_mass").slider({
+            //     range: true,
+            //     min: 0,
+            //     max: max_mass_data,
+            //     values: [default_slider_values.min_mass, max_mass_data / 2],
+            // });
+
+
+
 
 
         }
         else {
             drawGlobe(worldData, locationData);
+
         }
 
     }
