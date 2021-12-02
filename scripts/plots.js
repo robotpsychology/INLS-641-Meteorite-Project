@@ -347,6 +347,21 @@ class Plot {
             .style("font-size", "12");
 
         $("centuries_text_max").text(new_max);
+
+        console.log(JSON.stringify(centuries))
+        console.log(mycenty(0))
+        this.centuriesPlot.selectAll(".bar")
+            .data(centuries)
+            .join("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return mycentx(d.century); })
+            .attr("y", function(d) { return ystart + mycenty(d.nummeteors); })
+            .attr("width", mycentx.bandwidth())
+            .attr("height", function(d) { return 250 - mycenty(d.nummeteors);})
+            .attr("fill", default_color);
+                //return this.plotheight - mycenty(d.nummeteors)});
+
+        mycentx.domain(centuries.map(d => d.century))
     }
     
     render() {
