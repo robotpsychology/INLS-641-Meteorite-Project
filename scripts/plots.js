@@ -1,7 +1,6 @@
 class Plot {
     constructor(svg_elem) {
         this.svg = svg_elem;
-        // this.data = "/data/nasa_meteorite_data_Nov_18_2021.json";
         this.data = filtered_locations;
 
         //set plot attributes
@@ -54,15 +53,6 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
-        /*
-        this.classbarplot.append("text")
-            .attr("x", this.plotwidth / 2)
-            .attr("y", 2 * this.plotheight + this.margin_y + 3)
-            .attr("dominant-baseline", "hanging")
-            .attr("text-anchor", "middle")
-            .text("Mass(g)");
-         */
-
         this.yeardensplot.append("text")
             .attr("x", this.plotwidth / 2)
             .attr("y", 3 * this.plotheight + 2 * this.margin_y + 3)
@@ -92,11 +82,8 @@ class Plot {
             .attr("transform", "rotate(270,0,0)")
             .text("Num. Meteorites");
 
-
-        // this.loadAndPrepare();
-
-
     }
+
     massYearPlotRender() {
         //Linear scales for mass year scatter plot
         let myx = d3.scaleLinear()
@@ -115,8 +102,7 @@ class Plot {
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
-            .style("font-size", "12")
-        // .text(slider_settings.min_mass);
+            .style("font-size", "12");
 
         this.massyearplot.append("text")
             .attr("id", "max_mass_text")
@@ -124,8 +110,7 @@ class Plot {
             .attr("y", -15)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
-            .style("font-size", "12")
-        // .text(slider_settings.max_mass);
+            .style("font-size", "12");
 
         //year axes labels
         this.massyearplot.append("text")
@@ -134,8 +119,7 @@ class Plot {
             .attr("y", this.plotheight + 3)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle")
-            .style("font-size", "12")
-        // .text(slider_settings.min_year);
+            .style("font-size", "12");
 
         this.massyearplot.append("text")
             .attr("id", "max_year_text")
@@ -143,16 +127,13 @@ class Plot {
             .attr("y", this.plotheight + 3)
             .attr("dominant-baseline", "hanging")
             .attr("text-anchor", "middle")
-            .style("font-size", "12")
-        // .text(slider_settings.max_year);
-
+            .style("font-size", "12");
 
 
         $("#min_mass_text").text(slider_settings.min_mass);
         $("#max_mass_text").text(slider_settings.max_mass);
         $("#min_year_text").text(slider_settings.min_year);
         $("#max_year_text").text(slider_settings.max_year);
-
 
 
         //datajoin for massyear plot
@@ -190,22 +171,6 @@ class Plot {
     }
 
     classificationPlotRender() {
-
-        // Group by classifications and get counts
-        let metClassSums = d3.rollup(this.data,
-            function (d_groups) {
-                let class1tot = d_groups.length;
-
-                return {
-                    total_class1: class1tot,
-                    meteorites: d_groups
-                }
-            },
-            function (d) {
-                return d.subclasses.class1[0];
-            });
-
-
         // Create data for barplot
         let metClassGrouped = d3.group(this.data, d => d.subclasses.class1[0]);
         let currClassifications = Array.from(metClassGrouped.entries());
@@ -223,6 +188,7 @@ class Plot {
             metClass_data.push(new ClassSummary(classifs, total))
         };
 
+        // Arrange in alphabetical order
         metClass_data.sort(function(x, y){
             return d3.ascending(x.classifs, y.classifs);
         })
@@ -230,11 +196,12 @@ class Plot {
         //Get max counts
         let metClass_max = d3.max(metClass_data, function (d) { return d.total; });
 
-        //Linear scales for mass year scatter plot
+        // Linear y scale function for classifications barplot (cb)
         let cby = d3.scaleLinear()
             .domain([0, metClass_max])
             .range([this.plotheight, 0]);
 
+        // Categorical x scale function for classifications barplot
         const cbx = d3.scaleBand()
             .range([0, this.plotwidth])
             .domain(metClass_data.map(d => d.classifs))
@@ -253,6 +220,7 @@ class Plot {
             })
         }
 
+        // add current max value
         this.classbarplot.append("g")
             .attr("id", "classifications_text")
             .attr("transform", `translate(0, ${2 * this.plotheight + this.margin_y} )`)
@@ -261,8 +229,6 @@ class Plot {
             .attr("transform", "translate(-10,0)rotate(-45)")
             .style("text-anchor", "end")
             .style("font-size", "11")
-
-
 
         // y axis
         this.classbarplot.append("text")
@@ -300,35 +266,10 @@ class Plot {
         console.log(cbx(metClass_data.classifs))
         console.log(metClass_data)
         console.log(cbx.domain)
-        //
-
-        /*
-        //add circles
-        massyear.exit()
-            .attr("r", 0)
-            .remove();
-
-        massyear.enter().append('rectangle')
-            .attr('class', 'bars')
-            .attr("cx", function (d) {
-                if (d.year && Number(d.year.slice(0, 4)) <= slider_settings.max_year) {
-                    return myx(Number(d.year.slice(0, 4)));
-                }
-                else {
-                    return -1000;
-                }
-            })
-            .attr("cy", function (d) { return myy(Number(d.mass)); })
-            .attr("r", 2)
-            .on("mouseover", function (event, datum) {
-                populateInfoPanel(datum);
-            })
-
-         */
     }
 
 
-    render(data) {
+    render() {
         this.massYearPlotRender();
         this.classificationPlotRender();
 
@@ -337,24 +278,12 @@ class Plot {
     //Load data and call render
     loadAndPrepare() {
         let thisvis = this;
-
-        //Load data from json
-        // d3.json(this.data).then(function (data) {
-
-        //     thisvis.render(data);
-
-        // });
-
-        thisvis.render(this.data)
-
-
+        thisvis.render()
     }
 
 }
 
-
 //Produce plots and call load function
-// producePlots();
 function producePlots() {
     const svg = d3.select('#plots_svg')
 
