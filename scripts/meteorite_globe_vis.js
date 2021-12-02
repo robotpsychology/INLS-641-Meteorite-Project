@@ -5,19 +5,24 @@
 ///// D3 Settings
 
 let globePanel = document.getElementById('globe_panel')
-let width = globePanel.offsetWidth;
+// let width = globePanel.offsetWidth;
+let width = d3.select("#meteorite_globe_vis").node().getBoundingClientRect().width
 let height = globePanel.offsetHeight;
+
 
 const config = {
     speed: 0.005,
     verticalTilt: -30,
     horizontalTilt: 0,
+    sensitivity: 75
 };
 
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
 const markerGroup = svg.append("g").attr("class", "g-circles");
 // let projection = d3.geoOrthographic();
-let projection = d3.geoOrthographic();
+let projection = d3.geoOrthographic()
+    .scale(250)
+    .rotate([0, -30])
 let initialScale = projection.scale();
 const path = d3.geoPath().projection(projection);
 const center = [width / 2, height / 2];
@@ -47,14 +52,19 @@ let speed = true;
 let zoom = d3.zoom()
     .scaleExtent([1, 10])
     .on('zoom', function (event) {
+
+        // projection.scale(initialScale * event.transform.k)
+
+        // svg.selectAll("path").attr("d", path)
+
+        // svg.attr("r", projection.scale())
         svg.selectAll('path')
             .attr('transform', event.transform);
-
 
         if (event.transform.k > 6) {
             svg.selectAll("circle")
                 .attr('transform', event.transform)
-                .attr("r", 1);
+                .attr("r", 0.8);
         } else if (event.transform.k > 3.5) {
             svg.selectAll("circle")
                 .attr('transform', event.transform)
@@ -63,36 +73,42 @@ let zoom = d3.zoom()
         else {
             svg.selectAll("circle")
                 .attr('transform', event.transform)
-                .attr("r", 3.5);
+                .attr("r", 3);
         }
 
 
     });
 
 // Drag variable to call on the SVG globe
+// let drag = d3.drag()
+//     .on('drag', function (event) {
+
+//         projection.rotate([
+//             event.x / 2.5,
+//             event.y / 2.5,
+//             0
+//         ]);
+//         svg.selectAll("path").attr("d", path);
+//         drawMarkers();
+//     });
+
 let drag = d3.drag()
     .on('drag', function (event) {
-
+        const rotate = projection.rotate()
+        const k = config.sensitivity / projection.scale() * 1.5
+        console.log(k)
         projection.rotate([
-            event.x / 2.5,
-            event.y / 2.5,
-            0
-        ]);
-        svg.selectAll("path").attr("d", path);
+            rotate[0] + event.dx * k,
+            rotate[1] - event.dy * k
+        ])
+        svg.selectAll("path").attr("d", path)
         drawMarkers();
-    });
-
+    })
 
 ////////////
 // FUNCTION CALLS
 ////////////
 initialRender();
-
-// Math.max.apply(Math, sampledLocationData.map(function (o) {
-
-
-//     return o.year;
-// }))
 
 
 
@@ -122,9 +138,10 @@ function initialRender() {
     });
     drawMarkers();
     drawGraticule();
-    svg.call(drag);
-    svg.call(zoom);
-
+    // svg.call(drag);
+    // svg.call(zoom);
+    svg.call(drag)
+        .call(zoom)
 
 
 
@@ -393,7 +410,10 @@ function drawGlobe(worldData, locations, yearless_meteorites = false) {
         .style("stroke", "#888")
         .style("stroke-width", "1px")
         .style("fill", (d, i) => "#e5e5e5")
-        .style("opacity", ".6");
+        .style("opacity", ".6")
+        .attr("r", initialScale);
+
+
     // filtered_locations = locationData;
 }
 
@@ -445,18 +465,6 @@ function drawMarkers() {
                 .duration(200)
                 .style("fill", default_color)
         });
-    // .on("mouseout", function (event, d) {
-    //     document.getElementById("meteorite_name").innerHTML = "&nbsp";
-    //     document.getElementById("classification").innerHTML = "&nbsp";
-    //     document.getElementById("subclassification").innerHTML = "&nbsp";
-    //     document.getElementById("sub-subclassification").innerHTML = "&nbsp";
-    //     document.getElementById("found_or_fell").innerHTML = "&nbsp";
-    //     document.getElementById("mass").innerHTML = "&nbsp";
-    //     document.getElementById("date").innerHTML = "&nbsp";
-    //     document.getElementById("lat").innerHTML = "&nbsp";
-    //     document.getElementById("long").innerHTML = "&nbsp";
-    // });
-
     markerGroup.each(function () {
         this.parentNode.appendChild(this);
     });
