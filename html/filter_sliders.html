@@ -20,17 +20,23 @@
             });
         });
 
+        $(document).ready(function () {
+            $(".input_box").on("change", function () {
+                runNewFilterInfo();
+            });
+        });
+
 
 
 
     </script>
 
     <script>
-        let default_values = {
-            min_year: 861,
+        let default_slider_values = {
+            min_year: 1950,
             max_year: 2013,
             min_mass: 0,
-            max_mass: 4000000
+            max_mass: 3000
         }
 
 
@@ -39,7 +45,7 @@
                 range: true,
                 min: 861,
                 max: 2013,
-                values: [default_values.min_year, default_values.max_year],
+                values: [default_slider_values.min_year, default_slider_values.max_year],
 
                 slide: function (event, ui) {
                     if (ui.values[0] < 0) {
@@ -66,8 +72,8 @@
             $("#slider-range_mass").slider({
                 range: true,
                 min: 0,
-                max: 4000000,
-                values: [default_values.min_mass, default_values.max_mass],
+                max: 60000000,
+                values: [default_slider_values.min_mass, default_slider_values.max_mass],
 
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
