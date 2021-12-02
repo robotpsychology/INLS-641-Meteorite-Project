@@ -54,12 +54,12 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
-        this.yeardensplot.append("text")
-            .attr("x", this.plotwidth / 2)
-            .attr("y", 3 * this.plotheight + 2 * this.margin_y + 27)
-            .attr("dominant-baseline", "hanging")
-            .attr("text-anchor", "middle")
-            .text("Centuries");
+        // this.yeardensplot.append("text")
+        //     .attr("x", this.plotwidth / 2)
+        //     .attr("y", 3 * this.plotheight + 2 * this.margin_y + 27)
+        //     .attr("dominant-baseline", "hanging")
+        //     .attr("text-anchor", "middle")
+        //     .text("Centuries");
 
         // Add y axis labels
         this.massyearplot.append("text")
