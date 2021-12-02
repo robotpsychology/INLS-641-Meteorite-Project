@@ -20,17 +20,23 @@
             });
         });
 
+        $(document).ready(function () {
+            $(".input_box").on("change", function () {
+                runNewFilterInfo();
+            });
+        });
+
 
 
 
     </script>
 
     <script>
-        let default_values = {
+        let default_slider_values = {
             min_year: 1950,
             max_year: 2013,
             min_mass: 0,
-            max_mass: 60000000
+            max_mass: 3000
         }
 
 
@@ -39,7 +45,7 @@
                 range: true,
                 min: 861,
                 max: 2013,
-                values: [default_values.min_year, default_values.max_year],
+                values: [default_slider_values.min_year, default_slider_values.max_year],
 
                 slide: function (event, ui) {
                     if (ui.values[0] < 0) {
@@ -67,7 +73,7 @@
                 range: true,
                 min: 0,
                 max: 60000000,
-                values: [default_values.min_mass, default_values.max_mass],
+                values: [default_slider_values.min_mass, default_slider_values.max_mass],
 
                 slide: function (event, ui) {
                     $("#min_mass").val(ui.values[0]);
@@ -172,7 +178,7 @@
                     class="input_box">
             </td>
             <td class="label_size"><label id="max_year_label" for="max_year" class="input_label">Max</label></td>
-            <td><input type="number" name="max_year" id="max_year" value="2013" maxvalue="2013" maxlength="4"
+            <td><input type="number" name="max_year" id="max_year" value="2013" max="2013" maxlength="4"
                     class="input_box"></td>
         </tr>
     </table>
@@ -188,13 +194,13 @@
             <td> <input type="number" name="min_mass" id="min_mass" min="0" max="60000000" value="0" maxlength="8"
                     class="input_box"> </td>
             <td class="label_size"><label id="max_mass_label" for="max_mass">Max</label></td>
-            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="60000000" maxlength="8"
+            <td><input type="number" name="max_mass" id="max_mass" min="0" max="60000000" value="3000" maxlength="8"
                     class="input_box"></td>
         </tr>
     </table>
 
-
     <div id="slider-range_mass"></div>
+
     <h4><strong>Latitude/Longitude (respectively):</strong></h4>
     <table class="slider_table">
         <tr>
