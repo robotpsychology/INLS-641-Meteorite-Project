@@ -409,10 +409,10 @@ class Plot {
             .data(centuries)
             .join("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return mycentx(d.century) })
-            .attr("y", function(d) { return ystart; })
+            .attr("x", function(d) { return mycentx(d.century); })
+            .attr("y", function(d) { return ystart + mycenty(d.nummeteors); })
             .attr("width", mycentx.bandwidth())
-            .attr("height", function(d) { return 250 - mycenty(d.nummeteors)})
+            .attr("height", function(d) { return 250 - mycenty(d.nummeteors);})
             .attr("fill", default_color);
                 //return this.plotheight - mycenty(d.nummeteors)});
 
