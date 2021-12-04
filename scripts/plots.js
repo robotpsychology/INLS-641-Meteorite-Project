@@ -261,18 +261,14 @@ class Plot {
             .attr("fill", default_color)
 
         cbx.domain(metClass_data.map(d => d.classifs))
-
-
-        console.log(cbx(metClass_data.classifs))
-        console.log(metClass_data)
-        console.log(cbx.domain)
     }
 
 
     render() {
         this.massYearPlotRender();
+        console.log("Mass year plot rendered.")
         this.classificationPlotRender();
-
+        console.log("Classification bar plot rendered.")
     }
 
     //Load data and call render
