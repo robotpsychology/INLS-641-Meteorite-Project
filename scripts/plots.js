@@ -16,7 +16,7 @@ class Plot {
         this.classbarplot = this.svg.append('g')
             .attr('transform', 'translate(' + this.margin_x + ',' + this.margin_y + ')');
 
-        this.yeardensplot = this.svg.append('g')
+        this.centuriesPlot = this.svg.append('g')
             .attr('transform', 'translate(' + this.margin_x + ',' + this.margin_y + ')');
 
         //Mass vs. year plot
@@ -35,13 +35,14 @@ class Plot {
             .attr("width", this.plotwidth)
             .attr("height", this.plotheight);
 
-        //Year density plot
-        this.yeardensplot.append("rect")
-            .attr("class", "yeardensplot")
+        //cent plot
+        this.centuriesPlot.append("rect")
+            .attr("class", "centuriesPlot")
             .attr("x", 0)
             .attr("y", 2 * this.plotheight + 2 * this.margin_y)
             .attr("width", this.plotwidth)
             .attr("height", this.plotheight);
+
 
 
         //Add Axes Labels
@@ -53,34 +54,34 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
-        this.yeardensplot.append("text")
-            .attr("x", this.plotwidth / 2)
-            .attr("y", 3 * this.plotheight + 2 * this.margin_y + 3)
-            .attr("dominant-baseline", "hanging")
-            .attr("text-anchor", "middle")
-            .text("Year");
+        // this.yeardensplot.append("text")
+        //     .attr("x", this.plotwidth / 2)
+        //     .attr("y", 3 * this.plotheight + 2 * this.margin_y + 27)
+        //     .attr("dominant-baseline", "hanging")
+        //     .attr("text-anchor", "middle")
+        //     .text("Centuries");
 
         // Add y axis labels
         this.massyearplot.append("text")
             .attr("x", -this.plotwidth / 2 - this.margin_y / 2)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .text("Mass(g)");
 
         this.classbarplot.append("text")
             .attr("x", -2 * this.plotwidth)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .text("Num. Meteorites");
 
-        this.yeardensplot.append("text")
+        this.centuriesPlot.append("text")
             .attr("x", -3 * this.plotwidth - this.margin_y)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
-            .text("Num. Meteorites");
+            .text("Number of Meteorites");
 
     }
 
@@ -189,7 +190,7 @@ class Plot {
         };
 
         // Arrange in alphabetical order
-        metClass_data.sort(function(x, y){
+        metClass_data.sort(function (x, y) {
             return d3.ascending(x.classifs, y.classifs);
         })
 
@@ -263,12 +264,105 @@ class Plot {
         cbx.domain(metClass_data.map(d => d.classifs))
     }
 
+    centuriesPlotRender(datum) {
+        let centuries = []
+        let min_cent = Math.ceil(slider_settings.min_year / 100)
+        let max_cent = Math.ceil(slider_settings.max_year / 100)
+        let new_max = 0;
+        for (let i = min_cent; i <= max_cent; i++) {
+            let century_mets = filtered_locations.filter(function (datum) {
+                if (Math.ceil(datum.year.slice(0, 4) / 100) == i) { return datum; }
+            })
+            let century_object = {};
+            century_object.century = i;
+            century_object.nummeteors = century_mets.length;
+            centuries.push(century_object)
+            if (century_object.nummeteors > new_max) {
+                new_max = century_object.nummeteors;
+            }
+
+        }
+
+        //change
+        /*   let x_axis = d3.scaleLinear()
+               .domain([min_cent, max_cent])
+               .range([0, this.plotwidth]);
+           //change
+           let y_axis = d3.scaleLinear()
+               .domain([0, new_max])
+               .range([this.plotheight, 0]);
+       */
+        //Linear scales for mass year scatter plot
+        const mycentx = d3.scaleBand()
+            .domain(centuries.map(d => d.century))
+            .range([0, this.plotwidth])
+            .padding(0.2);
+
+        let ystart = 2 * this.plotheight + 2 * this.margin_y;
+        let mycenty = d3.scaleLinear()
+            .domain([0, new_max])
+            .range([this.plotheight, 0]);
+
+        if (document.querySelectorAll("#centuries_text").length > 1) {
+            let nodeList2 = document.querySelectorAll("#centuries_text")
+
+            nodeList2.forEach(function (node, index) {
+                if (index != nodeList2.length - 1) {
+                    nodeList2[index].remove();
+
+                }
+            })
+        }
+
+        this.centuriesPlot.append("g")
+            .attr("id", "centuries_text")
+            .attr("transform", `translate(0, ${3 * this.plotheight + 2 * this.margin_y} )`)
+            .call(d3.axisBottom(mycentx))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end")
+            .style("font-size", "11");
+
+
+
+        this.centuriesPlot.append("text")
+            .attr("id", "centuries_text_x")
+            .attr("x", -3 * this.plotwidth - 4 * this.margin_y / 2 + 25)
+            .attr("y", -15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .style("font-size", "12");
+
+        this.centuriesPlot.append("text")
+            .attr("id", "centuries_text_max")
+            .attr("x", -2 * this.plotwidth - 2 * this.margin_y / 2 - 50)
+            .attr("y", -15)
+            .attr("dominant-baseline", "hanging")
+            .attr("transform", "rotate(270,0,0)")
+            .style("font-size", "12");
+
+        $("centuries_text_max").text(new_max);
+
+        this.centuriesPlot.selectAll(".bar")
+            .data(centuries)
+            .join("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) { return mycentx(d.century); })
+            .attr("y", function (d) { return ystart + mycenty(d.nummeteors); })
+            .attr("width", mycentx.bandwidth())
+            .attr("height", function (d) { return 250 - mycenty(d.nummeteors); })
+            .attr("fill", default_color);
+        //return this.plotheight - mycenty(d.nummeteors)});
+
+        mycentx.domain(centuries.map(d => d.century))
+    }
 
     render() {
         this.massYearPlotRender();
         console.log("Mass year plot rendered.")
         this.classificationPlotRender();
         console.log("Classification bar plot rendered.")
+        this.centuriesPlotRender();
     }
 
     //Load data and call render

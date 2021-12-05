@@ -1,18 +1,13 @@
-# INLS-641-Meteorite-Project
+# INLS 641: Visual Analytics Final Project - Meteorite Visualization
 
-Add remote origin to allow you to push:
+*Completed by: Ali Alrabeah, Andrew Price, Kishan Changela, Luke Brazinski, and Sarah Parker - Fall 2021*
 <br>
-git remote add origin https://github.com/robotpsychology/INLS-641-Meteorite-Project.git
+Final report available [here](https://alrabeahali345706609.wordpress.com/2021/11/30/meteorite-visualization/).
 
-To push to main branch (please don't use unless you're extra sure it won't break existing code). If you're unsure, please push it to your own fork first and then use GitHub's (or your code editor's) commit difference feature to take a look over the code:
+Utilizing a publicly available data set from [NASA's Open Data Portal](https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh), we hoped to provide a geographical display of the dataset by creating a dashboard-like interface with a large and interactive map, various plots with statistical analysis, and an accompanying control panel to change the display of the map. 
 <br>
 <br>
-git branch -M main
+Our target audience is both newcomers and experts-alike, so it's important that our interface has an intended design philosophy to cater to both parties. 
 <br>
-git push
-
-Link backup for data/world-110m.json:
 <br>
-"https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/world-110m.json"
-
-git documentation: https://git-scm.com/doc
+Due to this, we made our primary goal to make this interface using an effective, but minimal approach; providing enough information but not too much to overwhelm newcomers. 

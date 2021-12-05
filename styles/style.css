@@ -37,7 +37,7 @@ h3 {
   stroke-width: 4;
 }
 
-.yeardensplot {
+.centuriesPlot {
   fill: lightgrey;
   stroke: lightgrey;
   stroke-width: 4;
@@ -48,14 +48,17 @@ h3 {
 }
 
 .container {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 1fr minmax(0.5fr, 0.5fr);
   grid-template-areas:
     "header header header"
-    "left-panel globe plots";
+    "left-panel globe plots"; */
   text-align: center;
   overflow: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100vh;
 }
 
 .panel {
@@ -75,6 +78,14 @@ h3 {
 .label_size{
   width: 5%;
 }
+#title_div {
+  margin: 0px;
+}
+#title {
+  text-align: center;
+  font-size: 25px;
+  margin: 0px;
+}
 
 #header_panel {
   grid-area: header;
@@ -83,10 +94,12 @@ h3 {
 #left_panel {
   grid-area: left-panel;
   border-top: none;
+  height:100%
 }
 
 #filter_panel {
-  grid-area: filters;
+  height: 55vh;
+  overflow-y:auto;
 }
 
 
@@ -107,6 +120,7 @@ h3 {
 #info_panel {
   grid-area: info;
   text-align: left;
+  height: 25vh;
 }
 
 
@@ -133,10 +147,13 @@ h3 {
 
 
 #right_panel {
+  height:100%
 }
 
 #plots_panel {
   grid-area: plots;
+  overflow-y:auto;
+  height:80%;
 }
 
 #header_panel,
@@ -151,6 +168,36 @@ h3 {
   text-align: center;
 }
 
+#filter-div {
+  height:9%;
+  padding-top:2%;
+  padding-bottom:2%
+}
+
+#filter-header {
+  float:left; width:40%; padding:0; display:flex; justify-content:center; font-size:1.15vw;
+}
+#filter-input-div {
+  float:right;
+  width:60%;
+  padding:0;
+  height:100%
+}
+
+#filter-input-item {
+  height:50%;
+}
+
+#filter-input-header {
+  width:20%;
+  padding-right:0;
+  justify-content: right;
+}
+
+#filter-input-box {
+  width:80%;
+  padding:0;
+}
 
 .ui-slider-handle {
   font-size: 11px;
@@ -159,4 +206,9 @@ h3 {
 
 .ui-state-hover {
   
+}
+
+#citation {
+  font-size:1.15vw;
+  text-align: center;
 }

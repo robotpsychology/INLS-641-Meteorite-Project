@@ -33,9 +33,14 @@ let default_color = "steelblue";
 ///// Utility and Filterings Variables
 
 let files = [
-    "/../data/world-110m.json",
-    "/../data/nasa_meteorite_data_Nov_18_2021.json",
-    "/../data/nasa_yearless_meteorites_Nov_18_2021.json"
+    "./data/world-110m.json",
+    "./data/nasa_meteorite_data_Nov_18_2021.json",
+    "./data/nasa_yearless_meteorites_Nov_18_2021.json"
+];
+let github_files = [
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/world-110m.json",
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/nasa_meteorite_data_Nov_18_2021.json",
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/nasa_yearless_meteorites_Nov_18_2021.json"
 ];
 let filtered_locations = [];
 let promises = [];
@@ -96,7 +101,6 @@ let drag = d3.drag()
     .on('drag', function (event) {
         const rotate = projection.rotate()
         const k = config.sensitivity / projection.scale() * 1.5
-        console.log(k)
         projection.rotate([
             rotate[0] + event.dx * k,
             rotate[1] - event.dy * k
@@ -252,42 +256,6 @@ function dataOptimization() {
 ////////////
 
 
-function populateCheckBox() {
-    class1 = [...new Set(filtered_locations.map(slider_settings.classifications))];
-    /*
-        // Can't get this to filter properly like class1 does.
-        class2 = [...new Set(filtered_locations.map(function (item) {
-            if (item.subclasses.class2) {
-                // console.log(item.subclasses.class2[0])
-            }
-        }))];
-    
-        class3 = [...new Set(filtered_locations.map(function (item) {
-            if (item.subclasses.class3) {
-                return item.subclasses.class3[0]
-            }
-    
-    
-        }
-        ))];
-        // $.each(class2, function () {
-        //     // Basically checks if the value is undefined. Couldn't find another way to filter it out from the Set.
-        //     if (this != '[object Window]') {
-        //         items += "<option value='" + this + "'>" + this + "</option>";
-        //     } 
-        // });
-        // $("#test").html(items);
-    */
-
-    class1.forEach(function (item) {
-        filtered_classes[item] = 'example class2'
-    })
-
-
-    // filtered_classes = [class1, class2, class3]
-}
-
-
 function yearlessCheckbox() {
     dataOptimization();
     let yearless_checkbox = document.getElementById("yearless_meteorites");
@@ -358,7 +326,7 @@ function populateInfoPanel(datum) {
     document.getElementById("classification").innerHTML = datum.subclasses.class1[0];
     document.getElementById("found_or_fell").innerHTML = datum.fall;
     document.getElementById("mass").innerHTML = datum.mass ? datum.mass : 'none';
-    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 10) : 'unknown';
+    document.getElementById("date").innerHTML = datum.year ? datum.year.slice(0, 4) : 'unknown';
     document.getElementById("lat").innerHTML = datum.reclat;
     document.getElementById("long").innerHTML = datum.reclong;
 }
