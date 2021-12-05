@@ -264,9 +264,7 @@ class Plot {
         cbx.domain(metClass_data.map(d => d.classifs))
 
 
-        console.log(cbx(metClass_data.classifs))
-        console.log(metClass_data)
-        console.log(cbx.domain)
+
     }
 
     centuriesPlotRender(datum) {
@@ -348,8 +346,6 @@ class Plot {
 
         $("centuries_text_max").text(new_max);
 
-        console.log(JSON.stringify(centuries))
-        console.log(mycenty(0))
         this.centuriesPlot.selectAll(".bar")
             .data(centuries)
             .join("rect")
