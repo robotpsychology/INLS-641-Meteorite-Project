@@ -98,7 +98,6 @@ h3 {
 }
 
 #filter_panel {
-  grid-area: filters;
   height: 55vh;
   overflow-y:auto;
 }
