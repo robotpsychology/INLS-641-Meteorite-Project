@@ -26,14 +26,18 @@
     });
   </script> -->
   <title>Visual Distribution of Meteor Collisions</title>
+
 </head>
 
 <body>
   <div class="container-fluid">
     <div class="row" id="title_div" style="height:5vh">
       <p id="title" style="font-weight: bold; font-size:2.0vw">Visual Distribution of Meteor Collisions</p>
+      <p id="citation">All data provided by <a href="https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh"
+          target="_blank">NASA's Open
+          Data Portal</a></p>
     </div>
-    <div class="row" style="height:95vh; padding-bottom:2vh; width:100vw" >
+    <div class="row" style="height:95vh; padding-bottom:2vh; width:100vw">
       <div class="col" id="left_panel" style="padding-right:0px; padding-left:2vh; max-width:18%;">
         <h5 style="font-weight: bold; font-size:1.5vw">Filters</h5>
         <div id="filter_panel" class="card" style="height:63%">
@@ -75,7 +79,9 @@
                 <td id="long" style="font-size:1.0vw">&nbsp;</td>
               </tr>
             </tbody>
+
           </table>
+
         </div>
       </div>
       <div class="col p-0" style="width:40%; display:flex; max-height:100%">
@@ -90,14 +96,16 @@
           <svg id="plots_svg" width="300" height="950"></svg>
         </div>
         <div id="speed_option" style="position: absolute; bottom: 0">
-          <p style="font-family:var(--bs-body-font-family); margin:0; font-size:1.0vw;"><strong>Data Optimization:</strong></p>
+          <p style="font-family:var(--bs-body-font-family); margin:0; font-size:1.0vw;"><strong>Data
+              Optimization:</strong></p>
           <form name="speed_option" action="">
             <input type="radio" name="speedChoice" id="speed" value="speed" checked>
             <label for="speedChoice" style="font-size:0.8vw">Speed</label>
-  
+
             <input type="radio" name="speedChoice" id="all_data" value="all_data">
             <label for="speedChoice" style="font-size:0.8vw">All Data</label>
-            <p style="font-family:var(--bs-body-font-family); font-size:1.0vw;">(If the plots come out misaligned, zoom out to reset the globe.) </p>
+            <p style="font-family:var(--bs-body-font-family); font-size:1.0vw;">(If the plots come out misaligned, zoom
+              out to reset the globe.) </p>
           </form>
         </div>
       </div>

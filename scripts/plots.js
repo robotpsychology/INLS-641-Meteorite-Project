@@ -64,21 +64,21 @@ class Plot {
         // Add y axis labels
         this.massyearplot.append("text")
             .attr("x", -this.plotwidth / 2 - this.margin_y / 2)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .text("Mass(g)");
 
         this.classbarplot.append("text")
             .attr("x", -2 * this.plotwidth)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .text("Num. Meteorites");
 
         this.centuriesPlot.append("text")
             .attr("x", -3 * this.plotwidth - this.margin_y)
-            .attr("y", -15)
+            .attr("y", -20)
             .attr("dominant-baseline", "hanging")
             .attr("transform", "rotate(270,0,0)")
             .text("Number of Meteorites");
@@ -190,7 +190,7 @@ class Plot {
         };
 
         // Arrange in alphabetical order
-        metClass_data.sort(function(x, y){
+        metClass_data.sort(function (x, y) {
             return d3.ascending(x.classifs, y.classifs);
         })
 
@@ -271,32 +271,32 @@ class Plot {
 
     centuriesPlotRender(datum) {
         let centuries = []
-        let min_cent = Math.ceil(slider_settings.min_year/100)
-        let max_cent = Math.ceil(slider_settings.max_year/100)
+        let min_cent = Math.ceil(slider_settings.min_year / 100)
+        let max_cent = Math.ceil(slider_settings.max_year / 100)
         let new_max = 0;
-        for(let i = min_cent; i <= max_cent; i++) {
-           let century_mets = filtered_locations.filter(function (datum) {
-                    if (Math.ceil(datum.year.slice(0,4)/100) == i) { return datum; }
-                })
-        let century_object = {};
-        century_object.century = i;
-        century_object.nummeteors = century_mets.length;
-        centuries.push(century_object)
-        if(century_object.nummeteors > new_max) {
-            new_max = century_object.nummeteors;
-        }
+        for (let i = min_cent; i <= max_cent; i++) {
+            let century_mets = filtered_locations.filter(function (datum) {
+                if (Math.ceil(datum.year.slice(0, 4) / 100) == i) { return datum; }
+            })
+            let century_object = {};
+            century_object.century = i;
+            century_object.nummeteors = century_mets.length;
+            centuries.push(century_object)
+            if (century_object.nummeteors > new_max) {
+                new_max = century_object.nummeteors;
+            }
 
         }
 
         //change
-     /*   let x_axis = d3.scaleLinear()
-            .domain([min_cent, max_cent])
-            .range([0, this.plotwidth]);
-        //change
-        let y_axis = d3.scaleLinear()
-            .domain([0, new_max])
-            .range([this.plotheight, 0]);
-    */
+        /*   let x_axis = d3.scaleLinear()
+               .domain([min_cent, max_cent])
+               .range([0, this.plotwidth]);
+           //change
+           let y_axis = d3.scaleLinear()
+               .domain([0, new_max])
+               .range([this.plotheight, 0]);
+       */
         //Linear scales for mass year scatter plot
         const mycentx = d3.scaleBand()
             .domain(centuries.map(d => d.century))
@@ -354,16 +354,16 @@ class Plot {
             .data(centuries)
             .join("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return mycentx(d.century); })
-            .attr("y", function(d) { return ystart + mycenty(d.nummeteors); })
+            .attr("x", function (d) { return mycentx(d.century); })
+            .attr("y", function (d) { return ystart + mycenty(d.nummeteors); })
             .attr("width", mycentx.bandwidth())
-            .attr("height", function(d) { return 250 - mycenty(d.nummeteors);})
+            .attr("height", function (d) { return 250 - mycenty(d.nummeteors); })
             .attr("fill", default_color);
-                //return this.plotheight - mycenty(d.nummeteors)});
+        //return this.plotheight - mycenty(d.nummeteors)});
 
         mycentx.domain(centuries.map(d => d.century))
     }
-    
+
     render() {
         this.massYearPlotRender();
         this.classificationPlotRender();

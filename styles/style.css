@@ -207,3 +207,8 @@ h3 {
 .ui-state-hover {
   
 }
+
+#citation {
+  font-size:1.15vw;
+  text-align: center;
+}
