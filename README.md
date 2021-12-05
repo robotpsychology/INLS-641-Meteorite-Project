@@ -1,4 +1,8 @@
-# INLS-641-Meteorite-Project
+# INLS 641: Visual Analytics Final Project - Meteorite Visualization
+
+Completed by: Ali Alrabeah, Andrew Price, Kishan Changela, Luke Brazinski, and Sarah Parker - Fall 2021
+<br>
+<br>
 
 Utilizing a publicly available data set from NASA, we hoped to provide a geographical display of the dataset by creating a dashboard-like interface with a large and interactive map, various plots with statistical analysis, and an accompanying control panel to change the display of the map. 
 <br>
