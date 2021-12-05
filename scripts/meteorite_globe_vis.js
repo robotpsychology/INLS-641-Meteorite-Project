@@ -33,9 +33,9 @@ let default_color = "steelblue";
 ///// Utility and Filterings Variables
 
 let files = [
-    "data/world-110m.json",
-    "data/nasa_meteorite_data_Nov_18_2021.json",
-    "data/nasa_yearless_meteorites_Nov_18_2021.json"
+    "./data/world-110m.json",
+    "./data/nasa_meteorite_data_Nov_18_2021.json",
+    "./data/nasa_yearless_meteorites_Nov_18_2021.json"
 ];
 let github_files = [
     "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/world-110m.json",
