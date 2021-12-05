@@ -37,6 +37,11 @@ let files = [
     "./data/nasa_meteorite_data_Nov_18_2021.json",
     "./data/nasa_yearless_meteorites_Nov_18_2021.json"
 ];
+let github_files = [
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/world-110m.json",
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/nasa_meteorite_data_Nov_18_2021.json",
+    "https://github.com/robotpsychology/INLS-641-Meteorite-Project/blob/main/data/nasa_yearless_meteorites_Nov_18_2021.json"
+];
 let filtered_locations = [];
 let promises = [];
 let class1, class2, class3;
@@ -116,7 +121,7 @@ initialRender();
 ////////////
 function initialRender() {
     dataOptimization();
-    createPromises(files, promises);
+    createPromises(github_files, promises);
 
 
 
