@@ -33,9 +33,9 @@ let default_color = "steelblue";
 ///// Utility and Filterings Variables
 
 let files = [
-    "/INLS-641-Meteorite-Project/data/world-110m.json",
-    "/INLS-641-Meteorite-Project/data/nasa_meteorite_data_Nov_18_2021.json",
-    "/INLS-641-Meteorite-Project/data/nasa_yearless_meteorites_Nov_18_2021.json"
+    "/public_html/INLS-641/INLS-641-Meteorite-Project/data/world-110m.json",
+    "/public_html/INLS-641/INLS-641-Meteorite-Project/data/nasa_meteorite_data_Nov_18_2021.json",
+    "/public_html/INLS-641/INLS-641-Meteorite-Project/data/nasa_yearless_meteorites_Nov_18_2021.json"
 ];
 let filtered_locations = [];
 let promises = [];
