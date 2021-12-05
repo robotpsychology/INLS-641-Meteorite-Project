@@ -1,0 +1,3 @@
+<Files ~ "\.(js|json)$">
+    Require all granted
+</Files>
