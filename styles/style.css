@@ -121,6 +121,8 @@ h3 {
   grid-area: info;
   text-align: left;
   height: 25vh;
+  display: flex;
+  justify-content: space-between;
 }
 
 
