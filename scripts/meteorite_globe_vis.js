@@ -2,10 +2,11 @@
 // GLOBAL VARIABLES & SETTINGS
 ////////////
 
-///// D3 Settings
+// Basic Globe sourced from - https://gist.github.com/atanumallick/8d18989cd538c72ae1ead1c3b18d7b54
+// Globe zoom and pan sourced from - https://bl.ocks.org/atanumallick/8d18989cd538c72ae1ead1c3b18d7b54
 
+///// D3 Settings
 let globePanel = document.getElementById('globe_panel')
-// let width = globePanel.offsetWidth;
 let width = d3.select("#meteorite_globe_vis").node().getBoundingClientRect().width
 let height = globePanel.offsetHeight;
 
@@ -19,7 +20,6 @@ const config = {
 
 const svg = d3.select("#meteorite_globe_vis").attr("width", width).attr("height", height);
 const markerGroup = svg.append("g").attr("class", "g-circles");
-// let projection = d3.geoOrthographic();
 let projection = d3.geoOrthographic()
     .scale(250)
     .rotate([0, -30])
@@ -84,19 +84,8 @@ let zoom = d3.zoom()
 
     });
 
+
 // Drag variable to call on the SVG globe
-// let drag = d3.drag()
-//     .on('drag', function (event) {
-
-//         projection.rotate([
-//             event.x / 2.5,
-//             event.y / 2.5,
-//             0
-//         ]);
-//         svg.selectAll("path").attr("d", path);
-//         drawMarkers();
-//     });
-
 let drag = d3.drag()
     .on('drag', function (event) {
         const rotate = projection.rotate()
@@ -142,71 +131,22 @@ function initialRender() {
     });
     drawMarkers();
     drawGraticule();
-    // svg.call(drag);
-    // svg.call(zoom);
     svg.call(drag)
         .call(zoom)
-
-
-
 
 }
 
 function globeRender(speed = true) {
     let checkbox = yearlessCheckbox();
-
-
-    // max_mass_slider.max = Math.max.apply(Math, filtered_locations.map(function (o) {
-
-
-    //     return o.mass;
-    // }))
-
     if (checkbox == true) {
         drawGlobe(worldData, yearlessMeteorites, checkbox);
 
     } else {
         if (speed == true) {
             drawGlobe(worldData, sampledLocationData);
-            // FIX HERE
-            // slider_settings. = Math.max(...sampledLocationData.filter(function (item) {
-            //     if (typeof (item.mass) != Number) {
-            //         return item.mass
-
-            //     }
-            // }).map(function (item) {
-            //     return item.mass
-            // }));
-
-            // let max_mass_data = Math.max(...sampledLocationData.filter(function (item) {
-            //     if (typeof (item.masss) != Number) {
-            //         return item.mass
-
-            //     }
-            // }).map(function (item) {
-            //     return item.mass
-            // }))
-
-            // // slider_settings.max_mass = max_mass_data;
-            // let max_mass_slider = document.getElementById('max_mass');
-
-
-            // // max_mass_slider.value = slider_settings.max_mass
-            // $("#slider-range_mass").slider({
-            //     range: true,
-            //     min: 0,
-            //     max: max_mass_data,
-            //     values: [default_slider_values.min_mass, max_mass_data / 2],
-            // });
-
-
-
-
-
         }
         else {
             drawGlobe(worldData, locationData);
-
         }
 
     }
@@ -269,7 +209,7 @@ function yearlessCheckbox() {
 }
 
 
-// overall filter check function, calls other check functions depending on each filter.
+// Overall filter check function, calls other check functions depending on each filter.
 function filterCheck(datum, slider_settings) {
     return filterYears(datum, slider_settings.min_year, slider_settings.max_year)
         && filterMass(datum, slider_settings.min_mass, slider_settings.max_mass)
@@ -339,7 +279,6 @@ function populateInfoPanel(datum) {
 function drawGlobe(worldData, locations, yearless_meteorites = false) {
     // locationData is the NASA data. There's a filter for filtering out NaN and 0 values.
     // If both geo-points are NaN or if both geo-points are 0, get outta here. Else console.log the bad ones.
-    // Only using the first 50 NASA data points currently
     slider_settings = getFilterInfo();
 
 
@@ -357,15 +296,11 @@ function drawGlobe(worldData, locations, yearless_meteorites = false) {
             if (!(isNaN(datum.reclat) && isNaN(datum.reclong) || (datum.reclat == 0 && datum.reclong == 0))) {
                 if (yearlessFilterCheck(datum, slider_settings)) {
                     return datum
-
                 }
 
             }
         });
-
-
     }
-
 
     svg
         .selectAll(".segment")
@@ -381,8 +316,6 @@ function drawGlobe(worldData, locations, yearless_meteorites = false) {
         .style("opacity", ".6")
         .attr("r", initialScale);
 
-
-    // filtered_locations = locationData;
 }
 
 function drawGraticule() {

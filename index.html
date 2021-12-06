@@ -17,14 +17,8 @@
   <link rel="stylesheet" href="scripts/jquery-ui-1.13.0.custom/jquery-ui.css" />
   <script src="scripts/jquery-ui-1.13.0.custom/external/jquery/jquery.js"></script>
   <script src="scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js"></script>
 
-  <!-- <script>
-    $(function () {
-      $("#checkbox").load("html/checkbox.html");
-    });
-  </script> -->
   <title>Visual Distribution of Meteor Collisions</title>
 
 </head>
@@ -48,7 +42,6 @@
         <div id="info_panel" class="card">
           <!--to put info panel at bottom, use style="position:absolute; bottom:0;"... it will screw up the card, though-->
           <table style="width:100%">
-            <!--need to add class=style table or w/e -->
             <thead>
               <tr>
                 <th colspan="2" id="meteorite_name" style="font-size:1.1vw">&nbsp;</th>
@@ -119,7 +112,7 @@
 
   </div>
 
-  <!-- Only works if loaded after the svg for some reason -->
+  <!-- Only works if loaded after the svg -->
   <script>
     $(function () {
       $("#filter_sliders").load("html/filter_sliders.html");

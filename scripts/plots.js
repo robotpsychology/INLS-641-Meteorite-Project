@@ -54,12 +54,6 @@ class Plot {
             .attr("text-anchor", "middle")
             .text("Year");
 
-        // this.yeardensplot.append("text")
-        //     .attr("x", this.plotwidth / 2)
-        //     .attr("y", 3 * this.plotheight + 2 * this.margin_y + 27)
-        //     .attr("dominant-baseline", "hanging")
-        //     .attr("text-anchor", "middle")
-        //     .text("Centuries");
 
         // Add y axis labels
         this.massyearplot.append("text")
@@ -283,15 +277,6 @@ class Plot {
 
         }
 
-        //change
-        /*   let x_axis = d3.scaleLinear()
-               .domain([min_cent, max_cent])
-               .range([0, this.plotwidth]);
-           //change
-           let y_axis = d3.scaleLinear()
-               .domain([0, new_max])
-               .range([this.plotheight, 0]);
-       */
         //Linear scales for mass year scatter plot
         const mycentx = d3.scaleBand()
             .domain(centuries.map(d => d.century))
