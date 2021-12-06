@@ -262,9 +262,6 @@ class Plot {
             .attr("fill", default_color)
 
         cbx.domain(metClass_data.map(d => d.classifs))
-
-
-
     }
 
     centuriesPlotRender(datum) {
@@ -362,7 +359,9 @@ class Plot {
 
     render() {
         this.massYearPlotRender();
+        console.log("Mass year plot rendered.")
         this.classificationPlotRender();
+        console.log("Classification bar plot rendered.")
         this.centuriesPlotRender();
     }
 
